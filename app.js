@@ -14,6 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
   renderBichoGrid("bicho-animal-grid");
   renderBichosGallery();
   renderCotacoes();
+  initLanding();
 
   const saved = localStorage.getItem("app_user");
   if (saved) {
@@ -875,4 +876,61 @@ function wizS8(body) {
     ${wizConfirmTable()}
   </div></div>
   <div class="wiz-footer"><button class="wiz-btn-continue" onclick="wizardClose();goHome()">Voltar para o site</button></div>`;
+}
+
+// ============ LANDING PAGE ============
+
+function initLanding() {
+  const track = document.getElementById('landing-bichos-track');
+  if (!track) return;
+  const animals = APP_CONFIG.animals;
+  let html = '';
+  const items = [...animals, ...animals];
+  items.forEach(a => {
+    html += `<div class="landing-bicho-item"><img src="${a.img}" alt="${a.name}"></div>`;
+  });
+  track.innerHTML = html;
+
+  initRoletaWheel();
+}
+
+function initRoletaWheel() {
+  const wheel = document.getElementById('landing-roleta-wheel');
+  if (!wheel) return;
+  const animals = APP_CONFIG.animals;
+  const slice = 360 / animals.length;
+  let html = '';
+  animals.forEach((a, i) => {
+    const rot = slice * i;
+    const dist = 100;
+    const rad = (rot - 90) * Math.PI / 180;
+    const x = 140 + dist * Math.cos(rad);
+    const y = 140 + dist * Math.sin(rad);
+    html += `<img src="${a.img}" alt="${a.name}" style="position:absolute;width:2.5rem;height:2.5rem;object-fit:contain;left:${x}px;top:${y}px;transform:translate(-50%,-50%) rotate(${rot}deg);">`;
+  });
+  wheel.innerHTML = html;
+}
+
+let roletaSpinning = false;
+function girarRoleta() {
+  if (roletaSpinning) return;
+  roletaSpinning = true;
+  const wheel = document.getElementById('landing-roleta-wheel');
+  const result = document.getElementById('roleta-result');
+  const animals = APP_CONFIG.animals;
+  const winner = animals[Math.floor(Math.random() * animals.length)];
+  const slice = 360 / animals.length;
+  const idx = animals.indexOf(winner);
+  const targetAngle = 360 - (slice * idx) - slice / 2;
+  const spins = 5 + Math.floor(Math.random() * 3);
+  const finalRotation = spins * 360 + targetAngle;
+  wheel.style.transform = `rotate(${finalRotation}deg)`;
+  result.textContent = '';
+  setTimeout(() => {
+    result.textContent = `🎉 ${winner.name}!`;
+    roletaSpinning = false;
+    wheel.style.transition = 'none';
+    wheel.style.transform = `rotate(${targetAngle}deg)`;
+    setTimeout(() => { wheel.style.transition = 'transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99)'; }, 50);
+  }, 4200);
 }

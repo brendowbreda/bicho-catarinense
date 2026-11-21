@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=50">
+  <link rel="stylesheet" href="styles.css?v=51">
 </head>
 <body>
 
@@ -22,8 +22,71 @@
 <div class="app-viewport">
   <div class="app-column" id="app">
 
-    <!-- ========== LOGIN ========== -->
-    <div id="page-login" class="page auth-page active">
+    <!-- ========== LANDING PAGE ========== -->
+    <div id="page-login" class="page landing-page active">
+
+      <!-- Hero -->
+      <section class="landing-hero">
+        <img src="assets/hero-banner.webp" alt="Bicho Catarinense" class="landing-hero-img">
+        <p class="landing-hero-text">O jeito <strong>mais fácil</strong> e <strong>rápido</strong> de apostar no <strong>Jogo do Bicho</strong></p>
+        <button class="btn btn-cta-green" onclick="showPage('register')">COMEÇAR AGORA</button>
+        <button class="btn btn-cta-outline" onclick="showPage('login-form')">JÁ TENHO CONTA</button>
+      </section>
+
+      <!-- Jogo do Bicho Online -->
+      <section class="landing-section">
+        <h2 class="landing-title">Jogo do Bicho <em class="landing-em-green">Online</em></h2>
+        <p class="landing-subtitle">Apostou, ganhou, recebeu. Simples assim.</p>
+        <button class="btn btn-cta-green" onclick="showPage('register')">JOGAR AGORA</button>
+        <div class="landing-cotacao">
+          <h3 class="landing-title-sm">Cotação <em class="landing-em-green">ao vivo</em></h3>
+          <p class="landing-subtitle">Multiplicadores do 1º prêmio por modalidade</p>
+          <button class="btn btn-cta-outline" onclick="showPage('register')">VER COTAÇÃO</button>
+        </div>
+      </section>
+
+      <!-- Carrossel de Bichos -->
+      <section class="landing-section landing-bichos-section">
+        <div class="landing-bichos-track" id="landing-bichos-track"></div>
+      </section>
+
+      <!-- Roleta dos Bichos -->
+      <section class="landing-section landing-roleta-section">
+        <h2 class="landing-title" style="color:#fff">Roleta dos Bichos</h2>
+        <p class="landing-subtitle" style="color:rgba(255,255,255,0.7)">Gire e descubra seu bicho da sorte!</p>
+        <div class="landing-roleta-wrap">
+          <div class="landing-roleta-wheel" id="landing-roleta-wheel"></div>
+          <div class="landing-roleta-pointer">▼</div>
+        </div>
+        <button class="btn btn-cta-green" id="btn-girar-roleta" onclick="girarRoleta()">GIRAR ROLETA</button>
+        <p class="landing-roleta-result" id="roleta-result"></p>
+      </section>
+
+      <!-- Suporte -->
+      <section class="landing-section landing-suporte">
+        <div class="landing-suporte-content">
+          <div class="landing-suporte-text">
+            <h3 class="landing-title-sm">Suporte</h3>
+            <p class="landing-subtitle">Suporte <strong>todos os dias</strong><br>das 08h00 às 18h00</p>
+            <button class="btn btn-cta-green btn-sm" onclick="window.open('https://wa.me/'+APP_CONFIG.supportWhatsapp,'_blank')">SUPORTE</button>
+          </div>
+          <img src="assets/suporte-coelho.webp" alt="Suporte" class="landing-suporte-img">
+        </div>
+      </section>
+
+      <!-- Grupo WhatsApp -->
+      <section class="landing-section landing-whatsapp">
+        <img src="assets/hero-banner.webp" alt="Grupo WhatsApp" class="landing-whatsapp-img">
+        <h3 class="landing-title-sm">Grupo <span class="landing-em-green">WhatsApp</span></h3>
+        <p class="landing-subtitle">Receba diariamente <strong>Palpites</strong> e <strong>Resultados</strong>.</p>
+        <button class="btn btn-cta-green" onclick="window.open('https://wa.me/'+APP_CONFIG.supportWhatsapp,'_blank')">ENTRAR NO GRUPO</button>
+        <p class="landing-hint">Vagas limitadas — entre antes que lote</p>
+      </section>
+
+    </div>
+
+    <!-- ========== LOGIN FORM ========== -->
+    <div id="page-login-form" class="page auth-page">
       <div class="auth-logo-area" id="login-logo"></div>
       <form id="form-login" class="flex flex-col gap-1">
         <div class="form-group">
@@ -809,6 +872,6 @@
 </div><!-- /app-viewport -->
 
 <script src="config.js?v=6"></script>
-<script src="app.js?v=15"></script>
+<script src="app.js?v=16"></script>
 </body>
 </html>
