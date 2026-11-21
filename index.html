@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#2B5DA6">
+  <meta name="description" content="Aposte com segurança no jogo do bicho e em loterias.">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <title>Bicho Catarinense</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐯</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=50">
+</head>
+<body>
+
+<div id="toast-container" class="toast-container"></div>
+
+<div class="app-viewport">
+  <div class="app-column" id="app">
+
+    <!-- ========== LOGIN ========== -->
+    <div id="page-login" class="page auth-page active">
+      <div class="auth-logo-area" id="login-logo"></div>
+      <form id="form-login" class="flex flex-col gap-1">
+        <div class="form-group">
+          <span class="form-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><circle cx="8" cy="12" r="2"/><path d="M14 10h4M14 14h4"/></svg></span>
+          <input class="form-input" type="tel" name="cpf" placeholder="CPF ou CNPJ" inputmode="numeric" autocomplete="off" required>
+        </div>
+        <div class="form-group">
+          <span class="form-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
+          <input class="form-input" type="password" name="senha" placeholder="Senha" required>
+          <button type="button" class="form-toggle-pass" onclick="togglePassword(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg></button>
+        </div>
+        <button type="button" class="auth-link" style="text-align:right" onclick="showPage('forgot')">Esqueceu sua senha?</button>
+        <button type="submit" class="btn btn-gold mt-1">Entrar</button>
+        <div class="auth-divider">Primeiro acesso?</div>
+        <button type="button" class="btn btn-outline" onclick="showPage('register')">Cadastre-se</button>
+      </form>
+    </div>
+
+    <!-- ========== REGISTER ========== -->
+    <div id="page-register" class="page auth-page">
+      <div class="auth-logo-area" id="register-logo"></div>
+      <form id="form-register" class="flex flex-col gap-1">
+        <div class="form-group">
+          <span class="form-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.8.3 1.57.54 2.33a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.76.24 1.53.42 2.33.54A2 2 0 0 1 22 16.92z"/></svg></span>
+          <input class="form-input" type="tel" name="celular" placeholder="Whatsapp" inputmode="numeric" required>
+        </div>
+        <div class="form-group">
+          <span class="form-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><circle cx="8" cy="12" r="2"/><path d="M14 10h4M14 14h4"/></svg></span>
+          <input class="form-input" type="tel" name="cpf" placeholder="CPF ou CNPJ (para entrar no app)" inputmode="numeric" required>
+        </div>
+        <div class="form-group">
+          <input class="form-input no-icon" type="email" name="email" placeholder="E-mail (opcional)">
+        </div>
+        <div class="form-group">
+          <span class="form-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
+          <input class="form-input" type="password" name="senha" placeholder="Senha" required minlength="6">
+          <button type="button" class="form-toggle-pass" onclick="togglePassword(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg></button>
+        </div>
+        <p class="form-hint">Use pelo menos 6 caracteres</p>
+        <button type="submit" class="btn btn-gold mt-1">Cadastrar</button>
+        <button type="button" class="auth-back" onclick="showPage('login')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg> Voltar
+        </button>
+      </form>
+    </div>
+
+    <!-- ========== FORGOT ========== -->
+    <div id="page-forgot" class="page auth-page">
+      <div class="auth-logo-area" id="forgot-logo"></div>
+      <h2 style="font-size:1.125rem;text-align:center;margin-bottom:0.5rem;color:#fff">Recuperar senha</h2>
+      <p style="font-size:0.8125rem;text-align:center;color:rgba(255,255,255,0.6);margin-bottom:1.5rem;">Informe seu CPF/CNPJ para receber as instruções.</p>
+      <form id="form-forgot" class="flex flex-col gap-1">
+        <div class="form-group">
+          <span class="form-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><circle cx="8" cy="12" r="2"/><path d="M14 10h4M14 14h4"/></svg></span>
+          <input class="form-input" type="tel" name="cpf" placeholder="CPF ou CNPJ" inputmode="numeric" required>
+        </div>
+        <button type="submit" class="btn btn-gold mt-2">Enviar</button>
+        <button type="button" class="auth-back" onclick="showPage('login')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg> Voltar ao login
+        </button>
+      </form>
+    </div>
+
+    <!-- ========== APP (LOGGED IN) ========== -->
+    <div id="page-app" class="page">
+
+      <!-- Header -->
+      <header class="app-header" id="main-header">
+        <div class="app-header-inner">
+          <span class="header-title" id="header-brand">BICHO CATARINENSE</span>
+          <button class="header-menu-btn" onclick="openDrawer()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <!-- Sub header (for inner pages) -->
+      <div id="sub-header" class="sub-header hidden">
+        <button class="sub-header-back" onclick="goBack()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        </button>
+        <span class="sub-header-title" id="sub-header-title"></span>
+        <button class="header-menu-btn" onclick="openDrawer()" style="color:#fff">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+        </button>
+      </div>
+
+      <!-- Saldo Bar (white) -->
+      <div class="saldo-bar" onclick="openView('carteira')">
+        <div class="saldo-bar-top">
+          <div class="saldo-bar-label">Saldo:</div>
+          <div class="saldo-bar-value" id="balance-display">R$ 0,00</div>
+          <div class="saldo-bar-sub"><span id="balance-saque">R$ 0,00</span> disponível para saque <button class="balance-help-btn" onclick="event.stopPropagation();openSaqueInfo()">?</button></div>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="home-actions" id="home-actions">
+        <button class="home-action-btn depositar" onclick="event.stopPropagation();openView('recarga')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+          Depositar
+        </button>
+        <button class="home-action-btn sacar" onclick="event.stopPropagation();openView('saque')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+          Sacar
+        </button>
+      </div>
+
+      <!-- App Content -->
+      <div class="page-content" id="app-content">
+
+        <!-- ===== HOME ===== -->
+        <div id="view-home">
+
+          <!-- Main Grid -->
+          <div class="main-grid">
+            <div class="main-grid-card card-gold bicho-card" onclick="openView('jogos')">
+              <div class="card-img-area"><img src="assets/bichos-banner.webp" alt="Bichos" class="bicho-card-img"></div>
+              <div class="card-label-bar">Jogo do Bicho</div>
+            </div>
+            <div class="main-grid-card card-navy bicho-card" onclick="openView('roletinha')">
+              <div class="card-img-area"><img src="assets/roleta-banner.webp" alt="Roleta" class="bicho-card-img"></div>
+              <div class="card-label-bar">Roleta dos Bichos</div>
+            </div>
+            <div class="main-grid-card card-purple bicho-card" onclick="openView('bingo')">
+              <div class="card-img-area"><img src="assets/bingo-banner.webp" alt="Bingo" class="bicho-card-img"></div>
+              <div class="card-label-bar">Bingo</div>
+            </div>
+            <div class="main-grid-card card-red bicho-card" onclick="openView('raspadinha')">
+              <div class="card-img-area"><img src="assets/raspadinha-banner.webp" alt="Raspadinha" class="bicho-card-img"></div>
+              <div class="card-label-bar">Raspadinha</div>
+            </div>
+            <div class="suporte-banner" onclick="openSupport()">
+              <div class="suporte-img-area"><img src="assets/suporte-banner.webp" alt="Suporte" class="suporte-img"></div>
+              <div class="suporte-text">
+                <div class="suporte-title">SUPORTE</div>
+                <div class="suporte-sub">ESTOU AQUI PARA TE AJUDAR</div>
+                <div class="suporte-sub2">WhatsApp</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== MINHA CARTEIRA ===== -->
+        <div id="view-carteira" class="hidden">
+          <div class="carteira-saldo-box">
+            <div class="carteira-saldo-label">Saldo:</div>
+            <div class="carteira-saldo-value" id="carteira-balance">R$ 0,00</div>
+            <div class="carteira-saldo-sub"><span id="carteira-saque">R$ 0,00</span> disponível para saque <button class="balance-help-btn" onclick="openSaqueInfo()">?</button></div>
+          </div>
+          <div class="carteira-actions">
+            <button class="carteira-btn depositar" onclick="openView('recarga')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+              Depositar
+            </button>
+            <button class="carteira-btn sacar" onclick="openView('saque')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+              Sacar
+            </button>
+          </div>
+
+          <div class="section-title">Extrato</div>
+          <div class="tab-bar" id="extrato-tabs">
+            <button class="tab-item active" onclick="switchTab('extrato','todos',this)">Todos</button>
+            <button class="tab-item" onclick="switchTab('extrato','depositos',this)">Depósitos</button>
+            <button class="tab-item" onclick="switchTab('extrato','saques',this)">Saques</button>
+          </div>
+          <div id="extrato-list" class="extrato-list"></div>
+
+          <div class="section-title">Minhas apostas</div>
+          <div class="tab-bar" id="apostas-tabs">
+            <button class="tab-item active" onclick="switchTab('apostas','aguardando',this)">Aguardando</button>
+            <button class="tab-item" onclick="switchTab('apostas','ganhou',this)">Ganhou</button>
+            <button class="tab-item" onclick="switchTab('apostas','perdeu',this)">Perdeu</button>
+          </div>
+          <div id="apostas-carteira-list" class="apostas-list"></div>
+        </div>
+
+        <!-- ===== TIPO DE JOGO ===== -->
+        <div id="view-jogos" class="hidden">
+          <div class="game-grid">
+            <div class="game-grid-card gg-gold" onclick="openBetWizard()">
+              <div class="gg-img-area"><img src="img/bicho-banner.webp" alt="Jogo do Bicho" class="gg-img"></div>
+              <div class="gg-label-bar">Jogo do Bicho</div>
+            </div>
+            <div class="game-grid-card gg-blue" onclick="openBetWizard('federal')">
+              <div class="gg-img-area"><img src="img/federal-banner.webp" alt="Loteria Federal" class="gg-img"></div>
+              <div class="gg-label-bar">Loteria Federal</div>
+            </div>
+            <div class="game-grid-card gg-green" onclick="openView('cotacoes')">
+              <div class="gg-img-area"><img src="img/cotacoes-banner.webp" alt="Cotações" class="gg-img"></div>
+              <div class="gg-label-bar">Cotações</div>
+            </div>
+            <div class="game-grid-card gg-orange" onclick="openView('bichos-lista')">
+              <div class="gg-img-area"><img src="img/bichos-banner.webp" alt="Bichos" class="gg-img"></div>
+              <div class="gg-label-bar">Bichos</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== APOSTAR BICHO (placeholder) ===== -->
+        <div id="view-apostar-bicho" class="hidden">
+          <div class="white-card">
+            <h3>Aposta no Bicho</h3>
+            <p>Escolha a modalidade, o bicho e o valor da aposta.</p>
+            <div id="bicho-game-types" style="margin-bottom:1rem;"></div>
+            <div id="bicho-animal-grid" style="display:grid;grid-template-columns:repeat(5,1fr);gap:0.375rem;margin-bottom:1rem;"></div>
+            <div style="margin-bottom:0.75rem;">
+              <input class="form-input-light" type="number" id="bicho-bet-amount" placeholder="Valor da aposta (R$)" min="1" step="0.50" inputmode="decimal">
+            </div>
+            <div class="pix-chips" style="justify-content:center;">
+              <button type="button" class="pix-chip" onclick="document.getElementById('bicho-bet-amount').value=2">R$ 2</button>
+              <button type="button" class="pix-chip" onclick="document.getElementById('bicho-bet-amount').value=5">R$ 5</button>
+              <button type="button" class="pix-chip" onclick="document.getElementById('bicho-bet-amount').value=10">R$ 10</button>
+              <button type="button" class="pix-chip" onclick="document.getElementById('bicho-bet-amount').value=20">R$ 20</button>
+            </div>
+            <button class="btn btn-green" onclick="placeBichoBet()">Confirmar aposta</button>
+          </div>
+        </div>
+
+        <!-- ===== ROLETINHA ===== -->
+        <div id="view-roletinha" class="hidden">
+          <div class="roletinha-info-bar">
+            <div class="playing-badge"><span class="playing-dot"></span> 282 jogando</div>
+            <div class="winner-ticker">🔥 Cristina N. ganhou <strong style="color:var(--green)">R$ 40,00</strong> no Zebra</div>
+          </div>
+          <div class="roletinha-carousel">
+            <div class="carousel-frame">
+              <div class="carousel-slot">🐯</div>
+              <div class="carousel-slot">🦢</div>
+              <div class="carousel-slot">🦅</div>
+            </div>
+          </div>
+          <div class="roletinha-actions">
+            <button>🔇 Som</button>
+            <button>❓ Como jogar</button>
+            <button>📊 Tabela</button>
+          </div>
+          <div class="bet-buttons">
+            <button class="bet-btn-par">PAR</button>
+            <button class="bet-btn-impar">ÍMPAR</button>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;padding:0 1rem;text-align:center;">
+            <div class="bet-multiplier">2x</div>
+            <div class="bet-multiplier">2x</div>
+          </div>
+          <div class="special-bets">
+            <div>
+              <div class="special-bet-card zebra"><span class="badge">ZEBRA</span></div>
+              <div class="bet-multiplier">20x</div>
+            </div>
+            <div>
+              <div class="special-bet-card bc" style="display:flex;align-items:center;justify-content:center;min-height:50px;"><span class="badge" style="background:var(--blue)">BC</span></div>
+              <div class="bet-multiplier">50x</div>
+            </div>
+          </div>
+          <div class="bet-amount-section">
+            <div class="bet-amount-label">Valor da aposta</div>
+            <div class="bet-amount-row">
+              <button class="minus-btn" onclick="adjustRoletinha(-0.50)">−0,50</button>
+              <span class="currency-label">R$</span>
+              <input type="number" id="roletinha-amount" value="1.00" min="0.50" step="0.50" inputmode="decimal">
+              <button class="plus-btn" onclick="adjustRoletinha(0.50)">+0,50</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== RECARGA PIX ===== -->
+        <div id="view-recarga" class="hidden">
+          <div class="white-card">
+            <h3>Recarga PIX</h3>
+            <p>Informe o valor que deseja creditar no seu saldo para jogar.</p>
+            <div style="margin-bottom:1rem;">
+              <input class="form-input-light" type="text" id="deposit-amount" placeholder="0,00" inputmode="decimal" style="font-size:1.125rem;font-weight:600;text-align:left;">
+              <button style="position:absolute;right:1.5rem;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--fg-muted);font-size:0.8125rem;cursor:pointer;" onclick="document.getElementById('deposit-amount').value=''">Limpar</button>
+            </div>
+            <div style="font-size:0.8125rem;font-weight:600;color:var(--fg);margin-bottom:0.5rem;">Valores rápidos:</div>
+            <div class="pix-chips">
+              <button type="button" class="pix-chip" onclick="setDeposit(5)">+5</button>
+              <button type="button" class="pix-chip" onclick="setDeposit(10)">+10</button>
+              <button type="button" class="pix-chip" onclick="setDeposit(20)">+20</button>
+              <button type="button" class="pix-chip" onclick="setDeposit(50)">+50</button>
+            </div>
+            <button class="btn btn-gold" onclick="confirmDeposit()">Gerar Pagamento</button>
+          </div>
+          <button class="history-link" onclick="toast('Histórico em breve','info')">Histórico de depósitos</button>
+        </div>
+
+        <!-- ===== SAQUE ===== -->
+        <div id="view-saque" class="hidden">
+          <div class="white-card" style="display:flex;align-items:center;gap:0.75rem;padding:1rem 1.25rem;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" style="width:24px;height:24px;flex-shrink:0;"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            <span style="font-size:0.9375rem;font-weight:500;">Pix</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="3" style="width:20px;height:20px;margin-left:auto;"><path d="M20 6L9 17l-5-5"/></svg>
+          </div>
+          <div class="rules-card">
+            <h4>Regras de saque</h4>
+            <p>Os saques podem ser feitos para qualquer chave pix, desde que sejam feitos para sua <span class="highlight">titularidade</span>.</p>
+            <p><strong>Horários de pagamento:</strong> 24 horas.</p>
+            <p><strong>Saque mínimo:</strong> R$ 1,00</p>
+            <p><strong>Saque máximo:</strong> R$ 5.000,00</p>
+            <p><strong>Limite diário:</strong> R$ 10.000,00</p>
+            <p><strong>Taxa de saque:</strong> 0%</p>
+          </div>
+          <div class="pix-data-card">
+            <h4>Dados do PIX</h4>
+            <div class="select-wrap">
+              <select id="pix-key-type">
+                <option>CPF</option>
+                <option>E-mail</option>
+                <option>Celular</option>
+                <option>Chave aleatória</option>
+              </select>
+            </div>
+            <input class="form-input-light" type="text" id="withdraw-pix-key" placeholder="Informe a chave PIX">
+          </div>
+          <div style="padding:0 1rem 0.5rem;">
+            <input class="form-input-light" type="number" id="withdraw-amount" placeholder="Valor do saque (R$)" min="1" step="0.01" inputmode="decimal" style="margin-bottom:0.75rem;">
+            <button class="btn btn-red" onclick="confirmWithdraw()">Avançar</button>
+          </div>
+          <button class="history-link" onclick="toast('Histórico em breve','info')">Histórico de saques</button>
+        </div>
+
+        <!-- ===== APOSTAS ===== -->
+        <div id="view-apostas" class="hidden">
+          <div style="padding:1rem;text-align:center;color:var(--fg-muted);">
+            <div style="font-size:3rem;margin-bottom:0.5rem;">📋</div>
+            <h4 style="margin-bottom:0.25rem;">Nenhuma aposta</h4>
+            <p style="font-size:0.8125rem;">Suas apostas aparecerão aqui.</p>
+          </div>
+          <div id="apostas-list"></div>
+        </div>
+
+        <!-- ===== RESULTADOS ===== -->
+        <div id="view-resultados" class="hidden">
+          <div class="results-period">Últimos 7 dias</div>
+          <div class="results-day-list" id="results-list"></div>
+        </div>
+
+        <!-- ===== RELATÓRIOS ===== -->
+        <div id="view-relatorios" class="hidden">
+          <div class="report-list">
+            <button class="report-item" onclick="toast('Saldo em breve','info')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+              <span>Saldo</span>
+              <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+            </button>
+            <button class="report-item" onclick="toast('Pules em breve','info')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>
+              <span>Pules</span>
+              <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+            </button>
+            <button class="report-item" onclick="toast('Roletinha em breve','info')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+              <span>Roletinha</span>
+              <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+            </button>
+            <button class="report-item" onclick="toast('Loterias em breve','info')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              <span>Movimento loterias</span>
+              <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+            </button>
+            <button class="report-item" onclick="openView('cotacoes')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+              <span>Cotações</span>
+              <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- ===== COTAÇÕES (placeholder) ===== -->
+        <div id="view-cotacoes" class="hidden">
+          <div class="cotacoes-list">
+
+            <div class="cotacao-card">
+              <div class="cotacao-header" onclick="toggleCotacao(this)">
+                <div class="cotacao-nome">Milhar</div>
+                <div class="cotacao-valor">8.000x</div>
+                <span class="cotacao-arrow">&#9660;</span>
+              </div>
+              <div class="cotacao-body">
+                <p class="cotacao-desc">Você escolhe 4 números seguidos, de 0000 a 9999. Se esses 4 números saírem exatamente iguais e na mesma ordem no sorteio, você ganha! É a aposta que mais paga, mas também a mais difícil de acertar.</p>
+                <p class="cotacao-ex"><strong>Exemplo:</strong> você joga no 3218. Você só ganha se sair 3218 certinho no sorteio — 3219 ou 8321 não valem, tem que ser exatamente 3218.</p>
+                <div class="cotacao-premios">
+                  <div class="cotacao-premio-row"><span class="premio-faixa">1º Prêmio</span><span class="premio-desc">Jogar na cabeça: vale só o primeiro resultado.</span><span class="premio-mult">8.000x</span></div>
+                  <div class="cotacao-premio-row"><span class="premio-faixa">1º ao 3º</span><span class="premio-desc">Seu palpite vale do 1º ao 3º resultado.</span><span class="premio-mult">2.666,67x</span></div>
+                  <div class="cotacao-premio-row"><span class="premio-faixa">1º ao 5º</span><span class="premio-desc">Seu palpite vale do 1º ao 5º resultado.</span><span class="premio-mult">1.600x</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="cotacao-card">
+              <div class="cotacao-header" onclick="toggleCotacao(this)">
+                <div class="cotacao-nome">Milhar e Centena</div>
+                <div class="cotacao-valor">4.400x</div>
+                <span class="cotacao-arrow">&#9660;</span>
+              </div>
+              <div class="cotacao-body">
+                <p class="cotacao-desc">É a Milhar e a Centena jogadas juntas, num bilhete só. Você escolhe 4 números, e sua aposta é dividida ao meio: metade tenta a milhar, metade tenta a centena.</p>
+                <p class="cotacao-ex"><strong>Exemplo:</strong> você joga no 3218. Se sair 3218 certinho, você ganha as duas: o prêmio da milhar E o da centena juntos. Se só os 3 últimos números baterem (sair algo terminando em 218), você ainda ganha o prêmio da centena.</p>
+                <div class="cotacao-premios">
+                  <div class="cotacao-premio-row"><span class="premio-faixa">1º Prêmio</span><span class="premio-desc">Jogar na cabeça: vale só o primeiro resultado.</span><span class="premio-mult">4.400x</span></div>
+                  <div class="cotacao-premio-row"><span class="premio-faixa">1º ao 3º</span><span class="premio-desc">Seu palpite vale do 1º ao 3º resultado.</span><span class="premio-mult">1.466,67x</span></div>
+                  <div class="cotacao-premio-row"><span class="premio-faixa">1º ao 5º</span><span class="premio-desc">Seu palpite vale do 1º ao 5º resultado.</span><span class="premio-mult">880x</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="cotacao-card">
+              <div class="cotacao-header" onclick="toggleCotacao(this)">
+                <div class="cotacao-nome">Milhar Invertida</div>
+                <div class="cotacao-valor">333,33x</div>
+                <span class="cotacao-arrow">&#9660;</span>
+              </div>
+              <div class="cotacao-body">
+                <p class="cotacao-desc">É como a Milhar, mas aqui a ordem não importa! Você escolhe 4 números e ganha se eles saírem juntos no sorteio, em qualquer ordem — não precisa ser exatamente na sequência que você escolheu.</p>
+                <p class="cotacao-ex"><strong>Exemplo:</strong> você escolhe 3, 2, 1 e 8. Se sair 3218, 8321, 1832 ou qualquer outra ordem desses mesmos 4 números, você ganha.</p>
+                <div class="cotacao-premios">
+                  <div class="cotacao-premio-row"><span class="premio-faixa">1º Prêmio</span><span class="premio-desc">Jogar na cabeça: vale só o primeiro resultado.</span><span class="premio-mult">333,33x</span></div>
+                  <div class="cotacao-premio-row"><span class="premio-faixa">1º ao 3º</span><span class="premio-desc">Seu palpite vale do 1º ao 3º resultado.</span><span class="premio-mult">111,11x</span></div>
+                  <div class="cotacao-premio-row"><span class="premio-faixa">1º ao 5º</span><span class="premio-desc">Seu palpite vale do 1º ao 5º resultado.</span><span class="premio-mult">66,67x</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="cotacao-card">
+              <div class="cotacao-header" onclick="toggleCotacao(this)">
+                <div class="cotacao-nome">Centena</div>
+                <div class="cotacao-valor">800x</div>
+                <span class="cotacao-arrow">&#9660;</span>
+              </div>
+              <div class="cotacao-body">
+                <p class="cotacao-desc">Você escolhe 3 números seguidos, de 000 a 999. Você ganha se o sorteio terminar exatamente com esses 3 números, na mesma ordem.</p>
+                <p class="cotacao-ex"><strong>Exemplo:</strong> você joga no 482. Se sair 5.482 no sorteio, você ganha — porque termina em 482, do jeitinho que você escolheu.</p>
+                <div class="cotacao-premios">
+                  <div class="cotacao-premio-row"><span class="premio-faixa">1º Prêmio</span><span class="premio-desc">Jogar na cabeça: vale só o primeiro resultado.</span><span class="premio-mult">800x</span></div>
+                  <div class="cotacao-premio-row"><span class="premio-faixa">1º ao 3º</span><span class="premio-desc">Seu palpite vale do 1º ao 3º resultado.</span><span class="premio-mult">266,67x</span></div>
+                  <div class="cotacao-premio-row"><span class="premio-faixa">1º ao 5º</span><span class="premio-desc">Seu palpite vale do 1º ao 5º resultado.</span><span class="premio-mult">160x</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="cotacao-card">
+              <div class="cotacao-header" onclick="toggleCotacao(this)">
+                <div class="cotacao-nome">Centena Invertida</div>
+                <div class="cotacao-valor">66,67x</div>
+                <span class="cotacao-arrow">&#9660;</span>
+              </div>
+              <div class="cotacao-body">
+                <p class="cotacao-desc">É como a Centena, mas aqui a ordem não importa! Você escolhe 3 números e ganha se eles aparecerem juntos no final do sorteio, em qualquer ordem.</p>
+                <p class="cotacao-ex"><strong>Exemplo:</strong> você escolhe 4, 8 e 2. Se o sorteio terminar em 482, 824, 248 ou qualquer outra ordem desses 3 números, você ganha.</p>
+                <div class="cotacao-premios">
+                  <div class="cotacao-premio-row"><span class="premio-faixa">1º Prêmio</span><span class="premio-desc">Jogar na cabeça: vale só o primeiro resultado.</span><span class="premio-mult">66,67x</span></div>
+                  <div class="cotacao-premio-row"><span class="premio-faixa">1º ao 3º</span><span class="premio-desc">Seu palpite vale do 1º ao 3º resultado.</span><span class="premio-mult">22,22x</span></div>
+                  <div class="cotacao-premio-row"><span class="premio-faixa">1º ao 5º</span><span class="premio-desc">Seu palpite vale do 1º ao 5º resultado.</span><span class="premio-mult">13,33x</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="cotacao-card">
+              <div class="cotacao-header" onclick="toggleCotacao(this)">
+                <div class="cotacao-nome">Dezena</div>
+                <div class="cotacao-valor">80x</div>
+                <span class="cotacao-arrow">&#9660;</span>
+              </div>
+              <div class="cotacao-body">
+                <p class="cotacao-desc">Você escolhe 2 números seguidos, de 00 a 99. Você ganha se o sorteio terminar exatamente com esses 2 números, na mesma ordem.</p>
+                <p class="cotacao-ex"><strong>Exemplo:</strong> você joga no 82. Se sair 5.482 no sorteio, você ganha — porque termina em 82, do jeitinho que você escolheu.</p>
+                <div class="cotacao-premios">
+                  <div class="cotacao-premio-row"><span class="premio-faixa">1º Prêmio</span><span class="premio-desc">Jogar na cabeça: vale só o primeiro resultado.</span><span class="premio-mult">80x</span></div>
+                  <div class="cotacao-premio-row"><span class="premio-faixa">1º ao 3º</span><span class="premio-desc">Seu palpite vale do 1º ao 3º resultado.</span><span class="premio-mult">26,67x</span></div>
+                  <div class="cotacao-premio-row"><span class="premio-faixa">1º ao 5º</span><span class="premio-desc">Seu palpite vale do 1º ao 5º resultado.</span><span class="premio-mult">16x</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="cotacao-card">
+              <div class="cotacao-header" onclick="toggleCotacao(this)">
+                <div class="cotacao-nome">Dezena Invertida</div>
+                <div class="cotacao-valor">13,33x</div>
+                <span class="cotacao-arrow">&#9660;</span>
+              </div>
+              <div class="cotacao-body">
+                <p class="cotacao-desc">É como a Dezena, mas aqui a ordem não importa! Você escolhe 2 números e ganha se eles aparecerem juntos no final do sorteio, em qualquer ordem.</p>
+                <p class="cotacao-ex"><strong>Exemplo:</strong> você escolhe 8 e 2. Se o sorteio terminar em 82 ou em 28, você ganha do mesmo jeito.</p>
+                <div class="cotacao-premios">
+                  <div class="cotacao-premio-row"><span class="premio-faixa">1º Prêmio</span><span class="premio-desc">Jogar na cabeça: vale só o primeiro resultado.</span><span class="premio-mult">13,33x</span></div>
+                  <div class="cotacao-premio-row"><span class="premio-faixa">1º ao 3º</span><span class="premio-desc">Seu palpite vale do 1º ao 3º resultado.</span><span class="premio-mult">4,44x</span></div>
+                  <div class="cotacao-premio-row"><span class="premio-faixa">1º ao 5º</span><span class="premio-desc">Seu palpite vale do 1º ao 5º resultado.</span><span class="premio-mult">2,67x</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="cotacao-card">
+              <div class="cotacao-header" onclick="toggleCotacao(this)">
+                <div class="cotacao-nome">Grupo</div>
+                <div class="cotacao-valor">20x</div>
+                <span class="cotacao-arrow">&#9660;</span>
+              </div>
+              <div class="cotacao-body">
+                <p class="cotacao-desc">Existem 25 bichos (Avestruz, Águia, Burro, Borboleta, Cachorro...) e cada um deles "dono" de 4 dezenas. Você escolhe um bicho e torce pra uma dessas 4 dezenas aparecer no final do sorteio.</p>
+                <p class="cotacao-ex"><strong>Exemplo:</strong> o Cachorro é dono das dezenas 17, 18, 19 e 20. Se sair 5.418 no sorteio (termina em 18), você ganha, porque 18 é uma das dezenas do Cachorro.</p>
+                <div class="cotacao-premios">
+                  <div class="cotacao-premio-row"><span class="premio-faixa">1º Prêmio</span><span class="premio-desc">Jogar na cabeça: vale só o primeiro resultado.</span><span class="premio-mult">20x</span></div>
+                  <div class="cotacao-premio-row"><span class="premio-faixa">1º ao 3º</span><span class="premio-desc">Seu palpite vale do 1º ao 3º resultado.</span><span class="premio-mult">6,67x</span></div>
+                  <div class="cotacao-premio-row"><span class="premio-faixa">1º ao 5º</span><span class="premio-desc">Seu palpite vale do 1º ao 5º resultado.</span><span class="premio-mult">4x</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="cotacao-card">
+              <div class="cotacao-header" onclick="toggleCotacao(this)">
+                <div class="cotacao-nome">Duque de Grupo</div>
+                <div class="cotacao-valor">66,66x</div>
+                <span class="cotacao-arrow">&#9660;</span>
+              </div>
+              <div class="cotacao-body">
+                <p class="cotacao-desc">Escolha 2 bichos diferentes. Você ganha se os dois aparecerem entre os prêmios sorteados, em qualquer ordem e em prêmios diferentes. Essa modalidade não tem 1º prêmio — só paga do 1º ao 3º ou do 1º ao 5º.</p>
+                <p class="cotacao-ex"><strong>Exemplo:</strong> você escolhe Cachorro e Leão. Se o Cachorro sair no 2º prêmio e o Leão no 5º, você ganha na faixa "1º ao 5º".</p>
+                <div class="cotacao-premios">
+                  <div class="cotacao-premio-row"><span class="premio-faixa">1º ao 3º</span><span class="premio-desc">Seus 2 bichos precisam sair entre o 1º e o 3º prêmio.</span><span class="premio-mult">66,66x</span></div>
+                  <div class="cotacao-premio-row"><span class="premio-faixa">1º ao 5º</span><span class="premio-desc">Seus 2 bichos precisam sair entre o 1º e o 5º prêmio.</span><span class="premio-mult">20x</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="cotacao-card">
+              <div class="cotacao-header" onclick="toggleCotacao(this)">
+                <div class="cotacao-nome">Terno de Grupo</div>
+                <div class="cotacao-valor">1.500x</div>
+                <span class="cotacao-arrow">&#9660;</span>
+              </div>
+              <div class="cotacao-body">
+                <p class="cotacao-desc">Escolha 3 bichos diferentes. Você ganha se os três aparecerem entre os prêmios sorteados, em qualquer ordem e em prêmios diferentes. Essa modalidade também não tem 1º prêmio — só paga do 1º ao 3º ou do 1º ao 5º.</p>
+                <p class="cotacao-ex"><strong>Exemplo:</strong> você escolhe Cachorro, Leão e Vaca. Se os três saírem entre o 1º e o 5º prêmio, você ganha na faixa "1º ao 5º".</p>
+                <div class="cotacao-premios">
+                  <div class="cotacao-premio-row"><span class="premio-faixa">1º ao 3º</span><span class="premio-desc">Seus 3 bichos precisam sair entre o 1º e o 3º prêmio — os únicos 3 sorteados.</span><span class="premio-mult">1.500x</span></div>
+                  <div class="cotacao-premio-row"><span class="premio-faixa">1º ao 5º</span><span class="premio-desc">Seus 3 bichos precisam sair entre o 1º e o 5º prêmio.</span><span class="premio-mult">150x</span></div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ===== BICHOS LISTA ===== -->
+        <div id="view-bichos-lista" class="hidden">
+          <div class="bichos-gallery-container">
+            <div id="bichos-gallery-grid" class="bichos-gallery-grid"></div>
+          </div>
+        </div>
+
+        <!-- ===== BINGO ===== -->
+        <div id="view-bingo" class="hidden">
+          <div class="bingo-page">
+            <div class="bingo-next-draw">
+              <div class="bingo-next-label">PRÓXIMO SORTEIO</div>
+              <div class="bingo-timer" id="bingo-timer">05:48</div>
+              <div class="bingo-draw-date" id="bingo-draw-date">Hoje às 22:44</div>
+            </div>
+
+            <div class="bingo-prizes">
+              <div class="bingo-prize-row">
+                <span class="bingo-prize-name">Kuadra</span>
+                <span class="bingo-prize-value">R$ 20,00</span>
+              </div>
+              <div class="bingo-prize-row">
+                <span class="bingo-prize-name">Kina</span>
+                <span class="bingo-prize-value">R$ 30,00</span>
+              </div>
+              <div class="bingo-prize-row">
+                <span class="bingo-prize-name">Keno</span>
+                <span class="bingo-prize-value">R$ 150,00</span>
+              </div>
+            </div>
+
+            <div class="bingo-info-row">
+              <div class="bingo-info-item">
+                <span class="bingo-info-label">SORTEIO</span>
+                <span class="bingo-info-value">#40144</span>
+              </div>
+              <div class="bingo-info-item">
+                <span class="bingo-info-label">PRINCIPAL</span>
+                <span class="bingo-info-value" style="color:var(--green)">R$ 150,00</span>
+              </div>
+              <div class="bingo-info-item">
+                <span class="bingo-info-label">CARTELA</span>
+                <span class="bingo-info-value">R$ 0,20</span>
+              </div>
+            </div>
+
+            <div class="bingo-buy-section">
+              <div class="bingo-buy-header">
+                <span class="bingo-buy-title">COMPRAR CARTELAS</span>
+              </div>
+              <div class="bingo-buy-sub">
+                <span>Hoje às 22:44</span>
+                <span class="bingo-draw-id">#40144</span>
+              </div>
+              <div class="bingo-qty-chips">
+                <button class="bingo-chip" onclick="setBingoQty(5)">5</button>
+                <button class="bingo-chip" onclick="setBingoQty(10)">10</button>
+                <button class="bingo-chip" onclick="setBingoQty(20)">20</button>
+                <button class="bingo-chip active" onclick="setBingoQty(30)">30</button>
+                <button class="bingo-chip" onclick="setBingoQty(40)">40</button>
+                <button class="bingo-chip" onclick="setBingoQty(50)">50</button>
+                <button class="bingo-chip" onclick="setBingoQty(100)">100</button>
+                <button class="bingo-chip" onclick="setBingoQty(200)">200</button>
+              </div>
+              <div class="bingo-buy-footer">
+                <div class="bingo-qty-control">
+                  <button class="bingo-qty-btn" onclick="changeBingoQty(-1)">−</button>
+                  <span class="bingo-qty-value" id="bingo-qty">1</span>
+                  <button class="bingo-qty-btn" onclick="changeBingoQty(1)">+</button>
+                </div>
+                <div class="bingo-total">
+                  <span class="bingo-total-label">TOTAL</span>
+                  <span class="bingo-total-value" id="bingo-total">R$ 0,20</span>
+                </div>
+                <button class="bingo-comprar-btn" onclick="toast('Cartela comprada!','success')">
+                  🎱 COMPRAR
+                </button>
+              </div>
+              <div class="bingo-price-note">R$ 0,20 por cartela</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== RASPADINHA ===== -->
+        <div id="view-raspadinha" class="hidden">
+          <div class="raspadinha-page">
+            <div class="raspadinha-grid-wrap">
+              <div class="raspadinha-grid">
+                <div class="raspadinha-cell" onclick="scratchCell(this)">?</div>
+                <div class="raspadinha-cell" onclick="scratchCell(this)">?</div>
+                <div class="raspadinha-cell" onclick="scratchCell(this)">?</div>
+                <div class="raspadinha-cell" onclick="scratchCell(this)">?</div>
+                <div class="raspadinha-cell" onclick="scratchCell(this)">?</div>
+                <div class="raspadinha-cell" onclick="scratchCell(this)">?</div>
+                <div class="raspadinha-cell" onclick="scratchCell(this)">?</div>
+                <div class="raspadinha-cell" onclick="scratchCell(this)">?</div>
+                <div class="raspadinha-cell" onclick="scratchCell(this)">?</div>
+              </div>
+            </div>
+
+            <h4 class="raspadinha-buy-title">Comprar tentativas:</h4>
+            <div class="raspadinha-options">
+              <label class="raspadinha-option">
+                <input type="radio" name="raspadinha" value="1" checked>
+                <span class="raspadinha-option-inner">
+                  <span class="raspadinha-option-label">1 RASPADINHA</span>
+                  <span class="raspadinha-option-price">R$ 1,00</span>
+                </span>
+              </label>
+              <label class="raspadinha-option">
+                <input type="radio" name="raspadinha" value="5">
+                <span class="raspadinha-option-inner">
+                  <span class="raspadinha-option-label">5 RASPADINHAS</span>
+                  <span class="raspadinha-option-price">R$ 4,00</span>
+                </span>
+              </label>
+              <label class="raspadinha-option">
+                <input type="radio" name="raspadinha" value="10">
+                <span class="raspadinha-option-inner">
+                  <span class="raspadinha-option-label">10 RASPADINHAS</span>
+                  <span class="raspadinha-option-price">R$ 6,00</span>
+                </span>
+              </label>
+            </div>
+            <button class="btn btn-green" style="margin:1rem;" onclick="toast('Raspadinha comprada!','success')">COMPRAR</button>
+          </div>
+        </div>
+
+      </div><!-- /page-content -->
+
+      <!-- ===== BET WIZARD ===== -->
+      <div id="wizard-bet" class="wizard-overlay hidden">
+        <div class="wizard-container">
+          <div class="wizard-top">
+            <button class="wizard-back" id="wizard-back-btn" onclick="wizardBack()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            </button>
+            <span class="wizard-step-label" id="wizard-step-label">PASSO 1 DE 8</span>
+            <button class="wizard-close-btn" onclick="wizardClose()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            </button>
+          </div>
+          <div class="wizard-progress"><div class="wizard-progress-bar" id="wizard-progress-bar"></div></div>
+          <div class="wizard-body" id="wizard-body"></div>
+        </div>
+      </div>
+
+      <!-- ===== SAQUE INFO MODAL ===== -->
+      <div id="modal-saque-info" class="modal-overlay" onclick="if(event.target===this)closeModal('saque-info')">
+        <div class="modal-box" style="text-align:left;">
+          <h3 style="text-align:center;">Disponível para saque</h3>
+          <p style="margin:1rem 0 0.5rem;font-weight:700;">Entenda como funciona:</p>
+          <p style="margin-bottom:0.75rem;"><strong style="color:var(--red);">Não pode sacar:</strong> valores recebidos como bônus, presente ou de campanhas (ex: Frequência de Apostas).</p>
+          <div style="background:#f5f5f5;border-radius:10px;padding:1rem;margin-bottom:1.5rem;font-size:0.875rem;line-height:1.6;">
+            Esse valor vai direto para o seu saldo e <strong>não pode ser sacado.</strong> Use para aumentar suas apostas e ganhar muito mais! Se o seu palpite acertar, o prêmio ganho pode ser sacado normalmente.
+          </div>
+          <button class="btn btn-outline-dark" onclick="closeModal('saque-info')">Entendi</button>
+        </div>
+      </div>
+
+    </div><!-- /page-app -->
+
+    <!-- ========== SIDE DRAWER ========== -->
+    <div id="drawer-overlay" class="drawer-overlay" onclick="if(event.target===this)closeDrawer()">
+      <div class="drawer">
+        <div class="drawer-header">
+          <h3>Escolha uma opção</h3>
+          <button class="drawer-close" onclick="closeDrawer()">×</button>
+        </div>
+        <div class="drawer-menu">
+          <button class="drawer-item blue" onclick="closeDrawer();toast('Baixar APP em breve','info')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+            Baixar APP
+          </button>
+          <button class="drawer-item red" onclick="closeDrawer();toast('Notificações em breve','info')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            Notificações
+          </button>
+          <button class="drawer-item" onclick="closeDrawer();goHome()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg>
+            Início
+          </button>
+          <button class="drawer-item" onclick="closeDrawer();openView('cotacoes')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            Cotação
+          </button>
+          <button class="drawer-item" onclick="closeDrawer();openView('resultados')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+            Resultados
+          </button>
+          <button class="drawer-item" onclick="closeDrawer();toast('Premiadas em breve','info')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5C7 4 7 7 7 7M18 9h1.5a2.5 2.5 0 0 0 0-5C17 4 17 7 17 7"/><path d="M4 22h16a2 2 0 0 0 2-2V9H2v11a2 2 0 0 0 2 2z"/><path d="M12 4v18"/></svg>
+            Premiadas
+          </button>
+          <button class="drawer-item" onclick="closeDrawer();openView('relatorios')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>
+            Relatórios
+          </button>
+          <button class="drawer-item green" onclick="closeDrawer();openView('recarga')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            Recarga Pix
+          </button>
+          <button class="drawer-item green" onclick="closeDrawer();openView('saque')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            Solicitar saque
+          </button>
+          <button class="drawer-item" onclick="closeDrawer();toast('Como jogar em breve','info')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+            Como jogar
+          </button>
+          <button class="drawer-item" onclick="closeDrawer();toast('Calculadora em breve','info')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="8" y2="10.01"/><line x1="12" y1="10" x2="12" y2="10.01"/><line x1="16" y1="10" x2="16" y2="10.01"/><line x1="8" y1="14" x2="8" y2="14.01"/><line x1="12" y1="14" x2="12" y2="14.01"/><line x1="16" y1="14" x2="16" y2="14.01"/><line x1="8" y1="18" x2="8" y2="18.01"/><line x1="12" y1="18" x2="16" y2="18"/></svg>
+            Calculadora
+          </button>
+          <button class="drawer-item red" onclick="closeDrawer();logout()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/></svg>
+            Sair
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== PIX QR MODAL ========== -->
+    <div id="modal-pix" class="modal-overlay" onclick="if(event.target===this)closeModal('pix')">
+      <div class="modal-box">
+        <h3>PIX gerado!</h3>
+        <div style="background:white;border-radius:12px;padding:1.25rem;display:inline-block;margin-bottom:1rem;border:1px solid var(--border);">
+          <svg width="140" height="140" viewBox="0 0 140 140"><rect width="140" height="140" fill="white"/><g fill="#000"><rect x="10" y="10" width="35" height="35"/><rect x="95" y="10" width="35" height="35"/><rect x="10" y="95" width="35" height="35"/><rect x="55" y="10" width="8" height="8"/><rect x="55" y="25" width="8" height="8"/><rect x="70" y="18" width="8" height="8"/><rect x="55" y="55" width="8" height="8"/><rect x="70" y="55" width="8" height="8"/><rect x="62" y="62" width="8" height="8"/><rect x="55" y="70" width="8" height="8"/><rect x="95" y="55" width="8" height="8"/><rect x="110" y="62" width="8" height="8"/><rect x="95" y="95" width="8" height="8"/><rect x="110" y="110" width="8" height="8"/></g></svg>
+        </div>
+        <p style="font-size:0.9375rem;font-weight:600;margin-bottom:0.25rem;">Valor: <span id="pix-value" style="color:var(--green)">R$ 0,00</span></p>
+        <p style="font-size:0.75rem;color:var(--fg-muted);margin-bottom:1rem;">Escaneie o QR Code ou copie o código PIX</p>
+        <button class="btn btn-gold" onclick="copyPixCode()">Copiar código PIX</button>
+        <button class="btn btn-outline-dark mt-1 btn-sm" onclick="closeModal('pix')">Fechar</button>
+      </div>
+    </div>
+
+  </div><!-- /app-column -->
+</div><!-- /app-viewport -->
+
+<script src="config.js?v=6"></script>
+<script src="app.js?v=15"></script>
+</body>
+</html>
