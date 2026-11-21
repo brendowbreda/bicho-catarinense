@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=51">
+  <link rel="stylesheet" href="styles.css?v=52">
 </head>
 <body>
 
@@ -28,7 +28,7 @@
       <!-- Hero -->
       <section class="landing-hero">
         <img src="assets/hero-banner.webp" alt="Bicho Catarinense" class="landing-hero-img">
-        <p class="landing-hero-text">O jeito <strong>mais fácil</strong> e <strong>rápido</strong> de apostar no <strong>Jogo do Bicho</strong></p>
+        <p class="landing-hero-text">O jeito <strong>mais fácil</strong> e <strong>rápido</strong> de<br>apostar no <strong>Jogo do Bicho</strong></p>
         <button class="btn btn-cta-green" onclick="showPage('register')">COMEÇAR AGORA</button>
         <button class="btn btn-cta-outline" onclick="showPage('login-form')">JÁ TENHO CONTA</button>
       </section>
@@ -86,51 +86,79 @@
     </div>
 
     <!-- ========== LOGIN FORM ========== -->
-    <div id="page-login-form" class="page auth-page">
-      <div class="auth-logo-area" id="login-logo"></div>
-      <form id="form-login" class="flex flex-col gap-1">
-        <div class="form-group">
-          <span class="form-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><circle cx="8" cy="12" r="2"/><path d="M14 10h4M14 14h4"/></svg></span>
-          <input class="form-input" type="tel" name="cpf" placeholder="CPF ou CNPJ" inputmode="numeric" autocomplete="off" required>
-        </div>
-        <div class="form-group">
-          <span class="form-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
-          <input class="form-input" type="password" name="senha" placeholder="Senha" required>
-          <button type="button" class="form-toggle-pass" onclick="togglePassword(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg></button>
-        </div>
-        <button type="button" class="auth-link" style="text-align:right" onclick="showPage('forgot')">Esqueceu sua senha?</button>
-        <button type="submit" class="btn btn-gold mt-1">Entrar</button>
-        <div class="auth-divider">Primeiro acesso?</div>
-        <button type="button" class="btn btn-outline" onclick="showPage('register')">Cadastre-se</button>
-      </form>
+    <div id="page-login-form" class="page wizard-page">
+      <div class="wizard-topbar">
+        <button class="wizard-btn-circle" onclick="showPage('login')">←</button>
+        <h2 class="wizard-topbar-title">Entrar</h2>
+        <button class="wizard-btn-circle" onclick="showPage('login')">✕</button>
+      </div>
+      <div class="wizard-card">
+        <form id="form-login">
+          <label class="wizard-label">CPF</label>
+          <input class="wizard-input" type="tel" name="cpf" placeholder="Digite seu CPF" inputmode="numeric" autocomplete="off" required>
+          <label class="wizard-label">Senha</label>
+          <div class="wizard-input-wrap">
+            <input class="wizard-input" type="password" name="senha" placeholder="Sua senha" required>
+            <button type="button" class="wizard-toggle-pass" onclick="togglePassword(this)">Mostrar</button>
+          </div>
+          <button type="submit" class="btn btn-cta-green wizard-submit">Entrar</button>
+        </form>
+      </div>
+      <p class="wizard-footer-text">Ainda não tem conta? <a class="wizard-link" onclick="showPage('register')">Cadastre-se</a></p>
     </div>
 
-    <!-- ========== REGISTER ========== -->
-    <div id="page-register" class="page auth-page">
-      <div class="auth-logo-area" id="register-logo"></div>
-      <form id="form-register" class="flex flex-col gap-1">
-        <div class="form-group">
-          <span class="form-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.8.3 1.57.54 2.33a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.76.24 1.53.42 2.33.54A2 2 0 0 1 22 16.92z"/></svg></span>
-          <input class="form-input" type="tel" name="celular" placeholder="Whatsapp" inputmode="numeric" required>
+    <!-- ========== REGISTER (4-Step Wizard) ========== -->
+    <div id="page-register" class="page wizard-page">
+      <div class="wizard-topbar">
+        <button class="wizard-btn-circle" onclick="regBack()">←</button>
+        <button class="wizard-btn-circle" onclick="showPage('login')">✕</button>
+      </div>
+
+      <div class="wizard-card">
+        <div class="wizard-progress">
+          <div class="wizard-progress-fill" id="reg-progress-fill"></div>
         </div>
-        <div class="form-group">
-          <span class="form-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><circle cx="8" cy="12" r="2"/><path d="M14 10h4M14 14h4"/></svg></span>
-          <input class="form-input" type="tel" name="cpf" placeholder="CPF ou CNPJ (para entrar no app)" inputmode="numeric" required>
+        <p class="wizard-step-label" id="reg-step-label">PASSO 1 DE 4</p>
+
+        <!-- Step 1: CPF -->
+        <div class="wizard-step active" id="reg-step-1">
+          <h2 class="wizard-title">Vamos começar?</h2>
+          <input class="wizard-input" type="tel" name="cpf" placeholder="Digite seu CPF" inputmode="numeric" id="reg-cpf">
+          <button type="button" class="btn btn-cta-green wizard-submit" onclick="regNext()">Continuar</button>
         </div>
-        <div class="form-group">
-          <input class="form-input no-icon" type="email" name="email" placeholder="E-mail (opcional)">
+
+        <!-- Step 2: Dados pessoais -->
+        <div class="wizard-step" id="reg-step-2">
+          <h2 class="wizard-title">Seus dados pessoais</h2>
+          <input class="wizard-input" type="text" placeholder="Nome completo" id="reg-nome">
+          <input class="wizard-input" type="text" placeholder="Data de nascimento" id="reg-nascimento" onfocus="this.type='date'" onblur="if(!this.value)this.type='text'">
+          <button type="button" class="btn btn-cta-green wizard-submit" onclick="regNext()">Continuar</button>
         </div>
-        <div class="form-group">
-          <span class="form-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
-          <input class="form-input" type="password" name="senha" placeholder="Senha" required minlength="6">
-          <button type="button" class="form-toggle-pass" onclick="togglePassword(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg></button>
+
+        <!-- Step 3: Contato -->
+        <div class="wizard-step" id="reg-step-3">
+          <h2 class="wizard-title">Informações de contato</h2>
+          <p class="wizard-subtitle">Como podemos entrar em contato com você?</p>
+          <input class="wizard-input" type="tel" placeholder="Digite seu número de WhatsApp" inputmode="numeric" id="reg-whatsapp">
+          <input class="wizard-input" type="email" placeholder="Digite seu email" id="reg-email">
+          <button type="button" class="btn btn-cta-green wizard-submit" onclick="regNext()">Continuar</button>
         </div>
-        <p class="form-hint">Use pelo menos 6 caracteres</p>
-        <button type="submit" class="btn btn-gold mt-1">Cadastrar</button>
-        <button type="button" class="auth-back" onclick="showPage('login')">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg> Voltar
-        </button>
-      </form>
+
+        <!-- Step 4: Senha -->
+        <div class="wizard-step" id="reg-step-4">
+          <h2 class="wizard-title">Crie uma senha segura</h2>
+          <div class="wizard-input-wrap">
+            <input class="wizard-input" type="password" placeholder="Crie uma senha" id="reg-senha">
+            <button type="button" class="wizard-toggle-pass" onclick="togglePassword(this)">Mostrar</button>
+          </div>
+          <div class="wizard-input-wrap">
+            <input class="wizard-input" type="password" placeholder="Confirme sua senha" id="reg-senha-confirm">
+            <button type="button" class="wizard-toggle-pass" onclick="togglePassword(this)">Mostrar</button>
+          </div>
+          <p class="wizard-lgpd">Dados protegidos (LGPD). Ao cadastrar-se, você confirma ter 18+ anos e concorda com os <strong>Termos de Uso</strong> e a <strong>Política de Privacidade</strong>.</p>
+          <button type="button" class="btn btn-cta-green wizard-submit" onclick="regSubmit()">Cadastre-se</button>
+        </div>
+      </div>
     </div>
 
     <!-- ========== FORGOT ========== -->
@@ -872,6 +900,6 @@
 </div><!-- /app-viewport -->
 
 <script src="config.js?v=6"></script>
-<script src="app.js?v=16"></script>
+<script src="app.js?v=18"></script>
 </body>
 </html>

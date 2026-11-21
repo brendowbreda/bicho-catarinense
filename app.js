@@ -54,6 +54,7 @@ function showPage(page) {
   const el = document.getElementById(`page-${page}`);
   if (el) el.classList.add("active");
   if (page === "app") goHome();
+  if (page === "register") resetReg();
 }
 
 function openView(view) {
@@ -153,25 +154,6 @@ function initForms() {
     showPage("app");
     updateBalance();
     toast("Bem-vindo!", "success");
-  });
-
-  document.getElementById("form-register").addEventListener("submit", (e) => {
-    e.preventDefault();
-    const fd = new FormData(e.target);
-    if (!fd.get("celular") || !fd.get("cpf") || !fd.get("senha")) {
-      toast("Preencha os campos obrigatórios", "error");
-      return;
-    }
-    if (fd.get("senha").length < 6) {
-      toast("Senha mínima: 6 caracteres", "error");
-      return;
-    }
-    state.user = { cpf: formatCPF(fd.get("cpf")), name: "Jogador" };
-    state.balance = 0;
-    saveState();
-    showPage("app");
-    updateBalance();
-    toast("Conta criada!", "success");
   });
 
   document.getElementById("form-forgot").addEventListener("submit", (e) => {
@@ -509,8 +491,82 @@ function openSupport() {
 }
 
 function togglePassword(btn) {
-  const input = btn.parentElement.querySelector("input");
-  input.type = input.type === "password" ? "text" : "password";
+  const wrap = btn.closest(".form-group") || btn.closest(".wizard-input-wrap");
+  const input = wrap.querySelector("input");
+  if (input.type === "password") {
+    input.type = "text";
+    if (btn.classList.contains("wizard-toggle-pass")) btn.textContent = "Ocultar";
+  } else {
+    input.type = "password";
+    if (btn.classList.contains("wizard-toggle-pass")) btn.textContent = "Mostrar";
+  }
+}
+
+// ============ REGISTER WIZARD ============
+
+let regStep = 1;
+
+function regNext() {
+  if (regStep === 1) {
+    const cpf = document.getElementById("reg-cpf").value.trim();
+    if (!cpf) { toast("Digite seu CPF", "error"); return; }
+  } else if (regStep === 2) {
+    const nome = document.getElementById("reg-nome").value.trim();
+    if (!nome) { toast("Digite seu nome", "error"); return; }
+  } else if (regStep === 3) {
+    const wpp = document.getElementById("reg-whatsapp").value.trim();
+    if (!wpp) { toast("Digite seu WhatsApp", "error"); return; }
+  }
+  if (regStep < 4) {
+    document.getElementById(`reg-step-${regStep}`).classList.remove("active");
+    regStep++;
+    document.getElementById(`reg-step-${regStep}`).classList.add("active");
+    updateRegProgress();
+  }
+}
+
+function regBack() {
+  if (regStep > 1) {
+    document.getElementById(`reg-step-${regStep}`).classList.remove("active");
+    regStep--;
+    document.getElementById(`reg-step-${regStep}`).classList.add("active");
+    updateRegProgress();
+  } else {
+    showPage("login");
+  }
+}
+
+function updateRegProgress() {
+  const pct = (regStep / 4) * 100;
+  document.getElementById("reg-progress-fill").style.width = pct + "%";
+  document.getElementById("reg-step-label").textContent = `PASSO ${regStep} DE 4`;
+}
+
+function regSubmit() {
+  const senha = document.getElementById("reg-senha").value;
+  const confirmVal = document.getElementById("reg-senha-confirm").value;
+  if (!senha || senha.length < 6) { toast("Senha mínima: 6 caracteres", "error"); return; }
+  if (senha !== confirmVal) { toast("As senhas não coincidem", "error"); return; }
+  const cpf = document.getElementById("reg-cpf").value;
+  const nome = document.getElementById("reg-nome").value || "Jogador";
+  state.user = { cpf: formatCPF(cpf), name: nome };
+  state.balance = 0;
+  saveState();
+  showPage("app");
+  updateBalance();
+  toast("Conta criada!", "success");
+}
+
+function resetReg() {
+  regStep = 1;
+  for (let i = 1; i <= 4; i++) {
+    const el = document.getElementById(`reg-step-${i}`);
+    if (el) el.classList.toggle("active", i === 1);
+  }
+  const fill = document.getElementById("reg-progress-fill");
+  if (fill) fill.style.width = "25%";
+  const label = document.getElementById("reg-step-label");
+  if (label) label.textContent = "PASSO 1 DE 4";
 }
 
 // ============ TOAST ============
