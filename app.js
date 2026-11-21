@@ -950,41 +950,102 @@ function initLanding() {
   initRoletaWheel();
 }
 
+let selectedAnimalIdx = 2;
+
 function initRoletaWheel() {
-  const wheel = document.getElementById('landing-roleta-wheel');
-  if (!wheel) return;
+  const selector = document.getElementById('roleta-selector');
+  const wheel = document.getElementById('roleta-wheel');
+  if (!selector || !wheel) return;
   const animals = APP_CONFIG.animals;
-  const slice = 360 / animals.length;
-  let html = '';
+  const totalSlots = 26;
+  const sliceDeg = 360 / totalSlots;
+
+  let selHtml = '';
   animals.forEach((a, i) => {
-    const rot = slice * i;
-    const dist = 100;
-    const rad = (rot - 90) * Math.PI / 180;
-    const x = 140 + dist * Math.cos(rad);
-    const y = 140 + dist * Math.sin(rad);
-    html += `<img src="${a.img}" alt="${a.name}" style="position:absolute;width:2.5rem;height:2.5rem;object-fit:contain;left:${x}px;top:${y}px;transform:translate(-50%,-50%) rotate(${rot}deg);">`;
+    const cls = i === selectedAnimalIdx ? 'roleta-sel-item selected' : 'roleta-sel-item';
+    selHtml += `<div class="${cls}" onclick="selectAnimal(${i})"><img src="${a.img}" alt="${a.name}"></div>`;
   });
-  wheel.innerHTML = html;
+  selector.innerHTML = selHtml;
+  setTimeout(() => selectAnimal(selectedAnimalIdx), 100);
+
+  let wheelHtml = '';
+  const colors = ['#2d1b69', '#3a2580', '#2d1b69', '#3a2580'];
+  for (let i = 0; i < totalSlots; i++) {
+    const a1 = sliceDeg * i;
+    const a2 = sliceDeg * (i + 1);
+    const isGolden = i === totalSlots - 1;
+    const bg = isGolden ? '#ffd700' : colors[i % 2];
+    const r1 = (a1 * Math.PI) / 180;
+    const r2 = (a2 * Math.PI) / 180;
+    const x1 = 50 + 50 * Math.sin(r1);
+    const y1 = 50 - 50 * Math.cos(r1);
+    const x2 = 50 + 50 * Math.sin(r2);
+    const y2 = 50 - 50 * Math.cos(r2);
+    wheelHtml += `<div class="roleta-segment" style="background:${bg};--x1:${x1}%;--y1:${y1}%;--x2:${x2}%;--y2:${y2}%"></div>`;
+
+    const midA = (a1 + a2) / 2;
+    const midR = (midA * Math.PI) / 180;
+    const imgDist = 38;
+    const ix = 50 + imgDist * Math.sin(midR);
+    const iy = 50 - imgDist * Math.cos(midR);
+    if (!isGolden && i < animals.length) {
+      wheelHtml += `<img class="roleta-animal-img" src="${animals[i].img}" alt="${animals[i].name}" style="left:${ix}%;top:${iy}%">`;
+    } else if (isGolden) {
+      wheelHtml += `<div style="position:absolute;left:${ix}%;top:${iy}%;transform:translate(-50%,-50%);font-size:1.25rem;font-weight:900;color:#1a1040;z-index:2">100x</div>`;
+    }
+
+    const dotR = (a2 * Math.PI) / 180;
+    const dx = 50 + 48 * Math.sin(dotR);
+    const dy = 50 - 48 * Math.cos(dotR);
+    wheelHtml += `<div class="roleta-dot" style="left:${dx}%;top:${dy}%"></div>`;
+  }
+  wheel.innerHTML = wheelHtml;
+}
+
+function selectAnimal(idx) {
+  selectedAnimalIdx = idx;
+  const items = document.querySelectorAll('.roleta-sel-item');
+  items.forEach((el, i) => el.classList.toggle('selected', i === idx));
+  const wrap = document.querySelector('.roleta-selector-wrap');
+  const item = items[idx];
+  if (wrap && item) {
+    const offset = item.offsetLeft - wrap.clientWidth / 2 + item.offsetWidth / 2;
+    wrap.scrollTo({ left: offset, behavior: 'smooth' });
+  }
 }
 
 let roletaSpinning = false;
 function girarRoleta() {
   if (roletaSpinning) return;
   roletaSpinning = true;
-  const wheel = document.getElementById('landing-roleta-wheel');
+  const wheel = document.getElementById('roleta-wheel');
   const result = document.getElementById('roleta-result');
+  const totalSlots = 26;
+  const sliceDeg = 360 / totalSlots;
+  const winnerIdx = Math.floor(Math.random() * totalSlots);
+  const isGolden = winnerIdx === totalSlots - 1;
   const animals = APP_CONFIG.animals;
-  const winner = animals[Math.floor(Math.random() * animals.length)];
-  const slice = 360 / animals.length;
-  const idx = animals.indexOf(winner);
-  const targetAngle = 360 - (slice * idx) - slice / 2;
+  const targetAngle = -(sliceDeg * winnerIdx + sliceDeg / 2);
   const spins = 5 + Math.floor(Math.random() * 3);
   const finalRotation = spins * 360 + targetAngle;
   wheel.style.transform = `rotate(${finalRotation}deg)`;
   result.textContent = '';
+  const btn = document.getElementById('btn-girar-roleta');
+  btn.disabled = true;
   setTimeout(() => {
-    result.textContent = `🎉 ${winner.name}!`;
+    if (isGolden) {
+      result.textContent = '🎉 DOURADO — 100x!';
+    } else {
+      const w = animals[winnerIdx];
+      const chosen = animals[selectedAnimalIdx];
+      if (winnerIdx === selectedAnimalIdx) {
+        result.textContent = `🎉 ${w.name}! Cotação 18x!`;
+      } else {
+        result.textContent = `${w.name} — Tente novamente!`;
+      }
+    }
     roletaSpinning = false;
+    btn.disabled = false;
     wheel.style.transition = 'none';
     wheel.style.transform = `rotate(${targetAngle}deg)`;
     setTimeout(() => { wheel.style.transition = 'transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99)'; }, 50);

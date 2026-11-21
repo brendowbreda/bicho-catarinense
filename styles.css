@@ -2807,58 +2807,182 @@ img { max-width: 100%; display: block; }
 /* Roleta */
 .landing-roleta-section {
   background: linear-gradient(180deg, #1a1040 0%, #2d1b69 100%);
-  padding: 2rem 1.5rem;
+  padding: 2rem 1rem 1.5rem;
+  overflow: hidden;
 }
 
-.landing-roleta-wrap {
+.roleta-title {
+  font-size: 2rem;
+  font-weight: 900;
+  color: #fff;
+  text-align: center;
+  margin-bottom: 0.25rem;
+}
+
+.roleta-choose {
+  font-size: 1rem;
+  font-weight: 700;
+  color: rgba(255,255,255,0.85);
+  text-align: left;
+  padding-left: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.roleta-selector-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding: 0.5rem 0;
+}
+.roleta-selector-wrap::-webkit-scrollbar { display: none; }
+
+.roleta-selector {
+  display: flex;
+  gap: 0.625rem;
+  padding: 0 calc(50% - 48px);
+  align-items: center;
+  min-width: max-content;
+}
+
+.roleta-sel-item {
+  width: 52px;
+  height: 52px;
+  border-radius: 0.75rem;
+  background: rgba(255,255,255,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  border: 2px solid transparent;
+  opacity: 0.6;
+}
+.roleta-sel-item img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+.roleta-sel-item.selected {
+  width: 96px;
+  height: 96px;
+  background: rgba(255,255,255,0.95);
+  border: 3px solid #34c759;
+  border-radius: 1.25rem;
+  opacity: 1;
+  box-shadow: 0 4px 20px rgba(52,199,89,0.4);
+}
+.roleta-sel-item.selected img {
+  width: 72px;
+  height: 72px;
+}
+
+.roleta-deslize {
+  text-align: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  color: rgba(255,255,255,0.4);
+  margin: 0.5rem 0 1rem;
+}
+
+.roleta-half-wrap {
   position: relative;
-  width: 280px;
-  height: 280px;
-  margin: 1rem auto;
-}
-
-.landing-roleta-wheel {
   width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  background: conic-gradient(
-    #e74c3c 0deg 14.4deg, #3498db 14.4deg 28.8deg,
-    #2ecc71 28.8deg 43.2deg, #f39c12 43.2deg 57.6deg,
-    #9b59b6 57.6deg 72deg, #e74c3c 72deg 86.4deg,
-    #3498db 86.4deg 100.8deg, #2ecc71 100.8deg 115.2deg,
-    #f39c12 115.2deg 129.6deg, #9b59b6 129.6deg 144deg,
-    #e74c3c 144deg 158.4deg, #3498db 158.4deg 172.8deg,
-    #2ecc71 172.8deg 187.2deg, #f39c12 187.2deg 201.6deg,
-    #9b59b6 201.6deg 216deg, #e74c3c 216deg 230.4deg,
-    #3498db 230.4deg 244.8deg, #2ecc71 244.8deg 259.2deg,
-    #f39c12 259.2deg 273.6deg, #9b59b6 273.6deg 288deg,
-    #e74c3c 288deg 302.4deg, #3498db 302.4deg 316.8deg,
-    #2ecc71 316.8deg 331.2deg, #f39c12 331.2deg 345.6deg,
-    #9b59b6 345.6deg 360deg
-  );
-  transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99);
-  position: relative;
-  box-shadow: 0 0 20px rgba(0,0,0,0.4), inset 0 0 30px rgba(0,0,0,0.2);
-  border: 4px solid #ffd700;
+  max-width: 380px;
+  margin: 0 auto;
 }
 
-.landing-roleta-pointer {
+.roleta-pointer {
   position: absolute;
-  top: -10px;
+  top: 0;
   left: 50%;
   transform: translateX(-50%);
   font-size: 2rem;
   color: #ffd700;
   filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
-  z-index: 2;
+  z-index: 10;
+  line-height: 1;
 }
 
-.landing-roleta-result {
+.roleta-wheel-clip {
+  width: 100%;
+  aspect-ratio: 2 / 1;
+  overflow: hidden;
+  position: relative;
+}
+
+.roleta-wheel {
+  width: 100%;
+  padding-bottom: 100%;
+  border-radius: 50%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99);
+  border: 3px solid #ffd700;
+}
+
+.roleta-segment {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  clip-path: polygon(50% 50%, var(--x1) var(--y1), var(--x2) var(--y2));
+}
+
+.roleta-animal-img {
+  position: absolute;
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+}
+
+.roleta-dot {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #ffd700;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+  box-shadow: 0 0 6px rgba(255,215,0,0.6);
+}
+
+.roleta-spin-btn {
+  position: absolute;
+  bottom: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #e74c3c, #c0392b);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+  border: 4px solid #ffd700;
+  cursor: pointer;
+  z-index: 10;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+  line-height: 1.2;
+}
+.roleta-spin-btn:active {
+  transform: translateX(-50%) scale(0.95);
+}
+
+.roleta-result {
   color: #ffd700;
-  font-size: 1.125rem;
+  font-size: 1.25rem;
   font-weight: 800;
   min-height: 1.5rem;
-  margin-top: 0.5rem;
+  margin-top: 2.5rem;
+  text-align: center;
 }
 
 /* Suporte */

@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=52">
+  <link rel="stylesheet" href="styles.css?v=53">
 </head>
 <body>
 
@@ -37,12 +37,7 @@
       <section class="landing-section">
         <h2 class="landing-title">Jogo do Bicho <em class="landing-em-green">Online</em></h2>
         <p class="landing-subtitle">Apostou, ganhou, recebeu. Simples assim.</p>
-        <button class="btn btn-cta-green" onclick="showPage('register')">JOGAR AGORA</button>
-        <div class="landing-cotacao">
-          <h3 class="landing-title-sm">Cotação <em class="landing-em-green">ao vivo</em></h3>
-          <p class="landing-subtitle">Multiplicadores do 1º prêmio por modalidade</p>
-          <button class="btn btn-cta-outline" onclick="showPage('register')">VER COTAÇÃO</button>
-        </div>
+        <button class="btn btn-cta-green" onclick="showPage('login-form')">JOGAR AGORA</button>
       </section>
 
       <!-- Carrossel de Bichos -->
@@ -52,14 +47,22 @@
 
       <!-- Roleta dos Bichos -->
       <section class="landing-section landing-roleta-section">
-        <h2 class="landing-title" style="color:#fff">Roleta dos Bichos</h2>
-        <p class="landing-subtitle" style="color:rgba(255,255,255,0.7)">Gire e descubra seu bicho da sorte!</p>
-        <div class="landing-roleta-wrap">
-          <div class="landing-roleta-wheel" id="landing-roleta-wheel"></div>
-          <div class="landing-roleta-pointer">▼</div>
+        <h2 class="roleta-title">Roleta dos Bichos</h2>
+        <p class="roleta-choose">Escolha um bicho:</p>
+
+        <div class="roleta-selector-wrap">
+          <div class="roleta-selector" id="roleta-selector"></div>
         </div>
-        <button class="btn btn-cta-green" id="btn-girar-roleta" onclick="girarRoleta()">GIRAR ROLETA</button>
-        <p class="landing-roleta-result" id="roleta-result"></p>
+        <p class="roleta-deslize">‹ &nbsp;DESLIZE PARA ESCOLHER&nbsp; ›</p>
+
+        <div class="roleta-half-wrap">
+          <div class="roleta-pointer">▼</div>
+          <div class="roleta-wheel-clip">
+            <div class="roleta-wheel" id="roleta-wheel"></div>
+          </div>
+          <button class="roleta-spin-btn" id="btn-girar-roleta" onclick="girarRoleta()">GIRAR<br>ROLETA</button>
+        </div>
+        <p class="roleta-result" id="roleta-result"></p>
       </section>
 
       <!-- Suporte -->
@@ -900,6 +903,6 @@
 </div><!-- /app-viewport -->
 
 <script src="config.js?v=6"></script>
-<script src="app.js?v=18"></script>
+<script src="app.js?v=19"></script>
 </body>
 </html>
