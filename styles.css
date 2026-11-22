@@ -2847,15 +2847,15 @@ img { max-width: 100%; display: block; }
 .roleta-selector {
   display: flex;
   gap: 0.5rem;
-  padding: 0.5rem calc(50% - 40px);
+  padding: 0.5rem calc(50% - 65px);
   align-items: center;
   min-width: max-content;
 }
 
 .roleta-sel-item {
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  border-radius: 1rem;
   background: transparent;
   display: flex;
   align-items: center;
@@ -2863,26 +2863,26 @@ img { max-width: 100%; display: block; }
   flex-shrink: 0;
   cursor: pointer;
   transition: all 0.3s ease;
-  border: 2px solid transparent;
+  border: none;
   opacity: 0.5;
 }
 .roleta-sel-item img {
-  width: 58px;
-  height: 58px;
+  width: 90px;
+  height: 90px;
   object-fit: contain;
 }
 .roleta-sel-item.selected {
-  width: 88px;
-  height: 88px;
+  width: 130px;
+  height: 130px;
   background: transparent;
   border: none;
   opacity: 1;
   transform: scale(1.05);
 }
 .roleta-sel-item.selected img {
-  width: 82px;
-  height: 82px;
-  filter: drop-shadow(0 0 8px rgba(255,215,0,0.7)) drop-shadow(0 0 16px rgba(255,215,0,0.4));
+  width: 120px;
+  height: 120px;
+  filter: drop-shadow(0 0 10px rgba(255,215,0,0.7)) drop-shadow(0 0 20px rgba(255,215,0,0.4));
 }
 
 .roleta-deslize {
