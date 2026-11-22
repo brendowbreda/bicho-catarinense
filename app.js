@@ -1037,6 +1037,16 @@ function selectAnimal(idx) {
 }
 
 let roletaSpinning = false;
+function getWheelAngle(el) {
+  const st = window.getComputedStyle(el);
+  const tr = st.transform;
+  if (!tr || tr === 'none') return 0;
+  const vals = tr.match(/matrix\((.+)\)/);
+  if (!vals) return 0;
+  const parts = vals[1].split(',').map(Number);
+  return Math.atan2(parts[1], parts[0]) * (180 / Math.PI);
+}
+
 function girarRoleta() {
   if (roletaSpinning) return;
   roletaSpinning = true;
@@ -1048,11 +1058,22 @@ function girarRoleta() {
   const isGolden = winnerIdx === totalSlots - 1;
   const animals = APP_CONFIG.animals;
   const targetAngle = -(sliceDeg * winnerIdx);
-  const spins = 5 + Math.floor(Math.random() * 3);
-  const finalRotation = spins * 360 + targetAngle;
+
+  const currentAngle = getWheelAngle(wheel);
   wheel.classList.remove('idle-spin');
-  wheel.style.transition = 'transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99)';
-  wheel.style.transform = `rotate(${finalRotation}deg)`;
+  wheel.style.transition = 'none';
+  wheel.style.transform = `rotate(${currentAngle}deg)`;
+
+  const spins = 5 + Math.floor(Math.random() * 3);
+  const finalRotation = currentAngle + spins * 360 + (targetAngle - currentAngle % 360);
+
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      wheel.style.transition = 'transform 5s cubic-bezier(0.15, 0.6, 0.15, 1)';
+      wheel.style.transform = `rotate(${finalRotation}deg)`;
+    });
+  });
+
   result.textContent = '';
   const btn = document.getElementById('btn-girar-roleta');
   btn.disabled = true;
@@ -1069,12 +1090,13 @@ function girarRoleta() {
     }
     btn.disabled = false;
     wheel.style.transition = 'none';
-    wheel.style.transform = `rotate(${targetAngle}deg)`;
+    const normAngle = finalRotation % 360;
+    wheel.style.transform = `rotate(${normAngle}deg)`;
     setTimeout(() => {
       roletaSpinning = false;
       wheel.classList.add('idle-spin');
       wheel.style.transition = '';
       wheel.style.transform = '';
     }, 3000);
-  }, 4200);
+  }, 5200);
 }
