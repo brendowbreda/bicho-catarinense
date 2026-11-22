@@ -985,13 +985,13 @@ function initRoletaWheel() {
 
     const midA = (a1 + a2) / 2;
     const midR = (midA * Math.PI) / 180;
-    const imgDist = 38;
+    const imgDist = 35;
     const ix = 50 + imgDist * Math.sin(midR);
     const iy = 50 - imgDist * Math.cos(midR);
     if (!isGolden && i < animals.length) {
       wheelHtml += `<img class="roleta-animal-img" src="${animals[i].img}" alt="${animals[i].name}" style="left:${ix}%;top:${iy}%">`;
     } else if (isGolden) {
-      wheelHtml += `<div style="position:absolute;left:${ix}%;top:${iy}%;transform:translate(-50%,-50%);font-size:1.25rem;font-weight:900;color:#1a1040;z-index:2">100x</div>`;
+      wheelHtml += `<div style="position:absolute;left:${ix}%;top:${iy}%;transform:translate(-50%,-50%);font-size:1.5rem;font-weight:900;color:#1a1040;z-index:2;text-shadow:0 0 4px rgba(255,215,0,0.5)">100x</div>`;
     }
 
     const dotR = (a2 * Math.PI) / 180;
