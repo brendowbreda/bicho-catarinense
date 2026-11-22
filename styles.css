@@ -2809,12 +2809,14 @@ img { max-width: 100%; display: block; }
   background: linear-gradient(180deg, #1a1040 0%, #2d1b69 100%);
   padding: 2rem 0 0;
   overflow: visible;
+  margin-bottom: -1px;
 }
 
 .roleta-bottom {
-  background: #fff;
-  padding: 3.5rem 0 1.5rem;
+  background: linear-gradient(180deg, #2d1b69 0%, #2d1b69 70px, #fff 70px);
+  padding: 4rem 0 1.5rem;
   text-align: center;
+  margin-top: -2px;
 }
 
 .roleta-title {
