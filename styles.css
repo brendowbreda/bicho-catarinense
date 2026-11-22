@@ -2875,15 +2875,14 @@ img { max-width: 100%; display: block; }
   width: 88px;
   height: 88px;
   background: transparent;
-  border: 3px solid #ffd700;
-  border-radius: 50%;
+  border: none;
   opacity: 1;
-  box-shadow: 0 0 20px rgba(255,215,0,0.6), 0 0 40px rgba(255,215,0,0.3);
   transform: scale(1.05);
 }
 .roleta-sel-item.selected img {
-  width: 76px;
-  height: 76px;
+  width: 82px;
+  height: 82px;
+  filter: drop-shadow(0 0 8px rgba(255,215,0,0.7)) drop-shadow(0 0 16px rgba(255,215,0,0.4));
 }
 
 .roleta-deslize {
