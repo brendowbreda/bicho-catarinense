@@ -2812,7 +2812,12 @@ img { max-width: 100%; display: block; }
 }
 
 .roleta-bottom {
-  height: 70px;
+  height: 75px;
+  background: #fff;
+  margin-top: -10px;
+  position: relative;
+  z-index: 1;
+  align-self: stretch;
 }
 
 .roleta-title {
