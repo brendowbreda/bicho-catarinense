@@ -2839,49 +2839,50 @@ img { max-width: 100%; display: block; }
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
-  padding: 0.5rem 0;
+  padding: 1rem 0;
+  align-self: stretch;
 }
 .roleta-selector-wrap::-webkit-scrollbar { display: none; }
 
 .roleta-selector {
   display: flex;
-  gap: 0.625rem;
-  padding: 0 calc(50% - 48px);
+  gap: 1rem;
+  padding: 0 calc(50% - 55px);
   align-items: center;
   min-width: max-content;
 }
 
 .roleta-sel-item {
-  width: 52px;
-  height: 52px;
+  width: 60px;
+  height: 60px;
   border-radius: 0.75rem;
-  background: rgba(255,255,255,0.1);
+  background: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
   cursor: pointer;
-  transition: all 0.25s ease;
-  border: 2px solid transparent;
-  opacity: 0.6;
+  transition: all 0.3s ease;
+  border: none;
+  opacity: 0.55;
 }
 .roleta-sel-item img {
-  width: 40px;
-  height: 40px;
+  width: 56px;
+  height: 56px;
   object-fit: contain;
 }
 .roleta-sel-item.selected {
-  width: 96px;
-  height: 96px;
+  width: 110px;
+  height: 110px;
   background: rgba(255,255,255,0.95);
-  border: 3px solid #34c759;
+  border: 3px solid #6abf69;
   border-radius: 1.25rem;
   opacity: 1;
-  box-shadow: 0 4px 20px rgba(52,199,89,0.4);
+  box-shadow: 0 4px 20px rgba(106,191,105,0.3);
 }
 .roleta-sel-item.selected img {
-  width: 72px;
-  height: 72px;
+  width: 90px;
+  height: 90px;
 }
 
 .roleta-deslize {

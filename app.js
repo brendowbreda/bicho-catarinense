@@ -961,37 +961,20 @@ function initRoletaWheel() {
   const sliceDeg = 360 / totalSlots;
 
   let selHtml = '';
-  for (let rep = 0; rep < 3; rep++) {
+  for (let rep = 0; rep < 5; rep++) {
     animals.forEach((a, i) => {
-      const realIdx = i;
-      const cls = realIdx === selectedAnimalIdx ? 'roleta-sel-item selected' : 'roleta-sel-item';
-      selHtml += `<div class="${cls}" data-idx="${realIdx}" onclick="selectAnimal(${realIdx})"><img src="${a.img}" alt="${a.name}"></div>`;
+      const cls = i === selectedAnimalIdx ? 'roleta-sel-item selected' : 'roleta-sel-item';
+      selHtml += `<div class="${cls}" data-idx="${i}" data-rep="${rep}" onclick="selectAnimal(${i})"><img src="${a.img}" alt="${a.name}"></div>`;
     });
   }
   selector.innerHTML = selHtml;
   const wrap = document.querySelector('.roleta-selector-wrap');
   if (wrap) {
-    requestAnimationFrame(() => {
-      const items = selector.querySelectorAll('.roleta-sel-item');
-      const midItem = items[animals.length + selectedAnimalIdx];
-      if (midItem) wrap.scrollLeft = midItem.offsetLeft - wrap.clientWidth / 2 + midItem.offsetWidth / 2;
-    });
+    requestAnimationFrame(() => centerSelector(wrap, selector, animals, selectedAnimalIdx, false));
     let scrollTimeout;
     wrap.addEventListener('scroll', () => {
       clearTimeout(scrollTimeout);
-      scrollTimeout = setTimeout(() => {
-        const items = selector.querySelectorAll('.roleta-sel-item');
-        const setWidth = items[animals.length].offsetLeft - items[0].offsetLeft;
-        if (wrap.scrollLeft < items[2].offsetLeft) {
-          wrap.style.scrollBehavior = 'auto';
-          wrap.scrollLeft += setWidth;
-          wrap.style.scrollBehavior = '';
-        } else if (wrap.scrollLeft > items[animals.length * 2 - 3].offsetLeft) {
-          wrap.style.scrollBehavior = 'auto';
-          wrap.scrollLeft -= setWidth;
-          wrap.style.scrollBehavior = '';
-        }
-      }, 100);
+      scrollTimeout = setTimeout(() => loopSelector(wrap, selector, animals), 80);
     });
   }
   setTimeout(() => selectAnimal(selectedAnimalIdx), 100);
@@ -1023,17 +1006,40 @@ function initRoletaWheel() {
   wheel.classList.add('idle-spin');
 }
 
+function centerSelector(wrap, selector, animals, idx, smooth) {
+  const items = selector.querySelectorAll('.roleta-sel-item');
+  const midItem = items[animals.length * 2 + idx];
+  if (midItem) {
+    const offset = midItem.offsetLeft - wrap.clientWidth / 2 + midItem.offsetWidth / 2;
+    if (smooth) wrap.scrollTo({ left: offset, behavior: 'smooth' });
+    else wrap.scrollLeft = offset;
+  }
+}
+
+function loopSelector(wrap, selector, animals) {
+  const items = selector.querySelectorAll('.roleta-sel-item');
+  const setWidth = items[animals.length].offsetLeft - items[0].offsetLeft;
+  const midStart = items[animals.length * 2].offsetLeft;
+  const midEnd = items[animals.length * 3 - 1].offsetLeft;
+  if (wrap.scrollLeft < midStart - setWidth) {
+    wrap.style.scrollBehavior = 'auto';
+    wrap.scrollLeft += setWidth;
+    wrap.style.scrollBehavior = '';
+  } else if (wrap.scrollLeft > midEnd) {
+    wrap.style.scrollBehavior = 'auto';
+    wrap.scrollLeft -= setWidth;
+    wrap.style.scrollBehavior = '';
+  }
+}
+
 function selectAnimal(idx) {
   selectedAnimalIdx = idx;
   const items = document.querySelectorAll('.roleta-sel-item');
   items.forEach(el => el.classList.toggle('selected', parseInt(el.dataset.idx) === idx));
   const wrap = document.querySelector('.roleta-selector-wrap');
+  const selector = document.getElementById('roleta-selector');
   const animals = APP_CONFIG.animals;
-  const midItem = items[animals.length + idx];
-  if (wrap && midItem) {
-    const offset = midItem.offsetLeft - wrap.clientWidth / 2 + midItem.offsetWidth / 2;
-    wrap.scrollTo({ left: offset, behavior: 'smooth' });
-  }
+  if (wrap && selector) centerSelector(wrap, selector, animals, idx, true);
 }
 
 let roletaSpinning = false;
