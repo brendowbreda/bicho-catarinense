@@ -963,20 +963,13 @@ function initRoletaWheel() {
   let selHtml = '';
   for (let rep = 0; rep < 5; rep++) {
     animals.forEach((a, i) => {
-      const cls = i === selectedAnimalIdx ? 'roleta-sel-item selected' : 'roleta-sel-item';
-      selHtml += `<div class="${cls}" data-idx="${i}" data-rep="${rep}" onclick="selectAnimal(${i})"><img src="${a.img}" alt="${a.name}"></div>`;
+      selHtml += `<div class="roleta-sel-item" data-idx="${i}" data-rep="${rep}"><img src="${a.img}" alt="${a.name}"></div>`;
     });
   }
   selector.innerHTML = selHtml;
   const wrap = document.querySelector('.roleta-selector-wrap');
   if (wrap) {
-    setTimeout(() => centerSelector(wrap, selector, animals, selectedAnimalIdx, false), 50);
-    setTimeout(() => centerSelector(wrap, selector, animals, selectedAnimalIdx, false), 300);
-    let scrollTimeout;
-    wrap.addEventListener('scroll', () => {
-      clearTimeout(scrollTimeout);
-      scrollTimeout = setTimeout(() => loopSelector(wrap, selector, animals), 80);
-    });
+    initSelectorScroll(wrap, selector, animals);
   }
 
   const halfSlice = sliceDeg / 2;
@@ -1006,43 +999,106 @@ function initRoletaWheel() {
   wheel.classList.add('idle-spin');
 }
 
-function centerSelector(wrap, selector, animals, idx, smooth) {
-  const doCenter = () => {
-    const items = selector.querySelectorAll('.roleta-sel-item');
-    const midItem = items[animals.length * 2 + idx];
-    if (!midItem) return;
-    const offset = midItem.offsetLeft + midItem.offsetWidth / 2 - wrap.clientWidth / 2;
-    if (smooth) wrap.scrollTo({ left: offset, behavior: 'smooth' });
-    else wrap.scrollLeft = offset;
-  };
-  if (smooth) setTimeout(doCenter, 350);
-  else setTimeout(doCenter, 50);
-}
+let selectorAutoScroll = null;
+let selectorLocked = false;
 
-function loopSelector(wrap, selector, animals) {
+function initSelectorScroll(wrap, selector, animals) {
   const items = selector.querySelectorAll('.roleta-sel-item');
   const setWidth = items[animals.length].offsetLeft - items[0].offsetLeft;
   const midStart = items[animals.length * 2].offsetLeft;
-  const midEnd = items[animals.length * 3 - 1].offsetLeft;
-  if (wrap.scrollLeft < midStart - setWidth) {
-    wrap.style.scrollBehavior = 'auto';
-    wrap.scrollLeft += setWidth;
-    wrap.style.scrollBehavior = '';
-  } else if (wrap.scrollLeft > midEnd) {
-    wrap.style.scrollBehavior = 'auto';
-    wrap.scrollLeft -= setWidth;
-    wrap.style.scrollBehavior = '';
+  wrap.scrollLeft = midStart;
+
+  function loopCheck() {
+    const sl = wrap.scrollLeft;
+    const loopStart = items[animals.length].offsetLeft;
+    const loopEnd = items[animals.length * 3].offsetLeft;
+    if (sl < loopStart) {
+      wrap.style.scrollBehavior = 'auto';
+      wrap.scrollLeft += setWidth;
+      wrap.style.scrollBehavior = '';
+    } else if (sl > loopEnd) {
+      wrap.style.scrollBehavior = 'auto';
+      wrap.scrollLeft -= setWidth;
+      wrap.style.scrollBehavior = '';
+    }
   }
+
+  function startAutoScroll() {
+    if (selectorAutoScroll) return;
+    selectorLocked = false;
+    items.forEach(el => el.classList.remove('selected'));
+    selectorAutoScroll = setInterval(() => {
+      wrap.scrollLeft += 1;
+      loopCheck();
+    }, 30);
+  }
+
+  function stopAutoScroll() {
+    if (selectorAutoScroll) {
+      clearInterval(selectorAutoScroll);
+      selectorAutoScroll = null;
+    }
+  }
+
+  wrap.addEventListener('pointerdown', () => {
+    stopAutoScroll();
+  }, { passive: true });
+  wrap.addEventListener('pointerup', () => {
+    if (!selectorLocked) {
+      setTimeout(() => { if (!selectorLocked) startAutoScroll(); }, 2000);
+    }
+  }, { passive: true });
+  wrap.addEventListener('touchstart', () => {
+    stopAutoScroll();
+  }, { passive: true });
+  wrap.addEventListener('touchend', () => {
+    if (!selectorLocked) {
+      setTimeout(() => { if (!selectorLocked) startAutoScroll(); }, 2000);
+    }
+  }, { passive: true });
+
+  wrap.addEventListener('scroll', () => loopCheck());
+
+  selector.addEventListener('click', (e) => {
+    const item = e.target.closest('.roleta-sel-item');
+    if (!item) return;
+    const idx = parseInt(item.dataset.idx);
+    stopAutoScroll();
+    selectorLocked = true;
+    selectedAnimalIdx = idx;
+    items.forEach(el => el.classList.toggle('selected', parseInt(el.dataset.idx) === idx));
+    setTimeout(() => {
+      const selItem = items[animals.length * 2 + idx];
+      if (selItem) {
+        const offset = selItem.offsetLeft + selItem.offsetWidth / 2 - wrap.clientWidth / 2;
+        wrap.scrollTo({ left: offset, behavior: 'smooth' });
+      }
+    }, 350);
+  });
+
+  startAutoScroll();
 }
 
 function selectAnimal(idx) {
   selectedAnimalIdx = idx;
+  if (selectorAutoScroll) {
+    clearInterval(selectorAutoScroll);
+    selectorAutoScroll = null;
+  }
+  selectorLocked = true;
   const items = document.querySelectorAll('.roleta-sel-item');
   items.forEach(el => el.classList.toggle('selected', parseInt(el.dataset.idx) === idx));
   const wrap = document.querySelector('.roleta-selector-wrap');
-  const selector = document.getElementById('roleta-selector');
-  const animals = APP_CONFIG.animals;
-  if (wrap && selector) centerSelector(wrap, selector, animals, idx, true);
+  if (wrap) {
+    const animals = APP_CONFIG.animals;
+    const selItem = items[animals.length * 2 + idx];
+    if (selItem) {
+      setTimeout(() => {
+        const offset = selItem.offsetLeft + selItem.offsetWidth / 2 - wrap.clientWidth / 2;
+        wrap.scrollTo({ left: offset, behavior: 'smooth' });
+      }, 350);
+    }
+  }
 }
 
 let roletaSpinning = false;
