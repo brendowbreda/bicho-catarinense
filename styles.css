@@ -2846,15 +2846,15 @@ img { max-width: 100%; display: block; }
 
 .roleta-selector {
   display: flex;
-  gap: 1rem;
-  padding: 0 calc(50% - 55px);
+  gap: 0.75rem;
+  padding: 0 calc(50% - 45px);
   align-items: center;
   min-width: max-content;
 }
 
 .roleta-sel-item {
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
   border-radius: 0.75rem;
   background: transparent;
   display: flex;
@@ -2867,13 +2867,13 @@ img { max-width: 100%; display: block; }
   opacity: 0.55;
 }
 .roleta-sel-item img {
-  width: 56px;
-  height: 56px;
+  width: 46px;
+  height: 46px;
   object-fit: contain;
 }
 .roleta-sel-item.selected {
-  width: 110px;
-  height: 110px;
+  width: 90px;
+  height: 90px;
   background: rgba(255,255,255,0.95);
   border: 3px solid #6abf69;
   border-radius: 1.25rem;
@@ -2881,8 +2881,8 @@ img { max-width: 100%; display: block; }
   box-shadow: 0 4px 20px rgba(106,191,105,0.3);
 }
 .roleta-sel-item.selected img {
-  width: 90px;
-  height: 90px;
+  width: 74px;
+  height: 74px;
 }
 
 .roleta-deslize {

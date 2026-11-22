@@ -970,14 +970,14 @@ function initRoletaWheel() {
   selector.innerHTML = selHtml;
   const wrap = document.querySelector('.roleta-selector-wrap');
   if (wrap) {
-    requestAnimationFrame(() => centerSelector(wrap, selector, animals, selectedAnimalIdx, false));
+    setTimeout(() => centerSelector(wrap, selector, animals, selectedAnimalIdx, false), 50);
+    setTimeout(() => centerSelector(wrap, selector, animals, selectedAnimalIdx, false), 300);
     let scrollTimeout;
     wrap.addEventListener('scroll', () => {
       clearTimeout(scrollTimeout);
       scrollTimeout = setTimeout(() => loopSelector(wrap, selector, animals), 80);
     });
   }
-  setTimeout(() => selectAnimal(selectedAnimalIdx), 100);
 
   const halfSlice = sliceDeg / 2;
   let gradientStops = [];
@@ -1007,13 +1007,16 @@ function initRoletaWheel() {
 }
 
 function centerSelector(wrap, selector, animals, idx, smooth) {
-  const items = selector.querySelectorAll('.roleta-sel-item');
-  const midItem = items[animals.length * 2 + idx];
-  if (midItem) {
-    const offset = midItem.offsetLeft - wrap.clientWidth / 2 + midItem.offsetWidth / 2;
+  const doCenter = () => {
+    const items = selector.querySelectorAll('.roleta-sel-item');
+    const midItem = items[animals.length * 2 + idx];
+    if (!midItem) return;
+    const offset = midItem.offsetLeft + midItem.offsetWidth / 2 - wrap.clientWidth / 2;
     if (smooth) wrap.scrollTo({ left: offset, behavior: 'smooth' });
     else wrap.scrollLeft = offset;
-  }
+  };
+  if (smooth) setTimeout(doCenter, 350);
+  else setTimeout(doCenter, 50);
 }
 
 function loopSelector(wrap, selector, animals) {
