@@ -1057,7 +1057,7 @@ function girarRoleta() {
   const targetAngle = -(sliceDeg * winnerIdx + sliceDeg / 2);
   const spins = 5 + Math.floor(Math.random() * 3);
   const finalRotation = spins * 360 + targetAngle;
-  wheel.style.transform = `rotate(${finalRotation}deg)`;
+  wheel.style.transform = `translateX(-50%) rotate(${finalRotation}deg)`;
   result.textContent = '';
   const btn = document.getElementById('btn-girar-roleta');
   btn.disabled = true;
@@ -1076,7 +1076,7 @@ function girarRoleta() {
     roletaSpinning = false;
     btn.disabled = false;
     wheel.style.transition = 'none';
-    wheel.style.transform = `rotate(${targetAngle}deg)`;
+    wheel.style.transform = `translateX(-50%) rotate(${targetAngle}deg)`;
     setTimeout(() => { wheel.style.transition = 'transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99)'; }, 50);
   }, 4200);
 }
