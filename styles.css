@@ -2807,8 +2807,14 @@ img { max-width: 100%; display: block; }
 /* Roleta */
 .landing-roleta-section {
   background: linear-gradient(180deg, #1a1040 0%, #2d1b69 100%);
-  padding: 2rem 1rem 1.5rem;
-  overflow: hidden;
+  padding: 2rem 1rem 0;
+  overflow: visible;
+}
+
+.roleta-bottom {
+  background: #fff;
+  padding: 3.5rem 1rem 1.5rem;
+  text-align: center;
 }
 
 .roleta-title {
@@ -2997,11 +3003,10 @@ img { max-width: 100%; display: block; }
 }
 
 .roleta-result {
-  color: #ffd700;
+  color: #2d1b69;
   font-size: 1.25rem;
   font-weight: 800;
   min-height: 1.5rem;
-  margin-top: 2.5rem;
   text-align: center;
 }
 
