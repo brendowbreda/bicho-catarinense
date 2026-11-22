@@ -1013,7 +1013,7 @@ function initRoletaWheel() {
 
     const midA = (a1 + a2) / 2;
     const midR = (midA * Math.PI) / 180;
-    const imgDist = 42;
+    const imgDist = 38;
     const ix = 50 + imgDist * Math.sin(midR);
     const iy = 50 - imgDist * Math.cos(midR);
     if (!isGolden && i < animals.length) {
