@@ -2839,24 +2839,24 @@ img { max-width: 100%; display: block; }
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
-  padding: 2rem 0 1rem;
+  padding: 1rem 0 0.5rem;
   align-self: stretch;
-  min-height: 160px;
+  min-height: 100px;
 }
 .roleta-selector-wrap::-webkit-scrollbar { display: none; }
 
 .roleta-selector {
   display: flex;
-  gap: 0.5rem;
-  padding: 0.5rem calc(50% - 65px);
+  gap: 0.4rem;
+  padding: 0.5rem calc(50% - 35px);
   align-items: center;
   min-width: max-content;
 }
 
 .roleta-sel-item {
-  width: 100px;
-  height: 100px;
-  border-radius: 1rem;
+  width: 58px;
+  height: 58px;
+  border-radius: 0.75rem;
   background: transparent;
   display: flex;
   align-items: center;
@@ -2868,22 +2868,22 @@ img { max-width: 100%; display: block; }
   opacity: 0.5;
 }
 .roleta-sel-item img {
-  width: 90px;
-  height: 90px;
+  width: 52px;
+  height: 52px;
   object-fit: contain;
 }
 .roleta-sel-item.selected {
-  width: 130px;
-  height: 130px;
+  width: 70px;
+  height: 70px;
   background: transparent;
   border: none;
   opacity: 1;
   transform: scale(1.05);
 }
 .roleta-sel-item.selected img {
-  width: 120px;
-  height: 120px;
-  filter: drop-shadow(0 0 10px rgba(255,215,0,0.7)) drop-shadow(0 0 20px rgba(255,215,0,0.4));
+  width: 64px;
+  height: 64px;
+  filter: drop-shadow(0 0 8px rgba(255,215,0,0.7)) drop-shadow(0 0 16px rgba(255,215,0,0.4));
 }
 
 .roleta-deslize {
