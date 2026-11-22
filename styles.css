@@ -2841,21 +2841,21 @@ img { max-width: 100%; display: block; }
   scrollbar-width: none;
   padding: 1rem 0 0.5rem;
   align-self: stretch;
-  min-height: 100px;
+  min-height: 110px;
 }
 .roleta-selector-wrap::-webkit-scrollbar { display: none; }
 
 .roleta-selector {
   display: flex;
   gap: 0.4rem;
-  padding: 0.5rem calc(50% - 35px);
+  padding: 0.5rem calc(50% - 40px);
   align-items: center;
   min-width: max-content;
 }
 
 .roleta-sel-item {
-  width: 58px;
-  height: 58px;
+  width: 68px;
+  height: 68px;
   border-radius: 0.75rem;
   background: transparent;
   display: flex;
@@ -2868,21 +2868,21 @@ img { max-width: 100%; display: block; }
   opacity: 0.5;
 }
 .roleta-sel-item img {
-  width: 52px;
-  height: 52px;
+  width: 62px;
+  height: 62px;
   object-fit: contain;
 }
 .roleta-sel-item.selected {
-  width: 70px;
-  height: 70px;
+  width: 80px;
+  height: 80px;
   background: transparent;
   border: none;
   opacity: 1;
   transform: scale(1.05);
 }
 .roleta-sel-item.selected img {
-  width: 64px;
-  height: 64px;
+  width: 74px;
+  height: 74px;
   filter: drop-shadow(0 0 8px rgba(255,215,0,0.7)) drop-shadow(0 0 16px rgba(255,215,0,0.4));
 }
 
