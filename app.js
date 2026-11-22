@@ -938,14 +938,15 @@ function wizS8(body) {
 
 function initLanding() {
   const track = document.getElementById('landing-bichos-track');
-  if (!track) return;
-  const animals = APP_CONFIG.animals;
-  let html = '';
-  const items = [...animals, ...animals];
-  items.forEach(a => {
-    html += `<div class="landing-bicho-item"><img src="${a.img}" alt="${a.name}"></div>`;
-  });
-  track.innerHTML = html;
+  if (track) {
+    const animals = APP_CONFIG.animals;
+    let html = '';
+    const items = [...animals, ...animals];
+    items.forEach(a => {
+      html += `<div class="landing-bicho-item"><img src="${a.img}" alt="${a.name}"></div>`;
+    });
+    track.innerHTML = html;
+  }
 
   initRoletaWheel();
 }
