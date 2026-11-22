@@ -2807,13 +2807,13 @@ img { max-width: 100%; display: block; }
 /* Roleta */
 .landing-roleta-section {
   background: linear-gradient(180deg, #1a1040 0%, #2d1b69 100%);
-  padding: 2rem 1rem 0;
+  padding: 2rem 0 0;
   overflow: visible;
 }
 
 .roleta-bottom {
   background: #fff;
-  padding: 3.5rem 1rem 1.5rem;
+  padding: 3.5rem 0 1.5rem;
   text-align: center;
 }
 
@@ -2830,7 +2830,7 @@ img { max-width: 100%; display: block; }
   font-weight: 400;
   color: rgba(255,255,255,0.85);
   text-align: left;
-  padding-left: 0.5rem;
+  padding-left: 1rem;
   margin-bottom: 0.75rem;
   align-self: stretch;
 }
@@ -2914,8 +2914,8 @@ img { max-width: 100%; display: block; }
 }
 
 .roleta-wheel-clip {
-  width: calc(100% + 48px);
-  margin: 0 -24px 10px;
+  width: 100%;
+  margin: 0 0 10px;
   height: 220px;
   overflow: hidden;
   position: relative;
