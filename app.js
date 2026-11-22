@@ -1066,14 +1066,17 @@ function initSelectorScroll(wrap, selector, animals) {
     stopAutoScroll();
     selectorLocked = true;
     selectedAnimalIdx = idx;
+    const clickedCenter = item.offsetLeft + item.offsetWidth / 2;
+    const offset = clickedCenter - wrap.clientWidth / 2;
+    wrap.scrollTo({ left: offset, behavior: 'smooth' });
     items.forEach(el => el.classList.toggle('selected', parseInt(el.dataset.idx) === idx));
     setTimeout(() => {
       const selItem = items[animals.length * 2 + idx];
       if (selItem) {
-        const offset = selItem.offsetLeft + selItem.offsetWidth / 2 - wrap.clientWidth / 2;
-        wrap.scrollTo({ left: offset, behavior: 'smooth' });
+        const finalOffset = selItem.offsetLeft + selItem.offsetWidth / 2 - wrap.clientWidth / 2;
+        wrap.scrollTo({ left: finalOffset, behavior: 'smooth' });
       }
-    }, 350);
+    }, 400);
   });
 
   startAutoScroll();
@@ -1093,10 +1096,12 @@ function selectAnimal(idx) {
     const animals = APP_CONFIG.animals;
     const selItem = items[animals.length * 2 + idx];
     if (selItem) {
-      setTimeout(() => {
+      const centerNow = () => {
         const offset = selItem.offsetLeft + selItem.offsetWidth / 2 - wrap.clientWidth / 2;
         wrap.scrollTo({ left: offset, behavior: 'smooth' });
-      }, 350);
+      };
+      centerNow();
+      setTimeout(centerNow, 400);
     }
   }
 }
