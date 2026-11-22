@@ -2839,8 +2839,9 @@ img { max-width: 100%; display: block; }
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
-  padding: 0.75rem 0;
+  padding: 2rem 0 1rem;
   align-self: stretch;
+  min-height: 160px;
 }
 .roleta-selector-wrap::-webkit-scrollbar { display: none; }
 
