@@ -1047,7 +1047,7 @@ function girarRoleta() {
   const winnerIdx = Math.floor(Math.random() * totalSlots);
   const isGolden = winnerIdx === totalSlots - 1;
   const animals = APP_CONFIG.animals;
-  const targetAngle = -(sliceDeg * winnerIdx + sliceDeg / 2);
+  const targetAngle = -(sliceDeg * winnerIdx);
   const spins = 5 + Math.floor(Math.random() * 3);
   const finalRotation = spins * 360 + targetAngle;
   wheel.classList.remove('idle-spin');
@@ -1067,14 +1067,14 @@ function girarRoleta() {
         result.textContent = `${w.name} — Tente novamente!`;
       }
     }
-    roletaSpinning = false;
     btn.disabled = false;
     wheel.style.transition = 'none';
     wheel.style.transform = `rotate(${targetAngle}deg)`;
     setTimeout(() => {
+      roletaSpinning = false;
       wheel.classList.add('idle-spin');
       wheel.style.transition = '';
       wheel.style.transform = '';
-    }, 50);
+    }, 3000);
   }, 4200);
 }
