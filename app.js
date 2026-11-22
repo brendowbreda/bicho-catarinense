@@ -1030,7 +1030,7 @@ function initSelectorScroll(wrap, selector, animals) {
     selectorAutoScroll = setInterval(() => {
       wrap.scrollLeft += 1;
       loopCheck();
-    }, 30);
+    }, 18);
   }
 
   function stopAutoScroll() {
