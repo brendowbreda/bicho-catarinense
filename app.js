@@ -1060,7 +1060,6 @@ function girarRoleta() {
   if (roletaSpinning) return;
   roletaSpinning = true;
   const wheel = document.getElementById('roleta-wheel');
-  const result = document.getElementById('roleta-result');
   const totalSlots = 26;
   const sliceDeg = 360 / totalSlots;
   const winnerIdx = Math.floor(Math.random() * totalSlots);
@@ -1083,25 +1082,30 @@ function girarRoleta() {
     });
   });
 
-  result.textContent = '';
   const btn = document.getElementById('btn-girar-roleta');
   btn.disabled = true;
   setTimeout(() => {
-    if (isGolden) {
-      result.textContent = '🎉 DOURADO — 100x!';
+    const overlay = document.getElementById('roleta-overlay');
+    const content = document.getElementById('roleta-overlay-content');
+    overlay.className = 'roleta-overlay';
+    const won = !isGolden && winnerIdx === selectedAnimalIdx;
+    const isGold = isGolden;
+    if (won || isGold) {
+      const mult = isGold ? 100 : 18;
+      const betValue = 5;
+      const prize = betValue * mult;
+      overlay.classList.add('win', 'show');
+      content.innerHTML = `<div class="overlay-value">R$ ${prize.toFixed(2).replace('.', ',')}</div><div class="overlay-line1">Valor apostado x${mult}</div>`;
     } else {
-      const w = animals[winnerIdx];
-      if (winnerIdx === selectedAnimalIdx) {
-        result.textContent = `🎉 ${w.name}! Cotação 18x!`;
-      } else {
-        result.textContent = `${w.name} — Tente novamente!`;
-      }
+      overlay.classList.add('lose', 'show');
+      content.innerHTML = `<div class="overlay-line1">Não foi dessa vez,</div><div class="overlay-line2">tente novamente.</div>`;
     }
     btn.disabled = false;
     wheel.style.transition = 'none';
     const normAngle = finalRotation % 360;
     wheel.style.transform = `rotate(${normAngle}deg)`;
     setTimeout(() => {
+      overlay.classList.remove('show');
       roletaSpinning = false;
       wheel.classList.add('idle-spin');
       wheel.style.transition = '';

@@ -3003,12 +3003,42 @@ img { max-width: 100%; display: block; }
   transform: translateX(-50%) scale(0.95);
 }
 
-.roleta-result {
-  color: #2d1b69;
-  font-size: 1.25rem;
-  font-weight: 800;
-  min-height: 1.5rem;
+.roleta-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  cursor: pointer;
+}
+.roleta-overlay.show { display: flex; }
+.roleta-overlay.lose {
+  background: rgba(220, 38, 38, 0.85);
+}
+.roleta-overlay.win {
+  background: rgba(34, 170, 60, 0.85);
+}
+.roleta-overlay-content {
   text-align: center;
+  color: #fff;
+  padding: 2rem;
+}
+.roleta-overlay-content .overlay-line1 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+}
+.roleta-overlay-content .overlay-line2 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  opacity: 0.9;
+}
+.roleta-overlay-content .overlay-value {
+  font-size: 2.5rem;
+  font-weight: 900;
+  margin-top: 1rem;
 }
 
 /* Suporte */
