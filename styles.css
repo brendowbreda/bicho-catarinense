@@ -3079,7 +3079,21 @@ img { max-width: 100%; display: block; }
 /* WhatsApp */
 .landing-whatsapp {
   padding: 2rem 1.5rem;
-  border-top: 1px solid var(--border);
+  background: #25D366;
+  border-top: none;
+}
+.landing-whatsapp .landing-title-sm {
+  color: #fff;
+}
+.landing-whatsapp .landing-subtitle {
+  color: rgba(255,255,255,0.9);
+}
+.landing-whatsapp .landing-hint {
+  color: rgba(255,255,255,0.7);
+}
+.landing-whatsapp .btn-cta-green {
+  background: #fff;
+  color: #25D366;
 }
 
 .landing-whatsapp-img {
