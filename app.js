@@ -75,6 +75,10 @@ function openView(view) {
     renderExtrato("todos");
     renderApostas("aguardando");
   }
+  if (view === "resultados") renderResultsLotteries();
+  if (view === "notificacoes") renderNotifications();
+  if (view === "configuracoes") loadConfigSummary();
+  if (view === "config-pessoal") loadConfigPessoal();
 
   const mainHeader = document.getElementById("main-header");
   const subHeader = document.getElementById("sub-header");
@@ -89,12 +93,16 @@ function openView(view) {
     recarga: "Recarga PIX",
     saque: "Novo Saque",
     apostas: "Minhas Apostas",
-    resultados: "Consultar Resultados",
-    relatorios: "Relatórios",
+    resultados: "Resultados",
     cotacoes: "Cotações",
     "bichos-lista": "Bichos",
     bingo: "Bingo",
     raspadinha: "Raspadinha",
+    notificacoes: "Notificações",
+    configuracoes: "Configurações",
+    "config-pessoal": "Informações pessoais",
+    "config-acesso": "Informações de acesso",
+    "config-endereco": "Meu endereço",
   };
 
   const saldoBar = document.querySelector(".saldo-bar");
@@ -191,6 +199,7 @@ function updateBalance() {
   const saqueFormatted = `R$ ${formatMoney(state.balance)}`;
   if (saqueEl) saqueEl.textContent = saqueFormatted;
   if (carteiraSaque) carteiraSaque.textContent = saqueFormatted;
+  updateDrawerBalance();
 }
 
 function toggleBalanceVisibility() {
@@ -364,35 +373,86 @@ function placeBichoBet() {
 
 // ============ RESULTS ============
 
-function renderResults() {
-  const list = document.getElementById("results-list");
+const RESULT_LOTTERIES = [
+  { id:'rio-federal', name:'RIO/FEDERAL', times:['PT RIO 09:20H','LT MALUCA PT RIO 09:20H','PT RIO 11:20H','LT MALUCA PT RIO 11:20H','PT RIO 14:20H','LT MALUCA PT RIO 14:20H','PT RIO 16:20H','LT MALUCA PT RIO 16:20H','PT RIO 18:20H','LT MALUCA PT RIO 18:20H','PT RIO 21:20H','LT MALUCA PT RIO 21:20H'] },
+  { id:'nacional', name:'NACIONAL', times:['PT NACIONAL 14:00H','PT NACIONAL 16:00H','PT NACIONAL 18:00H','PT NACIONAL 21:00H'] },
+  { id:'look-goias', name:'LOOK/GOIÁS', times:['LOOK GOIÁS 11:20H','LOOK GOIÁS 14:20H','LOOK GOIÁS 16:20H','LOOK GOIÁS 18:20H','LOOK GOIÁS 21:20H'] },
+  { id:'bahia', name:'BAHIA', times:['PT BAHIA 12:00H','PT BAHIA 15:00H','PT BAHIA 19:00H'] },
+  { id:'lotep', name:'LOTEP', times:['LOTEP 11:00H','LOTEP 14:00H','LOTEP 18:00H'] },
+  { id:'lotece', name:'LOTECE', times:['LOTECE 11:00H','LOTECE 14:00H','LOTECE 18:00H'] },
+  { id:'sao-paulo', name:'SAO PAULO', times:['PT SP 11:20H','PT SP 14:20H','PT SP 16:20H','PT SP 18:20H'] },
+  { id:'minas-gerais', name:'MINAS GERAIS', times:['PT MG 11:00H','PT MG 14:00H','PT MG 18:00H'] },
+  { id:'sorte', name:'SORTE', times:['SORTE 11:00H','SORTE 14:00H','SORTE 18:00H'] },
+  { id:'boasorte-goias', name:'BOASORTE/GOIÁS', times:['BOASORTE 11:20H','BOASORTE 14:20H','BOASORTE 18:20H'] },
+  { id:'tradicional', name:'TRADICIONAL', times:['TRADICIONAL 09:20H','TRADICIONAL 14:20H','TRADICIONAL 21:20H'] },
+  { id:'pernambuco', name:'PERNAMBUCO', times:['PT PE 11:00H','PT PE 14:00H','PT PE 18:00H'] },
+  { id:'paraiba', name:'PARAÍBA', times:['PT PB 11:00H','PT PB 14:00H','PT PB 18:00H'] },
+];
+
+function renderResultsLotteries() {
+  const list = document.getElementById("results-lottery-list");
   if (!list) return;
-
-  const today = new Date();
-  const days = ["DOMINGO", "SEGUNDA", "TERÇA", "QUARTA", "QUINTA", "SEXTA", "SÁBADO"];
-  let html = "";
-
-  for (let i = 0; i < 7; i++) {
-    const d = new Date(today);
-    d.setDate(d.getDate() - i);
-    const dateStr = d.toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit", year: "numeric" });
-    const dayName = i === 0 ? "HOJE" : days[d.getDay()];
-
-    html += `
-      <div class="results-day-item" onclick="toast('Resultados de ${dateStr}','info')">
-        <div>
-          <div class="results-day-date">${dateStr}</div>
-          <div class="results-day-weekday">${dayName}</div>
-        </div>
-        <div class="results-day-chevron">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
-        </div>
+  list.innerHTML = RESULT_LOTTERIES.map(l => `
+    <div class="results-lottery-card" id="rl-${l.id}">
+      <div class="results-lottery-header" onclick="toggleResultLottery('${l.id}')">
+        <span class="results-lottery-name">${l.name}</span>
+        <svg class="results-lottery-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
       </div>
-    `;
-  }
-
-  list.innerHTML = html;
+      <div class="results-lottery-body">
+        ${l.times.map(t => {
+          const now = new Date();
+          const hourMatch = t.match(/(\d{2}):(\d{2})H/);
+          const h = hourMatch ? parseInt(hourMatch[1]) : 24;
+          const m = hourMatch ? parseInt(hourMatch[2]) : 0;
+          const available = (now.getHours() > h) || (now.getHours() === h && now.getMinutes() >= m);
+          return `<div class="results-time-item${available?'':' unavailable'}" onclick="${available ? `showResultDetail('${t}')` : ''}">
+            <span class="results-time-name">${t}</span>
+            ${!available ? '<span class="results-time-na">Resultado ainda não disponível</span>' : ''}
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="results-time-chevron"><path d="M9 18l6-6-6-6"/></svg>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>
+  `).join('');
 }
+
+function toggleResultLottery(id) {
+  document.getElementById(`rl-${id}`).classList.toggle('open');
+}
+
+function showResultDetail(timeName) {
+  const animals = APP_CONFIG.animals;
+  let html = '<div class="white-card" style="margin:1rem;padding:1.25rem;">';
+  html += `<div style="text-align:center;margin-bottom:1rem;">
+    <div style="font-weight:800;font-size:1rem;margin-bottom:0.25rem;">RESULTADOS</div>
+    <div style="font-size:0.8125rem;color:var(--fg-muted);">${new Date().toLocaleDateString('pt-BR')}</div>
+  </div>`;
+  html += `<div style="font-weight:700;margin-bottom:0.75rem;">${timeName}</div>`;
+  for (let i = 1; i <= 5; i++) {
+    const num = String(Math.floor(Math.random() * 10000)).padStart(4, '0');
+    const dezena = parseInt(num.slice(-2));
+    const grupo = Math.floor((dezena - 1) / 4) + 1;
+    const grupoIdx = Math.max(0, Math.min(24, grupo - 1));
+    const animal = animals[grupoIdx];
+    html += `<div class="result-detail-row">
+      <span class="result-detail-pos">${i}:</span>
+      <span class="result-detail-num">${num}</span>
+      <span class="result-detail-grupo">G.${String(grupo).padStart(2,'0')}</span>
+      <span class="result-detail-animal">${animal.name}</span>
+    </div>`;
+  }
+  html += '</div>';
+
+  const container = document.getElementById('results-lottery-list');
+  const existing = document.getElementById('result-detail-panel');
+  if (existing) existing.remove();
+  const panel = document.createElement('div');
+  panel.id = 'result-detail-panel';
+  panel.innerHTML = html;
+  container.parentElement.appendChild(panel);
+}
+
+function renderResults() {}
 
 // ============ COTAÇÕES ============
 
@@ -1142,6 +1202,101 @@ function selectAnimal(idx) {
       wrap.style.scrollBehavior = '';
     }
   }
+}
+
+// ============ NOTIFICATIONS ============
+
+function renderNotifications() {
+  const list = document.getElementById('notif-list');
+  if (!list) return;
+
+  const now = new Date();
+  const isFederalDay = [0, 3].includes(now.getDay());
+
+  const notifs = [];
+
+  if (isFederalDay) {
+    notifs.push({
+      icon: '🎯',
+      title: 'A Federal está chegando! Vai deixar passar?',
+      body: 'Aproveite os 20% de bônus. Entre no app e confira! 🎯',
+      cta: 'Apostar agora →',
+      action: "closeDrawer();openBetWizard('federal')",
+      time: 'hoje',
+      unread: true,
+    });
+  }
+
+  notifs.push(
+    { icon: '🔮', title: 'Palpite do dia para seu signo!', body: 'Hoje os astros favorecem apostas no Grupo. Confira nosso palpite especial baseado no seu signo.', cta: 'Ver palpite →', action: "openView('jogos')", time: 'hoje', unread: true },
+    { icon: '🏆', title: 'Resultado: Você ganhou R$ 90,00!', body: 'Sua aposta no Tigre 🐅 (Grupo, PTN 18:20) foi premiada! O valor já está no seu saldo.', time: 'ontem', unread: false, type: 'win' },
+    { icon: '😔', title: 'Resultado: Não foi dessa vez', body: 'Sua aposta na Milhar 3218 (PT 14:20) não foi premiada. Tente novamente — boa sorte!', time: 'ontem', unread: false, type: 'lose' },
+    { icon: '💰', title: 'Bônus de boas-vindas creditado!', body: 'Seu bônus de R$ 10,00 foi adicionado ao saldo. Use para apostar e multiplicar seus ganhos!', time: '2 dias atrás', unread: false },
+    { icon: '🎲', title: 'Nova modalidade: Milhar Invertida', body: 'Agora você pode apostar na Milhar Invertida com cotação de 333,33x! A ordem dos números não importa.', time: '3 dias atrás', unread: false },
+  );
+
+  list.innerHTML = notifs.map(n => `
+    <div class="notif-card${n.unread ? ' unread' : ''}${n.type === 'win' ? ' notif-win' : ''}${n.type === 'lose' ? ' notif-lose' : ''}">
+      <div class="notif-icon">${n.icon}</div>
+      <div class="notif-content">
+        <div class="notif-title">${n.title}</div>
+        <div class="notif-body">${n.body}</div>
+        ${n.cta ? `<a class="notif-cta" onclick="${n.action}">${n.cta}</a>` : ''}
+        <div class="notif-time">${n.time}</div>
+      </div>
+      ${n.unread ? '<div class="notif-dot"></div>' : ''}
+    </div>
+  `).join('');
+}
+
+function markAllNotifsRead() {
+  document.querySelectorAll('.notif-card.unread').forEach(c => c.classList.remove('unread'));
+  document.querySelectorAll('.notif-dot').forEach(d => d.remove());
+  toast('Todas as notificações lidas', 'success');
+}
+
+// ============ CONFIGURAÇÕES ============
+
+function loadConfigSummary() {
+  const nome = state.user?.name || '-';
+  const sub = document.getElementById('config-nome-sub');
+  if (sub) sub.textContent = nome;
+}
+
+function loadConfigPessoal() {
+  const nome = document.getElementById('cfg-nome');
+  const cpf = document.getElementById('cfg-cpf');
+  if (nome) nome.value = state.user?.name || '';
+  if (cpf) cpf.value = state.user?.cpf || '';
+}
+
+function saveConfigPessoal() {
+  const nome = document.getElementById('cfg-nome').value.trim();
+  if (!nome) { toast('Informe o nome', 'error'); return; }
+  if (state.user) state.user.name = nome;
+  saveState();
+  toast('Dados atualizados!', 'success');
+}
+
+function saveConfigAcesso() {
+  const senha = document.getElementById('cfg-senha').value;
+  const confirm = document.getElementById('cfg-senha-confirm').value;
+  if (senha && senha.length < 6) { toast('Senha mínima: 6 caracteres', 'error'); return; }
+  if (senha && senha !== confirm) { toast('As senhas não coincidem', 'error'); return; }
+  toast('Dados atualizados!', 'success');
+  document.getElementById('cfg-senha').value = '';
+  document.getElementById('cfg-senha-confirm').value = '';
+}
+
+function saveConfigEndereco() {
+  toast('Endereço atualizado!', 'success');
+}
+
+// ============ DRAWER BALANCE ============
+
+function updateDrawerBalance() {
+  const el = document.getElementById('drawer-balance');
+  if (el) el.textContent = `R$ ${formatMoney(state.balance)}`;
 }
 
 let roletaSpinning = false;

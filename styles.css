@@ -3294,3 +3294,332 @@ img { max-width: 100%; display: block; }
   cursor: pointer;
   text-decoration: underline;
 }
+
+/* ============ DRAWER SALDO BOX ============ */
+
+.drawer-saldo-box {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--border);
+  background: #f8f9fa;
+}
+
+.drawer-saldo-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.25rem 0;
+}
+
+.drawer-saldo-label {
+  font-size: 0.8125rem;
+  color: var(--fg-muted);
+  font-weight: 500;
+}
+
+.drawer-saldo-value {
+  font-size: 1.125rem;
+  font-weight: 800;
+  color: var(--green);
+}
+
+/* ============ NOTIFICATIONS ============ */
+
+.notif-list {
+  padding: 0.5rem 1rem;
+}
+
+.notif-card {
+  display: flex;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: #fff;
+  border-radius: 12px;
+  margin-bottom: 0.75rem;
+  position: relative;
+  border: 1px solid var(--border);
+}
+
+.notif-card.unread {
+  background: #fffdf0;
+  border-color: #f0d060;
+}
+
+.notif-card.notif-win {
+  border-left: 4px solid var(--green);
+}
+
+.notif-card.notif-lose {
+  border-left: 4px solid var(--fg-muted);
+}
+
+.notif-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+  margin-top: 0.125rem;
+}
+
+.notif-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.notif-title {
+  font-weight: 700;
+  font-size: 0.9375rem;
+  margin-bottom: 0.25rem;
+  color: var(--fg);
+}
+
+.notif-body {
+  font-size: 0.8125rem;
+  color: var(--fg-muted);
+  line-height: 1.5;
+  margin-bottom: 0.375rem;
+}
+
+.notif-cta {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--blue);
+  cursor: pointer;
+  display: inline-block;
+  margin-bottom: 0.25rem;
+}
+
+.notif-time {
+  font-size: 0.6875rem;
+  color: var(--fg-light);
+}
+
+.notif-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--blue);
+  flex-shrink: 0;
+  margin-top: 0.375rem;
+}
+
+.notif-mark-all {
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding: 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--green);
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* ============ RESULTS LOTTERIES ============ */
+
+.results-section-label {
+  padding: 1rem 1.25rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--fg-muted);
+  letter-spacing: 0.05em;
+}
+
+.results-lottery-list {
+  padding: 0 0.5rem;
+}
+
+.results-lottery-card {
+  border-bottom: 1px solid var(--border);
+}
+
+.results-lottery-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.125rem 1rem;
+  cursor: pointer;
+}
+
+.results-lottery-name {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--fg);
+  letter-spacing: 0.02em;
+}
+
+.results-lottery-arrow {
+  width: 20px;
+  height: 20px;
+  color: var(--fg-muted);
+  transition: transform 0.2s;
+}
+
+.results-lottery-card.open .results-lottery-arrow {
+  transform: rotate(180deg);
+}
+
+.results-lottery-card.open .results-lottery-header {
+  border: 2px solid var(--blue);
+  border-radius: 10px;
+  margin: 0.25rem 0;
+}
+
+.results-lottery-body {
+  display: none;
+  padding: 0 0.5rem 0.75rem;
+}
+
+.results-lottery-card.open .results-lottery-body {
+  display: block;
+}
+
+.results-time-item {
+  display: flex;
+  align-items: center;
+  padding: 0.875rem 0.75rem;
+  border-bottom: 1px solid #f0f0f0;
+  cursor: pointer;
+  gap: 0.5rem;
+}
+
+.results-time-item:last-child { border-bottom: none; }
+
+.results-time-item.unavailable {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.results-time-name {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--fg);
+  flex-shrink: 0;
+}
+
+.results-time-na {
+  font-size: 0.6875rem;
+  color: var(--fg-muted);
+  margin-left: auto;
+}
+
+.results-time-chevron {
+  width: 18px;
+  height: 18px;
+  color: var(--fg-light);
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.results-time-item.unavailable .results-time-chevron { margin-left: 0; }
+
+.result-detail-row {
+  display: flex;
+  align-items: center;
+  padding: 0.625rem 0;
+  border-bottom: 1px solid #f0f0f0;
+  gap: 0.5rem;
+  font-size: 0.9375rem;
+}
+
+.result-detail-row:last-child { border-bottom: none; }
+
+.result-detail-pos {
+  font-weight: 400;
+  color: var(--fg-muted);
+  min-width: 1.5rem;
+}
+
+.result-detail-num {
+  font-weight: 800;
+  color: var(--fg);
+}
+
+.result-detail-grupo {
+  color: var(--fg-muted);
+  font-size: 0.8125rem;
+}
+
+.result-detail-animal {
+  margin-left: auto;
+  font-weight: 500;
+  color: var(--fg);
+}
+
+/* ============ CONFIGURAÇÕES ============ */
+
+.config-list {
+  padding: 1rem;
+}
+
+.config-item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 1rem 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+.config-item:first-child { border-top: 1px solid var(--border); }
+
+.config-item-text {
+  flex: 1;
+}
+
+.config-item-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--fg);
+  margin-bottom: 0.125rem;
+}
+
+.config-item-sub {
+  font-size: 0.8125rem;
+  color: var(--fg-muted);
+}
+
+.config-chevron {
+  width: 20px;
+  height: 20px;
+  color: var(--fg-light);
+  flex-shrink: 0;
+}
+
+.config-field {
+  margin-bottom: 1rem;
+}
+
+.config-field-label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--fg-muted);
+  margin-bottom: 0.375rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.config-field-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-size: 0.9375rem;
+  color: var(--fg);
+  background: #fff;
+  outline: none;
+  transition: border-color 0.2s;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+.config-field-input:focus {
+  border-color: var(--blue);
+}
+
+.config-field-input.disabled {
+  background: #f5f5f5;
+  color: var(--fg-muted);
+}

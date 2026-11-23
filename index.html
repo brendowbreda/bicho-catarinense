@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=87">
+  <link rel="stylesheet" href="styles.css?v=88">
 </head>
 <body>
 
@@ -452,38 +452,125 @@
 
         <!-- ===== RESULTADOS ===== -->
         <div id="view-resultados" class="hidden">
-          <div class="results-period">Últimos 7 dias</div>
-          <div class="results-day-list" id="results-list"></div>
+          <div class="results-section-label">SELECIONE A LOTERIA</div>
+          <div class="results-lottery-list" id="results-lottery-list"></div>
         </div>
 
-        <!-- ===== RELATÓRIOS ===== -->
-        <div id="view-relatorios" class="hidden">
-          <div class="report-list">
-            <button class="report-item" onclick="toast('Saldo em breve','info')">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-              <span>Saldo</span>
-              <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+        <!-- ===== NOTIFICAÇÕES ===== -->
+        <div id="view-notificacoes" class="hidden">
+          <div id="notif-list" class="notif-list"></div>
+          <button class="notif-mark-all" onclick="markAllNotifsRead()">Marcar todas como lidas</button>
+        </div>
+
+        <!-- ===== CONFIGURAÇÕES ===== -->
+        <div id="view-configuracoes" class="hidden">
+          <div class="config-list">
+            <button class="config-item" onclick="openView('config-pessoal')">
+              <div class="config-item-text">
+                <div class="config-item-title">Informações pessoais</div>
+                <div class="config-item-sub" id="config-nome-sub">-</div>
+              </div>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="config-chevron"><path d="M9 18l6-6-6-6"/></svg>
             </button>
-            <button class="report-item" onclick="toast('Pules em breve','info')">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>
-              <span>Pules</span>
-              <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+            <button class="config-item" onclick="openView('config-acesso')">
+              <div class="config-item-text">
+                <div class="config-item-title">Informações de acesso</div>
+                <div class="config-item-sub" id="config-acesso-sub">WhatsApp e senha</div>
+              </div>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="config-chevron"><path d="M9 18l6-6-6-6"/></svg>
             </button>
-            <button class="report-item" onclick="toast('Roletinha em breve','info')">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
-              <span>Roletinha</span>
-              <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+            <button class="config-item" onclick="openView('config-endereco')">
+              <div class="config-item-text">
+                <div class="config-item-title">Meu endereço</div>
+                <div class="config-item-sub" id="config-endereco-sub">Ainda não cadastrado</div>
+              </div>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="config-chevron"><path d="M9 18l6-6-6-6"/></svg>
             </button>
-            <button class="report-item" onclick="toast('Loterias em breve','info')">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-              <span>Movimento loterias</span>
-              <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
-            </button>
-            <button class="report-item" onclick="openView('cotacoes')">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-              <span>Cotações</span>
-              <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
-            </button>
+          </div>
+        </div>
+
+        <!-- ===== CONFIG: Informações pessoais ===== -->
+        <div id="view-config-pessoal" class="hidden">
+          <div class="white-card" style="margin:1rem;padding:1.25rem;">
+            <div class="config-field">
+              <label class="config-field-label">Nome completo</label>
+              <input class="config-field-input" type="text" id="cfg-nome" placeholder="Seu nome completo">
+            </div>
+            <div class="config-field">
+              <label class="config-field-label">CPF</label>
+              <input class="config-field-input disabled" type="text" id="cfg-cpf" disabled placeholder="000.000.000-00">
+            </div>
+            <div class="config-field">
+              <label class="config-field-label">Data de nascimento</label>
+              <input class="config-field-input disabled" type="date" id="cfg-nascimento" disabled>
+            </div>
+            <div class="config-field">
+              <label class="config-field-label">Sexo</label>
+              <select class="config-field-input" id="cfg-sexo">
+                <option value="">Selecione</option>
+                <option value="masculino">Masculino</option>
+                <option value="feminino">Feminino</option>
+                <option value="nao-informar">Prefiro não informar</option>
+              </select>
+            </div>
+            <button class="btn btn-gold" onclick="saveConfigPessoal()">Atualizar</button>
+          </div>
+        </div>
+
+        <!-- ===== CONFIG: Informações de acesso ===== -->
+        <div id="view-config-acesso" class="hidden">
+          <div class="white-card" style="margin:1rem;padding:1.25rem;">
+            <div class="config-field">
+              <label class="config-field-label">Tel. WhatsApp</label>
+              <input class="config-field-input" type="tel" id="cfg-whatsapp" placeholder="(00) 00000-0000" inputmode="numeric">
+            </div>
+            <p style="font-size:0.8125rem;color:var(--fg-muted);margin:1rem 0 0.5rem;">Para trocar a senha, preencha os campos abaixo.</p>
+            <div class="config-field">
+              <label class="config-field-label">Nova senha</label>
+              <div class="wizard-input-wrap" style="margin:0;">
+                <input class="config-field-input" type="password" id="cfg-senha" placeholder="Deixe em branco para não mudar">
+                <button type="button" class="wizard-toggle-pass" onclick="togglePassword(this)">Mostrar</button>
+              </div>
+            </div>
+            <div class="config-field">
+              <label class="config-field-label">Confirme a nova senha</label>
+              <div class="wizard-input-wrap" style="margin:0;">
+                <input class="config-field-input" type="password" id="cfg-senha-confirm" placeholder="Digite a nova senha de novo">
+                <button type="button" class="wizard-toggle-pass" onclick="togglePassword(this)">Mostrar</button>
+              </div>
+            </div>
+            <button class="btn btn-gold" onclick="saveConfigAcesso()">Atualizar</button>
+          </div>
+        </div>
+
+        <!-- ===== CONFIG: Meu endereço ===== -->
+        <div id="view-config-endereco" class="hidden">
+          <div class="white-card" style="margin:1rem;padding:1.25rem;">
+            <div class="config-field">
+              <label class="config-field-label">CEP</label>
+              <input class="config-field-input" type="tel" id="cfg-cep" placeholder="00000-000" inputmode="numeric">
+            </div>
+            <div class="config-field">
+              <label class="config-field-label">Rua</label>
+              <input class="config-field-input" type="text" id="cfg-rua" placeholder="Nome da rua">
+            </div>
+            <div class="config-field">
+              <label class="config-field-label">Número</label>
+              <input class="config-field-input" type="text" id="cfg-numero" placeholder="Número">
+            </div>
+            <div class="config-field">
+              <label class="config-field-label">Complemento</label>
+              <input class="config-field-input" type="text" id="cfg-complemento" placeholder="Apartamento nº">
+            </div>
+            <div class="config-field">
+              <label class="config-field-label">Bairro</label>
+              <input class="config-field-input" type="text" id="cfg-bairro" placeholder="Nome do bairro">
+            </div>
+            <div class="config-field">
+              <label class="config-field-label">Cidade</label>
+              <input class="config-field-input disabled" type="text" id="cfg-cidade" placeholder="Cidade" disabled>
+            </div>
+            <button class="btn btn-gold" onclick="saveConfigEndereco()">Atualizar</button>
           </div>
         </div>
 
@@ -828,16 +915,16 @@
     <div id="drawer-overlay" class="drawer-overlay" onclick="if(event.target===this)closeDrawer()">
       <div class="drawer">
         <div class="drawer-header">
-          <h3>Escolha uma opção</h3>
+          <h3>Menu</h3>
           <button class="drawer-close" onclick="closeDrawer()">×</button>
         </div>
+        <div class="drawer-saldo-box">
+          <div class="drawer-saldo-row"><span class="drawer-saldo-label">Saldo:</span><span class="drawer-saldo-value" id="drawer-balance">R$ 0,00</span></div>
+          <div class="drawer-saldo-row"><span class="drawer-saldo-label">Bônus:</span><span class="drawer-saldo-value" id="drawer-bonus">R$ 0,00</span></div>
+        </div>
         <div class="drawer-menu">
-          <button class="drawer-item blue" onclick="closeDrawer();toast('Baixar APP em breve','info')">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-            Baixar APP
-          </button>
-          <button class="drawer-item red" onclick="closeDrawer();toast('Notificações em breve','info')">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <button class="drawer-item" onclick="closeDrawer();openView('notificacoes')">
+            <span style="font-size:1.25rem;">🔔</span>
             Notificações
           </button>
           <button class="drawer-item" onclick="closeDrawer();goHome()">
@@ -852,14 +939,6 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
             Resultados
           </button>
-          <button class="drawer-item" onclick="closeDrawer();toast('Premiadas em breve','info')">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5C7 4 7 7 7 7M18 9h1.5a2.5 2.5 0 0 0 0-5C17 4 17 7 17 7"/><path d="M4 22h16a2 2 0 0 0 2-2V9H2v11a2 2 0 0 0 2 2z"/><path d="M12 4v18"/></svg>
-            Premiadas
-          </button>
-          <button class="drawer-item" onclick="closeDrawer();openView('relatorios')">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>
-            Relatórios
-          </button>
           <button class="drawer-item green" onclick="closeDrawer();openView('recarga')">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
             Recarga Pix
@@ -868,13 +947,9 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
             Solicitar saque
           </button>
-          <button class="drawer-item" onclick="closeDrawer();toast('Como jogar em breve','info')">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
-            Como jogar
-          </button>
-          <button class="drawer-item" onclick="closeDrawer();toast('Calculadora em breve','info')">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="8" y2="10.01"/><line x1="12" y1="10" x2="12" y2="10.01"/><line x1="16" y1="10" x2="16" y2="10.01"/><line x1="8" y1="14" x2="8" y2="14.01"/><line x1="12" y1="14" x2="12" y2="14.01"/><line x1="16" y1="14" x2="16" y2="14.01"/><line x1="8" y1="18" x2="8" y2="18.01"/><line x1="12" y1="18" x2="16" y2="18"/></svg>
-            Calculadora
+          <button class="drawer-item" onclick="closeDrawer();openView('configuracoes')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            Configurações
           </button>
           <button class="drawer-item red" onclick="closeDrawer();logout()">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/></svg>
@@ -902,6 +977,6 @@
 </div><!-- /app-viewport -->
 
 <script src="config.js?v=6"></script>
-<script src="app.js?v=42"></script>
+<script src="app.js?v=43"></script>
 </body>
 </html>
