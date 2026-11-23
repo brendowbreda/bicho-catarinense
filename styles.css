@@ -1490,7 +1490,7 @@ img { max-width: 100%; display: block; }
   font-size: 0.875rem;
   font-weight: 600;
   color: var(--fg-muted);
-  text-decoration: underline;
+  text-decoration: none;
   padding: 0.75rem;
   cursor: pointer;
   background: none;

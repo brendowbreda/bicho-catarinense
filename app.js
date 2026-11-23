@@ -218,13 +218,14 @@ function closeDrawer() {
 
 function setDeposit(amount) {
   const el = document.getElementById("deposit-amount");
-  const current = parseFloat(el.value) || 0;
-  el.value = (current + amount).toFixed(2);
+  const current = parseFloat((el.value || '0').replace('R$','').replace(/\s/g,'').replace(',','.')) || 0;
+  const total = current + amount;
+  el.value = `R$ ${total.toFixed(2).replace('.', ',')}`;
 }
 
 function confirmDeposit() {
   const raw = document.getElementById("deposit-amount").value;
-  const amount = parseFloat(raw.replace(",", "."));
+  const amount = parseFloat(raw.replace('R$','').replace(/\s/g,'').replace(",", "."));
   if (!amount || amount < 5) {
     toast("Valor mínimo: R$ 5,00", "error");
     return;
@@ -235,6 +236,29 @@ function confirmDeposit() {
   document.getElementById("pix-value").textContent = `R$ ${formatMoney(amount)}`;
   document.getElementById("modal-pix").classList.add("open");
   document.getElementById("deposit-amount").value = "";
+}
+
+function toggleDepositHistory() {
+  const el = document.getElementById('deposit-history');
+  if (!el.classList.contains('hidden')) {
+    el.classList.add('hidden');
+    return;
+  }
+  const deposits = [
+    { date: '23/11/2026, 14:30', value: 50, status: 'Confirmado' },
+    { date: '20/11/2026, 09:15', value: 20, status: 'Confirmado' },
+    { date: '18/11/2026, 21:00', value: 10, status: 'Confirmado' },
+    { date: '15/11/2026, 16:45', value: 100, status: 'Confirmado' },
+  ];
+  el.innerHTML = `<div class="white-card" style="padding:1rem;">
+    <h4 style="margin:0 0 0.75rem;font-size:0.9375rem;">Seus depósitos</h4>
+    ${deposits.length === 0 ? '<p style="color:var(--fg-muted);font-size:0.875rem;">Nenhum depósito realizado.</p>' :
+    deposits.map(d => `<div style="display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0;border-bottom:1px solid var(--border);">
+      <div><div style="font-size:0.8125rem;font-weight:600;">R$ ${formatMoney(d.value)}</div><div style="font-size:0.6875rem;color:var(--fg-muted);">${d.date}</div></div>
+      <span style="font-size:0.6875rem;font-weight:600;color:var(--green);">${d.status}</span>
+    </div>`).join('')}
+  </div>`;
+  el.classList.remove('hidden');
 }
 
 function confirmWithdraw() {
