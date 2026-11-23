@@ -420,10 +420,12 @@ function renderResultsLotteries() {
           const h = hourMatch ? parseInt(hourMatch[1]) : 24;
           const m = hourMatch ? parseInt(hourMatch[2]) : 0;
           const available = (now.getHours() > h) || (now.getHours() === h && now.getMinutes() >= m);
-          return `<div class="results-time-item${available?'':' unavailable'}" onclick="${available ? `showResultDetail('${t}')` : ''}">
-            <span class="results-time-name">${t}</span>
-            ${!available ? '<span class="results-time-na">Resultado ainda não disponível</span>' : ''}
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="results-time-chevron"><path d="M9 18l6-6-6-6"/></svg>
+          return `<div class="results-time-wrap">
+            <div class="results-time-item${available?'':' unavailable'}" onclick="${available ? `showResultDetail(this,'${t}')` : ''}">
+              <span class="results-time-name">${t}</span>
+              ${!available ? '<span class="results-time-na">Resultado ainda não disponível</span>' : ''}
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="results-time-chevron"><path d="M9 18l6-6-6-6"/></svg>
+            </div>
           </div>`;
         }).join('')}
       </div>
@@ -435,14 +437,20 @@ function toggleResultLottery(id) {
   document.getElementById(`rl-${id}`).classList.toggle('open');
 }
 
-function showResultDetail(timeName) {
+function showResultDetail(el, timeName) {
+  const wrap = el.closest('.results-time-wrap');
+  const existing = wrap.querySelector('.result-detail-inline');
+  if (existing) { existing.remove(); return; }
+
+  document.querySelectorAll('.result-detail-inline').forEach(e => e.remove());
+
   const animals = APP_CONFIG.animals;
-  let html = '<div class="white-card" style="margin:1rem;padding:1.25rem;">';
-  html += `<div style="text-align:center;margin-bottom:1rem;">
-    <div style="font-weight:800;font-size:1rem;margin-bottom:0.25rem;">RESULTADOS</div>
-    <div style="font-size:0.8125rem;color:var(--fg-muted);">${new Date().toLocaleDateString('pt-BR')}</div>
-  </div>`;
-  html += `<div style="font-weight:700;margin-bottom:0.75rem;">${timeName}</div>`;
+  let html = `<div class="result-detail-inline">
+    <div class="result-detail-header">
+      <div class="result-detail-title">RESULTADOS</div>
+      <div class="result-detail-date">${new Date().toLocaleDateString('pt-BR')}</div>
+    </div>
+    <div class="result-detail-time">${timeName}</div>`;
   for (let i = 1; i <= 5; i++) {
     const num = String(Math.floor(Math.random() * 10000)).padStart(4, '0');
     const dezena = parseInt(num.slice(-2));
@@ -457,14 +465,8 @@ function showResultDetail(timeName) {
     </div>`;
   }
   html += '</div>';
-
-  const container = document.getElementById('results-lottery-list');
-  const existing = document.getElementById('result-detail-panel');
-  if (existing) existing.remove();
-  const panel = document.createElement('div');
-  panel.id = 'result-detail-panel';
-  panel.innerHTML = html;
-  container.parentElement.appendChild(panel);
+  wrap.insertAdjacentHTML('beforeend', html);
+  wrap.querySelector('.result-detail-inline').scrollIntoView({behavior:'smooth', block:'nearest'});
 }
 
 function renderResults() {}
