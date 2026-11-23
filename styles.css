@@ -3089,11 +3089,11 @@ img { max-width: 100%; display: block; }
   color: rgba(255,255,255,0.9);
 }
 .landing-whatsapp .landing-hint {
-  color: rgba(255,255,255,0.7);
+  color: #1a7a3a;
 }
 .landing-whatsapp .btn-cta-green {
   background: #fff;
-  color: #25D366;
+  color: #1a7a3a;
 }
 
 .landing-whatsapp-img {
