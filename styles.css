@@ -3046,9 +3046,14 @@ img { max-width: 100%; display: block; }
   line-height: 1.2;
 }
 .roleta-overlay-content .overlay-value {
-  font-size: 2.5rem;
+  font-size: 3rem;
   font-weight: 900;
-  margin-top: 1rem;
+}
+.roleta-overlay-content .overlay-sub {
+  font-size: 1.2rem;
+  font-weight: 400;
+  margin-top: 0.3rem;
+  opacity: 0.9;
 }
 
 /* Suporte */

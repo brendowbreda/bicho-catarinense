@@ -1151,7 +1151,7 @@ function girarRoleta() {
       const betValue = 5;
       const prize = betValue * mult;
       overlay.classList.add('win', 'show');
-      content.innerHTML = `<div class="overlay-value">R$ ${prize.toFixed(2).replace('.', ',')}</div><div class="overlay-line1">Valor apostado x${mult}</div>`;
+      content.innerHTML = `<div class="overlay-value">R$ ${prize.toFixed(2).replace('.', ',')}</div><div class="overlay-sub">${mult}x R$ ${betValue.toFixed(2).replace('.', ',')}</div>`;
     } else {
       overlay.classList.add('lose', 'show');
       content.innerHTML = `<div class="overlay-line1">Não foi dessa vez,</div><div class="overlay-line2">tente novamente.</div>`;
