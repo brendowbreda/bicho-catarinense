@@ -1005,21 +1005,22 @@ let selectorLocked = false;
 
 function initSelectorScroll(wrap, selector, animals) {
   const items = selector.querySelectorAll('.roleta-sel-item');
-  const setWidth = items[animals.length].offsetLeft - items[0].offsetLeft;
-  const midStart = items[animals.length * 2].offsetLeft;
+  const n = animals.length;
+  const setWidth = items[n].offsetLeft - items[0].offsetLeft;
+  const midStart = items[n * 2].offsetLeft;
   wrap.scrollLeft = midStart;
 
   function loopCheck() {
     const sl = wrap.scrollLeft;
-    const loopStart = items[animals.length].offsetLeft;
-    const loopEnd = items[animals.length * 3].offsetLeft;
-    if (sl < loopStart) {
+    const loopStart = items[n].offsetLeft;
+    const loopEnd = items[n * 4].offsetLeft;
+    if (sl <= loopStart) {
       wrap.style.scrollBehavior = 'auto';
-      wrap.scrollLeft += setWidth;
+      wrap.scrollLeft = sl + setWidth;
       wrap.style.scrollBehavior = '';
-    } else if (sl > loopEnd) {
+    } else if (sl >= loopEnd) {
       wrap.style.scrollBehavior = 'auto';
-      wrap.scrollLeft -= setWidth;
+      wrap.scrollLeft = sl - setWidth;
       wrap.style.scrollBehavior = '';
     }
   }
@@ -1067,17 +1068,25 @@ function initSelectorScroll(wrap, selector, animals) {
     stopAutoScroll();
     selectorLocked = true;
     selectedAnimalIdx = idx;
-    const clickedCenter = item.offsetLeft + item.offsetWidth / 2;
-    const offset = clickedCenter - wrap.clientWidth / 2;
-    wrap.scrollTo({ left: offset, behavior: 'smooth' });
     items.forEach(el => el.classList.toggle('selected', parseInt(el.dataset.idx) === idx));
-    setTimeout(() => {
-      const selItem = items[animals.length * 2 + idx];
-      if (selItem) {
-        const finalOffset = selItem.offsetLeft + selItem.offsetWidth / 2 - wrap.clientWidth / 2;
-        wrap.scrollTo({ left: finalOffset, behavior: 'smooth' });
-      }
-    }, 400);
+    // Instantly teleport so scroll is in rep 2 range (invisible - same content)
+    const currentCenter = wrap.scrollLeft + wrap.clientWidth / 2;
+    const rep2Start = items[n * 2].offsetLeft;
+    const rep2End = items[n * 3 - 1].offsetLeft + items[n * 3 - 1].offsetWidth;
+    if (currentCenter < rep2Start || currentCenter > rep2End) {
+      wrap.style.scrollBehavior = 'auto';
+      const offset = currentCenter - rep2Start;
+      const repWidth = setWidth;
+      const reps = Math.round(offset / repWidth);
+      wrap.scrollLeft -= reps * repWidth;
+      wrap.style.scrollBehavior = '';
+    }
+    // Now smooth scroll to center the rep 2 version
+    const selItem = items[n * 2 + idx];
+    if (selItem) {
+      const finalOffset = selItem.offsetLeft + selItem.offsetWidth / 2 - wrap.clientWidth / 2;
+      wrap.scrollTo({ left: finalOffset, behavior: 'smooth' });
+    }
   });
 
   startAutoScroll();
