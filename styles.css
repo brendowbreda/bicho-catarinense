@@ -3037,11 +3037,13 @@ img { max-width: 100%; display: block; }
 .roleta-overlay-content .overlay-line1 {
   font-size: 1.5rem;
   font-weight: 800;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0;
+  line-height: 1.2;
 }
 .roleta-overlay-content .overlay-line2 {
   font-size: 1.5rem;
   font-weight: 800;
+  line-height: 1.2;
 }
 .roleta-overlay-content .overlay-value {
   font-size: 2.5rem;
