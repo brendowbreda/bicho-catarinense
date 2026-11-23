@@ -1069,23 +1069,11 @@ function initSelectorScroll(wrap, selector, animals) {
     selectorLocked = true;
     selectedAnimalIdx = idx;
     items.forEach(el => el.classList.toggle('selected', parseInt(el.dataset.idx) === idx));
-    // Instantly teleport so scroll is in rep 2 range (invisible - same content)
-    const currentCenter = wrap.scrollLeft + wrap.clientWidth / 2;
-    const rep2Start = items[n * 2].offsetLeft;
-    const rep2End = items[n * 3 - 1].offsetLeft + items[n * 3 - 1].offsetWidth;
-    if (currentCenter < rep2Start || currentCenter > rep2End) {
-      wrap.style.scrollBehavior = 'auto';
-      const offset = currentCenter - rep2Start;
-      const repWidth = setWidth;
-      const reps = Math.round(offset / repWidth);
-      wrap.scrollLeft -= reps * repWidth;
-      wrap.style.scrollBehavior = '';
-    }
-    // Now smooth scroll to center the rep 2 version
     const selItem = items[n * 2 + idx];
     if (selItem) {
-      const finalOffset = selItem.offsetLeft + selItem.offsetWidth / 2 - wrap.clientWidth / 2;
-      wrap.scrollTo({ left: finalOffset, behavior: 'smooth' });
+      wrap.style.scrollBehavior = 'auto';
+      wrap.scrollLeft = selItem.offsetLeft + selItem.offsetWidth / 2 - wrap.clientWidth / 2;
+      wrap.style.scrollBehavior = '';
     }
   });
 
@@ -1106,12 +1094,9 @@ function selectAnimal(idx) {
     const animals = APP_CONFIG.animals;
     const selItem = items[animals.length * 2 + idx];
     if (selItem) {
-      const centerNow = () => {
-        const offset = selItem.offsetLeft + selItem.offsetWidth / 2 - wrap.clientWidth / 2;
-        wrap.scrollTo({ left: offset, behavior: 'smooth' });
-      };
-      centerNow();
-      setTimeout(centerNow, 400);
+      wrap.style.scrollBehavior = 'auto';
+      wrap.scrollLeft = selItem.offsetLeft + selItem.offsetWidth / 2 - wrap.clientWidth / 2;
+      wrap.style.scrollBehavior = '';
     }
   }
 }
