@@ -3071,7 +3071,7 @@ img { max-width: 100%; display: block; }
 }
 
 .landing-suporte-img {
-  width: 8rem;
+  width: 50%;
   height: auto;
   flex-shrink: 0;
 }
