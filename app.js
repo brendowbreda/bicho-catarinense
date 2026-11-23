@@ -129,7 +129,16 @@ function openView(view) {
       raspadinha: "#C0392B",
       cotacoes: "#B8860B",
     };
-    subHeader.style.background = headerColors[view] || "var(--blue)";
+    const whiteHeaders = ['notificacoes','configuracoes','config-pessoal','config-acesso','config-endereco'];
+    if (whiteHeaders.includes(view)) {
+      subHeader.style.background = '#fff';
+      subHeader.style.color = 'var(--fg)';
+      subHeader.style.borderBottom = '1px solid var(--border)';
+    } else {
+      subHeader.style.background = headerColors[view] || "var(--blue)";
+      subHeader.style.color = '#fff';
+      subHeader.style.borderBottom = 'none';
+    }
   }
 }
 

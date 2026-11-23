@@ -4,8 +4,8 @@
     {
       "name": "whitelabel",
       "runtimeExecutable": "python3",
-      "runtimeArgs": ["-m", "http.server", "8080", "--directory", "/Users/brendowbreda/Downloads/claude/whitelabel-bicho"],
-      "port": 8080
+      "runtimeArgs": ["-m", "http.server", "4181"],
+      "port": 4181
     }
   ]
 }

@@ -3303,11 +3303,11 @@ img { max-width: 100%; display: block; }
   background: #f8f9fa;
 }
 
-.drawer-saldo-row {
+.drawer-saldo-main {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.25rem 0;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-bottom: 0.125rem;
 }
 
 .drawer-saldo-label {
@@ -3317,9 +3317,49 @@ img { max-width: 100%; display: block; }
 }
 
 .drawer-saldo-value {
-  font-size: 1.125rem;
-  font-weight: 800;
+  font-size: 1.5rem;
+  font-weight: 900;
   color: var(--green);
+}
+
+.drawer-saldo-sub {
+  font-size: 0.75rem;
+  color: var(--fg-muted);
+}
+
+.drawer-saldo-sub .balance-help-btn {
+  font-size: 0.6875rem;
+}
+
+/* Notification bell with badge in drawer */
+.drawer-notif-icon-wrap {
+  position: relative;
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+}
+
+.drawer-notif-icon-wrap svg {
+  width: 22px;
+  height: 22px;
+}
+
+.drawer-notif-badge {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  background: #e53e3e;
+  color: #fff;
+  font-size: 0.625rem;
+  font-weight: 700;
+  min-width: 16px;
+  height: 16px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 3px;
+  line-height: 1;
 }
 
 /* ============ NOTIFICATIONS ============ */
@@ -3424,18 +3464,22 @@ img { max-width: 100%; display: block; }
 }
 
 .results-lottery-list {
-  padding: 0 0.5rem;
+  padding: 0.5rem 1rem;
 }
 
 .results-lottery-card {
-  border-bottom: 1px solid var(--border);
+  background: #fff;
+  border-radius: 12px;
+  margin-bottom: 0.625rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  overflow: hidden;
 }
 
 .results-lottery-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1.125rem 1rem;
+  padding: 1rem 1.25rem;
   cursor: pointer;
 }
 
@@ -3443,7 +3487,6 @@ img { max-width: 100%; display: block; }
   font-size: 0.9375rem;
   font-weight: 700;
   color: var(--fg);
-  letter-spacing: 0.02em;
 }
 
 .results-lottery-arrow {
@@ -3458,14 +3501,12 @@ img { max-width: 100%; display: block; }
 }
 
 .results-lottery-card.open .results-lottery-header {
-  border: 2px solid var(--blue);
-  border-radius: 10px;
-  margin: 0.25rem 0;
+  border-bottom: 1px solid var(--border);
 }
 
 .results-lottery-body {
   display: none;
-  padding: 0 0.5rem 0.75rem;
+  padding: 0;
 }
 
 .results-lottery-card.open .results-lottery-body {
@@ -3475,7 +3516,7 @@ img { max-width: 100%; display: block; }
 .results-time-item {
   display: flex;
   align-items: center;
-  padding: 0.875rem 0.75rem;
+  padding: 0.875rem 1.25rem;
   border-bottom: 1px solid #f0f0f0;
   cursor: pointer;
   gap: 0.5rem;
