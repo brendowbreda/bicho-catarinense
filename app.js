@@ -130,14 +130,20 @@ function openView(view) {
       cotacoes: "#B8860B",
     };
     const whiteHeaders = ['notificacoes','configuracoes','config-pessoal','config-acesso','config-endereco'];
+    const backBtn = subHeader.querySelector('.sub-header-back');
+    const menuBtn = subHeader.querySelector('.sub-header-menu');
     if (whiteHeaders.includes(view)) {
       subHeader.style.background = '#fff';
       subHeader.style.color = 'var(--fg)';
       subHeader.style.borderBottom = '1px solid var(--border)';
+      if (backBtn) backBtn.style.color = 'var(--fg)';
+      if (menuBtn) menuBtn.style.color = 'var(--fg)';
     } else {
       subHeader.style.background = headerColors[view] || "var(--blue)";
       subHeader.style.color = '#fff';
       subHeader.style.borderBottom = 'none';
+      if (backBtn) backBtn.style.color = '#fff';
+      if (menuBtn) menuBtn.style.color = '#fff';
     }
   }
 }
