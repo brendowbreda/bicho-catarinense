@@ -1116,6 +1116,38 @@ img { max-width: 100%; display: block; }
 
 .pix-chip:hover { border-color: var(--blue); }
 
+.pix-chips-row { flex-wrap: nowrap; }
+
+.pix-chip-sm {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.8125rem;
+  flex: 1;
+  text-align: center;
+}
+
+.deposit-input-wrap {
+  position: relative;
+}
+
+.deposit-clear-btn {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: var(--fg-muted);
+  cursor: pointer;
+  padding: 0;
+}
+
+.deposit-clear-btn svg { width: 16px; height: 16px; }
+
 /* ============ SAQUE RULES ============ */
 
 .rules-card {
