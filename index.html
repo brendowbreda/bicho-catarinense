@@ -13,11 +13,35 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=96">
+  <link rel="stylesheet" href="styles.css?v=97">
 </head>
 <body>
 
 <div id="toast-container" class="toast-container"></div>
+
+<!-- Como Jogar Modal -->
+<div class="modal-overlay" id="como-jogar-modal" onclick="if(event.target===this)this.classList.remove('show')">
+  <div class="modal-card">
+    <div class="modal-header">
+      <h3>Como jogar</h3>
+      <button class="modal-close" onclick="document.getElementById('como-jogar-modal').classList.remove('show')">&times;</button>
+    </div>
+    <p style="color:var(--fg-muted);font-size:0.875rem;margin-bottom:1rem;">Escolha a aposta, defina o valor e gire a roleta.</p>
+    <div class="como-jogar-item">
+      <div class="cj-badge" style="background:var(--green)">2x</div>
+      <div><strong style="color:var(--green)">PAR / ÍMPAR</strong><br><span style="font-size:0.8125rem;color:var(--fg-muted)">Aposte R$ 10 e ganhe: você recebe R$ 20 (os R$ 10 de volta + lucro).</span></div>
+    </div>
+    <div class="como-jogar-item">
+      <div class="cj-badge" style="background:var(--green)">20x</div>
+      <div><strong style="color:var(--green)">ZEBRA</strong><br><span style="font-size:0.8125rem;color:var(--fg-muted)">2x mais chances que a logo. Aposte R$ 10 e leve R$ 200.</span></div>
+    </div>
+    <div class="como-jogar-item">
+      <div class="cj-badge" style="background:#333">50x</div>
+      <div><strong>BICHOCLUB</strong><br><span style="font-size:0.8125rem;color:var(--fg-muted)">O premião! Aposte R$ 10 e leve R$ 500.</span></div>
+    </div>
+    <button class="btn-bora-jogar" onclick="document.getElementById('como-jogar-modal').classList.remove('show')">Bora jogar!</button>
+  </div>
+</div>
 
 <div class="app-viewport">
   <div class="app-column" id="app">
@@ -339,24 +363,24 @@
         <!-- ===== ROLETINHA ===== -->
         <div id="view-roletinha" class="hidden">
           <div class="roletinha-info-bar">
-            <div class="playing-badge"><span class="playing-dot"></span> 282 jogando</div>
-            <div class="winner-ticker">🔥 Cristina N. ganhou <strong style="color:var(--green)">R$ 40,00</strong> no Zebra</div>
+            <div class="playing-badge"><span class="playing-dot"></span> <span id="live-count">282</span> jogando</div>
+            <div class="winner-ticker" id="winner-ticker">Cristina N. ganhou <strong style="color:var(--green)">R$ 40,00</strong> no Zebra</div>
           </div>
           <div class="roletinha-carousel">
-            <div class="carousel-frame">
-              <div class="carousel-slot">🐯</div>
-              <div class="carousel-slot">🦢</div>
-              <div class="carousel-slot">🦅</div>
+            <div class="carousel-frame" id="carousel-frame">
+              <div class="carousel-reel" id="reel-0"><div class="reel-inner"></div></div>
+              <div class="carousel-reel" id="reel-1"><div class="reel-inner"></div></div>
+              <div class="carousel-reel" id="reel-2"><div class="reel-inner"></div></div>
             </div>
           </div>
           <div class="roletinha-actions">
-            <button>🔇 Som</button>
-            <button>❓ Como jogar</button>
-            <button>📊 Tabela</button>
+            <button onclick="toggleRoletinhaSound()">🔇 Som</button>
+            <button onclick="showComoJogar()">❓ Como jogar</button>
+            <button onclick="showTabelaRoletinha()">📊 Tabela</button>
           </div>
           <div class="bet-buttons">
-            <button class="bet-btn-par">PAR</button>
-            <button class="bet-btn-impar">ÍMPAR</button>
+            <button class="bet-btn-par" id="btn-par" onclick="selectRoletinhaBet('par')">PAR</button>
+            <button class="bet-btn-impar" id="btn-impar" onclick="selectRoletinhaBet('impar')">ÍMPAR</button>
           </div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;padding:0 1rem;text-align:center;">
             <div class="bet-multiplier">2x</div>
@@ -364,11 +388,11 @@
           </div>
           <div class="special-bets">
             <div>
-              <div class="special-bet-card zebra"><span class="badge">ZEBRA</span></div>
+              <div class="special-bet-card zebra" id="btn-zebra" onclick="selectRoletinhaBet('zebra')"><span class="badge">ZEBRA</span></div>
               <div class="bet-multiplier">20x</div>
             </div>
             <div>
-              <div class="special-bet-card bc" style="display:flex;align-items:center;justify-content:center;min-height:50px;"><span class="badge" style="background:var(--blue)">BC</span></div>
+              <div class="special-bet-card bc" id="btn-bc" onclick="selectRoletinhaBet('bc')" style="display:flex;align-items:center;justify-content:center;min-height:50px;"><span class="badge" style="background:var(--blue)">BC</span></div>
               <div class="bet-multiplier">50x</div>
             </div>
           </div>
@@ -985,6 +1009,6 @@
 </div><!-- /app-viewport -->
 
 <script src="config.js?v=6"></script>
-<script src="app.js?v=48"></script>
+<script src="app.js?v=49"></script>
 </body>
 </html>

@@ -1354,21 +1354,149 @@ img { max-width: 100%; display: block; }
   padding: 0.5rem;
   display: flex;
   gap: 0.25rem;
-  overflow: hidden;
   max-width: 100%;
 }
 
-.carousel-slot {
+.carousel-reel {
   width: 90px;
   height: 90px;
   border-radius: 10px;
   background: #fff;
   border: 2px solid var(--red-dark);
+  overflow: hidden;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.reel-inner {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  left: 0;
+  right: 0;
+  transition: transform 0.3s ease;
+}
+
+.reel-inner.spinning {
+  transition: none;
+}
+
+.reel-item {
+  width: 90px;
+  height: 90px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 2.5rem;
   flex-shrink: 0;
+}
+
+.reel-item img {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+}
+
+.reel-item.zebra-item {
+  background: repeating-linear-gradient(45deg, #fff, #fff 4px, #333 4px, #333 8px);
+}
+
+.reel-item.bc-item {
+  background: linear-gradient(135deg, #ffd700, #ffaa00);
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.5);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  padding: 1rem;
+}
+
+.modal-overlay.show {
+  display: flex;
+}
+
+.modal-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 1.5rem;
+  max-width: 24rem;
+  width: 100%;
+  position: relative;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.modal-header h3 {
+  font-size: 1.125rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--fg-muted);
+  cursor: pointer;
+  padding: 0 0.25rem;
+}
+
+.como-jogar-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin-bottom: 0.5rem;
+}
+
+.cj-badge {
+  min-width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  color: #fff;
+  font-weight: 800;
+  font-size: 0.8125rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-bora-jogar {
+  width: 100%;
+  padding: 0.875rem;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #48c78e, #3ab97f);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  margin-top: 0.75rem;
+}
+
+.bet-btn-par.selected, .bet-btn-impar.selected {
+  box-shadow: 0 0 0 3px var(--gold);
+  transform: scale(1.03);
+}
+
+.special-bet-card.selected {
+  box-shadow: 0 0 0 3px var(--gold);
+  transform: scale(1.03);
 }
 
 .roletinha-actions {
