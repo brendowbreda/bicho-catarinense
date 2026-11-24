@@ -87,7 +87,7 @@ function openView(view) {
   const titles = {
     home: "",
     carteira: "Minha Carteira",
-    jogos: "Tipo de Jogo",
+    jogos: "Jogo do Bicho",
     "apostar-bicho": "Apostar — Bicho",
     roletinha: "Roleta dos Bichos",
     recarga: "Recarga PIX",
@@ -121,9 +121,9 @@ function openView(view) {
     titleEl.textContent = titles[view] || view;
 
     const headerColors = {
-      jogos: "#B8860B",
-      "apostar-bicho": "#B8860B",
-      "bichos-lista": "#B8860B",
+      jogos: "var(--blue)",
+      "apostar-bicho": "var(--blue)",
+      "bichos-lista": "var(--blue)",
       roletinha: "#2B5DA6",
       bingo: "#4A2078",
       raspadinha: "#C0392B",
