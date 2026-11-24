@@ -965,6 +965,9 @@ img { max-width: 100%; display: block; }
 .gg-orange { background: #E67E22; }
 .gg-orange .gg-label-bar { background: #B8651A; }
 
+.gg-red { background: #C0392B; }
+.gg-red .gg-label-bar { background: #96281E; }
+
 .repeat-btn {
   display: flex;
   align-items: center;
