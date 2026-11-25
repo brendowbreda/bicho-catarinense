@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=98">
+  <link rel="stylesheet" href="styles.css?v=99">
 </head>
 <body>
 
@@ -411,11 +411,11 @@
           </div>
         </div>
 
-        <!-- ===== ROLETINHA ===== -->
+        <!-- ===== ROLETINHA (SLOTS) ===== -->
         <div id="view-roletinha" class="hidden">
           <div class="roletinha-info-bar">
             <div class="playing-badge"><span class="playing-dot"></span> <span id="live-count">282</span> jogando</div>
-            <div class="winner-ticker" id="winner-ticker">Cristina N. ganhou <strong style="color:var(--green)">R$ 40,00</strong> no Zebra</div>
+            <div class="winner-ticker" id="winner-ticker">Cristina N. ganhou <strong style="color:var(--green)">R$ 40,00</strong> no Par</div>
           </div>
           <div class="roletinha-carousel">
             <div class="carousel-frame" id="carousel-frame">
@@ -423,11 +423,6 @@
               <div class="carousel-reel" id="reel-1"><div class="reel-inner"></div></div>
               <div class="carousel-reel" id="reel-2"><div class="reel-inner"></div></div>
             </div>
-          </div>
-          <div class="roletinha-actions">
-            <button onclick="toggleRoletinhaSound()">🔇 Som</button>
-            <button onclick="showComoJogar()">❓ Como jogar</button>
-            <button onclick="showTabelaRoletinha()">📊 Tabela</button>
           </div>
           <div class="bet-buttons">
             <button class="bet-btn-par" id="btn-par" onclick="selectRoletinhaBet('par')">PAR</button>
@@ -437,13 +432,9 @@
             <div class="bet-multiplier">2x</div>
             <div class="bet-multiplier">2x</div>
           </div>
-          <div class="special-bets">
+          <div class="special-bets" style="grid-template-columns:1fr;">
             <div>
-              <div class="special-bet-card zebra" id="btn-zebra" onclick="selectRoletinhaBet('zebra')"><span class="badge">ZEBRA</span></div>
-              <div class="bet-multiplier">20x</div>
-            </div>
-            <div>
-              <div class="special-bet-card bc" id="btn-bc" onclick="selectRoletinhaBet('bc')" style="display:flex;align-items:center;justify-content:center;min-height:50px;"><span class="badge" style="background:var(--blue)">BC</span></div>
+              <div class="special-bet-card bc" id="btn-bc" onclick="selectRoletinhaBet('bc')" style="display:flex;align-items:center;justify-content:center;min-height:50px;background:linear-gradient(135deg,#ffd700,#ffaa00);"><span class="badge" style="background:#B8860B;color:#fff;">DOURADO</span></div>
               <div class="bet-multiplier">50x</div>
             </div>
           </div>
@@ -456,6 +447,7 @@
               <button class="plus-btn" onclick="adjustRoletinha(0.50)">+0,50</button>
             </div>
           </div>
+          <div class="slots-bichos-grid" id="slots-bichos-grid"></div>
         </div>
 
         <!-- ===== RECARGA PIX ===== -->
@@ -1060,6 +1052,6 @@
 </div><!-- /app-viewport -->
 
 <script src="config.js?v=6"></script>
-<script src="app.js?v=50"></script>
+<script src="app.js?v=51"></script>
 </body>
 </html>

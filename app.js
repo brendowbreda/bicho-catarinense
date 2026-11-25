@@ -76,7 +76,7 @@ function openView(view) {
     renderApostas("aguardando");
   }
   if (view === "resultados") renderResultsLotteries();
-  if (view === "roletinha") { initReels(); startLiveCounter(); startWinnerTicker(); }
+  if (view === "roletinha") { initReels(); startLiveCounter(); startWinnerTicker(); renderSlotsBichos(); }
   if (view === "roleta-wheel") { initWheelGame(); startLiveCounter(); startWinnerTickerWheel(); }
   if (view === "notificacoes") renderNotifications();
   if (view === "configuracoes") loadConfigSummary();
@@ -129,7 +129,7 @@ function openView(view) {
       "apostar-bicho": "var(--blue)",
       "bichos-lista": "var(--blue)",
       "roleta-menu": "#C0392B",
-      roletinha: "#C0392B",
+      roletinha: "#B8860B",
       "roleta-wheel": "#C0392B",
       bingo: "#4A2078",
       raspadinha: "#C0392B",
@@ -384,7 +384,7 @@ function initReels() {
       html += `<div class="reel-item"><img src="${a.img}" alt="${a.name}"></div>`;
     }
     reel.innerHTML = html;
-    reel.style.transform = `translateY(-90px)`;
+    reel.style.transform = `translateY(-110px)`;
   }
 }
 
@@ -413,7 +413,7 @@ function spinReels(betType) {
     reel.style.transition = 'none';
     reel.style.transform = 'translateY(0)';
 
-    const finalPos = -(spins * 90);
+    const finalPos = -(spins * 110);
     const delay = r * 400;
     setTimeout(() => {
       reel.style.transition = `transform ${1.5 + r * 0.5}s cubic-bezier(0.15, 0.6, 0.15, 1)`;
@@ -517,6 +517,23 @@ function adjustRoletinha(delta) {
   let val = parseFloat(el.value) || 1;
   val = Math.max(0.5, val + delta);
   el.value = val.toFixed(2);
+}
+
+function renderSlotsBichos() {
+  const grid = document.getElementById('slots-bichos-grid');
+  if (!grid) return;
+  const animals = APP_CONFIG.animals;
+  grid.innerHTML = animals.map(a => {
+    const isEven = a.id % 2 === 0;
+    const color = isEven ? 'var(--green)' : 'var(--red)';
+    const label = isEven ? 'PAR' : 'ÍMPAR';
+    return `<div class="slots-bicho-item" style="border-color:${color}">
+      <img src="${a.img}" alt="${a.name}">
+      <div class="slots-bicho-name">${a.name}</div>
+      <div class="slots-bicho-nums">${a.numbers}</div>
+      <div class="slots-bicho-tag" style="background:${color}">${label}</div>
+    </div>`;
+  }).join('');
 }
 
 // ============ BICHO BET ============
