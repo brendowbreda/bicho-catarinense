@@ -336,7 +336,8 @@ const fakeNames = [
   'Sandra','Thiago','Vanessa','William','Cristina','Rodrigo','Luana','Marcos'
 ];
 
-const fakeBets = ['Par','Ímpar','Zebra','BC'];
+const fakeBets = ['Par','Ímpar','Dourado'];
+let tickerCycleCount = 0;
 
 function startLiveCounter() {
   if (liveCountInterval) return;
@@ -366,8 +367,21 @@ function updateWinnerTicker() {
   const name = fakeNames[Math.floor(Math.random() * fakeNames.length)];
   const initial = String.fromCharCode(65 + Math.floor(Math.random() * 26));
   const bet = fakeBets[Math.floor(Math.random() * fakeBets.length)];
-  const values = [15,20,25,30,40,50,75,100,150,200,250,300,400,500,750,1000];
-  const value = values[Math.floor(Math.random() * values.length)];
+  const smallAmounts = [1,1,5,5,10];
+  const posInCycle = tickerCycleCount % 6;
+  let baseAmount;
+  if (posInCycle < 5) {
+    baseAmount = smallAmounts[posInCycle];
+  } else {
+    baseAmount = 25;
+  }
+  const fullCycle = Math.floor(tickerCycleCount / 6);
+  if (fullCycle > 0 && fullCycle % 2 === 0 && posInCycle === 0) {
+    baseAmount = 100;
+  }
+  tickerCycleCount++;
+  const mult = bet === 'Dourado' ? 50 : 2;
+  const value = baseAmount * mult;
   const formatted = value.toFixed(2).replace('.', ',');
   el.innerHTML = `${name} ${initial}. ganhou <strong style="color:var(--green)">R$ ${formatted}</strong> no ${bet}`;
 }
@@ -488,10 +502,9 @@ function showRoletinhaResult(betType, result) {
 
 function selectRoletinhaBet(type) {
   roletinhaBetType = type;
-  document.querySelectorAll('.bet-btn-par,.bet-btn-impar,.special-bet-card').forEach(el => el.classList.remove('selected'));
+  document.querySelectorAll('.bet-btn-par,.bet-btn-impar,.bet-btn-dourado').forEach(el => el.classList.remove('selected'));
   if (type === 'par') document.getElementById('btn-par').classList.add('selected');
   else if (type === 'impar') document.getElementById('btn-impar').classList.add('selected');
-  else if (type === 'zebra') document.getElementById('btn-zebra').classList.add('selected');
   else if (type === 'bc') document.getElementById('btn-bc').classList.add('selected');
 
   const amount = parseFloat(document.getElementById('roletinha-amount').value) || 1;
@@ -515,7 +528,7 @@ function toggleRoletinhaSound() {
 function adjustRoletinha(delta) {
   const el = document.getElementById("roletinha-amount");
   let val = parseFloat(el.value) || 1;
-  val = Math.max(0.5, val + delta);
+  val = Math.max(0.10, Math.min(1000, val + delta));
   el.value = val.toFixed(2);
 }
 
