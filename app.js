@@ -92,7 +92,7 @@ function openView(view) {
     jogos: "Jogo do Bicho",
     "apostar-bicho": "Apostar — Bicho",
     "roleta-menu": "Roleta dos Bichos",
-    roletinha: "Roleta Slots",
+    roletinha: "Slots",
     "roleta-wheel": "Roleta dos Bichos",
     recarga: "Recarga PIX",
     saque: "Novo Saque",
