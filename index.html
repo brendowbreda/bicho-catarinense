@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=97">
+  <link rel="stylesheet" href="styles.css?v=98">
 </head>
 <body>
 
@@ -260,7 +260,7 @@
               <div class="card-img-area"><img src="assets/bichos-banner-v2.webp" alt="Jogo do Bicho" class="bicho-card-img"></div>
               <div class="card-label-bar">Jogo do Bicho</div>
             </div>
-            <div class="main-grid-card card-red bicho-card" onclick="openView('roletinha')">
+            <div class="main-grid-card card-red bicho-card" onclick="openView('roleta-menu')">
               <div class="card-img-area"><img src="assets/roleta-banner-v2.webp" alt="Roleta dos Bichos" class="bicho-card-img"></div>
               <div class="card-label-bar">Roleta dos Bichos</div>
             </div>
@@ -357,6 +357,57 @@
               <button type="button" class="pix-chip" onclick="document.getElementById('bicho-bet-amount').value=20">R$ 20</button>
             </div>
             <button class="btn btn-green" onclick="placeBichoBet()">Confirmar aposta</button>
+          </div>
+        </div>
+
+        <!-- ===== ROLETA MENU ===== -->
+        <div id="view-roleta-menu" class="hidden">
+          <div class="game-grid">
+            <div class="game-grid-card gg-red" onclick="openView('roletinha')">
+              <div class="gg-img-area"><img src="assets/roleta-banner-v2.webp" alt="Roleta Slots" class="gg-img"></div>
+              <div class="gg-label-bar">Roleta Slots</div>
+            </div>
+            <div class="game-grid-card gg-purple" onclick="openView('roleta-wheel')">
+              <div class="gg-img-area"><img src="assets/roleta-banner-v2.webp" alt="Roleta dos Bichos" class="gg-img"></div>
+              <div class="gg-label-bar">Roleta dos Bichos</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== ROLETA WHEEL (18x) ===== -->
+        <div id="view-roleta-wheel" class="hidden">
+          <div class="roletinha-info-bar">
+            <div class="playing-badge"><span class="playing-dot"></span> <span id="live-count-wheel">282</span> jogando</div>
+            <div class="winner-ticker" id="winner-ticker-wheel">Ana L. ganhou <strong style="color:var(--green)">R$ 180,00</strong> na Roleta</div>
+          </div>
+          <div class="roleta-wheel-game">
+            <div class="roleta-wheel-title">Roleta dos Bichos</div>
+            <div class="roleta-wheel-subtitle">Escolha um bicho:</div>
+            <div class="roleta-selector-wrap" id="wheel-selector-wrap">
+              <div class="roleta-selector" id="wheel-selector"></div>
+            </div>
+            <p class="roleta-deslize" style="color:rgba(255,255,255,0.6);text-align:center;font-size:0.75rem;text-transform:uppercase;letter-spacing:1px;margin:0.5rem 0;">‹ deslize para ver outros bichos ›</p>
+            <div class="wheel-bet-section">
+              <div class="wheel-bet-label">Defina o valor da aposta:</div>
+              <div class="wheel-chips">
+                <button class="wheel-chip" onclick="setWheelBet(1)">R$1,00</button>
+                <button class="wheel-chip" onclick="setWheelBet(5)">R$5,00</button>
+                <button class="wheel-chip" onclick="setWheelBet(10)">R$10,00</button>
+                <button class="wheel-chip" onclick="setWheelBet(20)">R$20,00</button>
+              </div>
+              <div class="wheel-input-row">
+                <span>R$</span>
+                <input type="number" id="wheel-bet-amount" value="1.00" min="0.50" step="0.50" inputmode="decimal">
+              </div>
+              <div class="wheel-preview">Previsão de Ganhos: <strong style="color:var(--green)" id="wheel-preview-value">R$ 18,00</strong></div>
+            </div>
+            <div class="roleta-half-wrap" id="wheel-half-wrap">
+              <div class="roleta-pointer">▼</div>
+              <div class="roleta-wheel-clip">
+                <div class="roleta-wheel" id="roleta-wheel-game"></div>
+              </div>
+              <button class="roleta-spin-btn" id="btn-girar-wheel" onclick="girarRoletaWheel()">GIRAR<br>ROLETA</button>
+            </div>
           </div>
         </div>
 
@@ -1009,6 +1060,6 @@
 </div><!-- /app-viewport -->
 
 <script src="config.js?v=6"></script>
-<script src="app.js?v=49"></script>
+<script src="app.js?v=50"></script>
 </body>
 </html>

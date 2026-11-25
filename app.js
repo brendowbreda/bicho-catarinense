@@ -77,6 +77,7 @@ function openView(view) {
   }
   if (view === "resultados") renderResultsLotteries();
   if (view === "roletinha") { initReels(); startLiveCounter(); startWinnerTicker(); }
+  if (view === "roleta-wheel") { initWheelGame(); startLiveCounter(); startWinnerTickerWheel(); }
   if (view === "notificacoes") renderNotifications();
   if (view === "configuracoes") loadConfigSummary();
   if (view === "config-pessoal") loadConfigPessoal();
@@ -90,7 +91,9 @@ function openView(view) {
     carteira: "Minha Carteira",
     jogos: "Jogo do Bicho",
     "apostar-bicho": "Apostar — Bicho",
-    roletinha: "Roleta dos Bichos",
+    "roleta-menu": "Roleta dos Bichos",
+    roletinha: "Roleta Slots",
+    "roleta-wheel": "Roleta dos Bichos",
     recarga: "Recarga PIX",
     saque: "Novo Saque",
     apostas: "Minhas Apostas",
@@ -125,7 +128,9 @@ function openView(view) {
       jogos: "var(--blue)",
       "apostar-bicho": "var(--blue)",
       "bichos-lista": "var(--blue)",
-      roletinha: "#2B5DA6",
+      "roleta-menu": "#C0392B",
+      roletinha: "#C0392B",
+      "roleta-wheel": "#C0392B",
       bingo: "#4A2078",
       raspadinha: "#C0392B",
       cotacoes: "#B8860B",
@@ -1576,3 +1581,206 @@ function girarRoleta() {
     }, 3000);
   }, 5200);
 }
+
+// ============ ROLETA WHEEL GAME (18x) ============
+
+let wheelSelectedAnimal = 0;
+let wheelSpinning = false;
+let wheelTickerInterval = null;
+let wheelAutoScroll = null;
+let wheelSelectorLocked = false;
+
+function startWinnerTickerWheel() {
+  if (wheelTickerInterval) return;
+  updateWinnerTickerWheel();
+  wheelTickerInterval = setInterval(updateWinnerTickerWheel, 8000);
+}
+
+function updateWinnerTickerWheel() {
+  const el = document.getElementById('winner-ticker-wheel');
+  if (!el) return;
+  const name = fakeNames[Math.floor(Math.random() * fakeNames.length)];
+  const initial = String.fromCharCode(65 + Math.floor(Math.random() * 26));
+  const animals = APP_CONFIG.animals;
+  const animal = animals[Math.floor(Math.random() * animals.length)].name;
+  const values = [18,36,54,90,180,360,500,900,1000];
+  const value = values[Math.floor(Math.random() * values.length)];
+  const formatted = value.toFixed(2).replace('.', ',');
+  el.innerHTML = `${name} ${initial}. ganhou <strong style="color:var(--green)">R$ ${formatted}</strong> no ${animal}`;
+}
+
+function initWheelGame() {
+  const selector = document.getElementById('wheel-selector');
+  const wheel = document.getElementById('roleta-wheel-game');
+  if (!selector || !wheel) return;
+  const animals = APP_CONFIG.animals;
+  const totalSlots = 26;
+  const sliceDeg = 360 / totalSlots;
+
+  let selHtml = '';
+  for (let rep = 0; rep < 5; rep++) {
+    animals.forEach((a, i) => {
+      selHtml += `<div class="roleta-sel-item wheel-sel" data-idx="${i}" data-rep="${rep}"><img src="${a.img}" alt="${a.name}"></div>`;
+    });
+  }
+  selector.innerHTML = selHtml;
+  const wrap = document.getElementById('wheel-selector-wrap');
+  if (wrap) initWheelSelectorScroll(wrap, selector, animals);
+
+  const halfSlice = sliceDeg / 2;
+  let gradientStops = [];
+  for (let i = 0; i < totalSlots; i++) {
+    const isGolden = i === totalSlots - 1;
+    const bg = isGolden ? '#ffd700' : (i % 2 === 0 ? '#2d2757' : '#3a3170');
+    gradientStops.push(`${bg} ${sliceDeg * i}deg, ${bg} ${sliceDeg * (i + 1)}deg`);
+  }
+  wheel.style.background = `conic-gradient(from -${halfSlice}deg, ${gradientStops.join(', ')})`;
+
+  let wheelHtml = '';
+  for (let i = 0; i < totalSlots; i++) {
+    const angle = sliceDeg * i;
+    const isGolden = i === totalSlots - 1;
+    if (!isGolden && i < animals.length) {
+      wheelHtml += `<div class="roleta-animal" style="transform:rotate(${angle}deg) translateY(-390px)"><img src="${animals[i].img}" alt="${animals[i].name}"></div>`;
+    } else if (isGolden) {
+      wheelHtml += `<div class="roleta-animal roleta-golden" style="transform:rotate(${angle}deg) translateY(-390px)"><span>50x</span></div>`;
+    }
+    wheelHtml += `<div class="roleta-dot" style="transform:rotate(${angle + halfSlice}deg) translateY(-430px)"></div>`;
+  }
+  wheel.innerHTML = wheelHtml;
+  wheel.classList.add('idle-spin');
+
+  updateLiveCount();
+  updateWheelPreview();
+}
+
+function initWheelSelectorScroll(wrap, selector, animals) {
+  const items = selector.querySelectorAll('.wheel-sel');
+  const n = animals.length;
+  const setWidth = items[n].offsetLeft - items[0].offsetLeft;
+  wrap.scrollLeft = items[n * 2].offsetLeft;
+
+  function loopCheck() {
+    const sl = wrap.scrollLeft;
+    if (sl <= items[n].offsetLeft) {
+      wrap.style.scrollBehavior = 'auto';
+      wrap.scrollLeft = sl + setWidth;
+      wrap.style.scrollBehavior = '';
+    } else if (sl >= items[n * 4].offsetLeft) {
+      wrap.style.scrollBehavior = 'auto';
+      wrap.scrollLeft = sl - setWidth;
+      wrap.style.scrollBehavior = '';
+    }
+  }
+
+  function startAuto() {
+    if (wheelAutoScroll) return;
+    wheelSelectorLocked = false;
+    items.forEach(el => el.classList.remove('selected'));
+    wheelAutoScroll = setInterval(() => { wrap.scrollLeft += 1; loopCheck(); }, 18);
+  }
+
+  function stopAuto() {
+    if (wheelAutoScroll) { clearInterval(wheelAutoScroll); wheelAutoScroll = null; }
+  }
+
+  wrap.addEventListener('pointerdown', stopAuto, { passive: true });
+  wrap.addEventListener('pointerup', () => { if (!wheelSelectorLocked) setTimeout(() => { if (!wheelSelectorLocked) startAuto(); }, 2000); }, { passive: true });
+  wrap.addEventListener('touchstart', stopAuto, { passive: true });
+  wrap.addEventListener('touchend', () => { if (!wheelSelectorLocked) setTimeout(() => { if (!wheelSelectorLocked) startAuto(); }, 2000); }, { passive: true });
+  wrap.addEventListener('scroll', loopCheck);
+
+  selector.addEventListener('click', (e) => {
+    const item = e.target.closest('.wheel-sel');
+    if (!item) return;
+    const idx = parseInt(item.dataset.idx);
+    stopAuto();
+    wheelSelectorLocked = true;
+    wheelSelectedAnimal = idx;
+    items.forEach(el => el.classList.toggle('selected', parseInt(el.dataset.idx) === idx));
+    const selItem = items[n * 2 + idx];
+    if (selItem) {
+      wrap.style.scrollBehavior = 'auto';
+      wrap.scrollLeft = selItem.offsetLeft + selItem.offsetWidth / 2 - wrap.clientWidth / 2;
+      wrap.style.scrollBehavior = '';
+    }
+  });
+
+  startAuto();
+}
+
+function setWheelBet(v) {
+  const el = document.getElementById('wheel-bet-amount');
+  if (el) el.value = v.toFixed(2);
+  document.querySelectorAll('.wheel-chip').forEach(c => c.classList.remove('active'));
+  event.target.classList.add('active');
+  updateWheelPreview();
+}
+
+function updateWheelPreview() {
+  const amount = parseFloat(document.getElementById('wheel-bet-amount')?.value) || 1;
+  const preview = document.getElementById('wheel-preview-value');
+  if (preview) preview.textContent = `R$ ${(amount * 18).toFixed(2).replace('.', ',')}`;
+}
+
+function girarRoletaWheel() {
+  if (wheelSpinning) return;
+  if (!wheelSelectorLocked) {
+    showToast('Escolha um bicho primeiro!', 'error');
+    return;
+  }
+  wheelSpinning = true;
+  const wheel = document.getElementById('roleta-wheel-game');
+  const totalSlots = 26;
+  const sliceDeg = 360 / totalSlots;
+  const winnerIdx = Math.floor(Math.random() * totalSlots);
+  const isGolden = winnerIdx === totalSlots - 1;
+  const animals = APP_CONFIG.animals;
+  const targetAngle = -(sliceDeg * winnerIdx);
+
+  const currentAngle = getWheelAngle(wheel);
+  wheel.classList.remove('idle-spin');
+  wheel.style.transition = 'none';
+  wheel.style.transform = `rotate(${currentAngle}deg)`;
+
+  const spins = 5 + Math.floor(Math.random() * 3);
+  const finalRotation = currentAngle + spins * 360 + (targetAngle - currentAngle % 360);
+
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      wheel.style.transition = 'transform 5s cubic-bezier(0.15, 0.6, 0.15, 1)';
+      wheel.style.transform = `rotate(${finalRotation}deg)`;
+    });
+  });
+
+  const btn = document.getElementById('btn-girar-wheel');
+  btn.disabled = true;
+
+  setTimeout(() => {
+    const amount = parseFloat(document.getElementById('wheel-bet-amount').value) || 1;
+    const won = !isGolden && winnerIdx === wheelSelectedAnimal;
+    const isGold = isGolden;
+    if (won) {
+      const prize = amount * 18;
+      showToast(`Você ganhou R$ ${prize.toFixed(2).replace('.', ',')}! (18x)`, 'success');
+    } else if (isGold) {
+      const prize = amount * 50;
+      showToast(`DOURADO! Você ganhou R$ ${prize.toFixed(2).replace('.', ',')}! (50x)`, 'success');
+    } else {
+      showToast('Não foi dessa vez, tente novamente!', 'error');
+    }
+    btn.disabled = false;
+    wheel.style.transition = 'none';
+    wheel.style.transform = `rotate(${finalRotation % 360}deg)`;
+    setTimeout(() => {
+      wheelSpinning = false;
+      wheel.classList.add('idle-spin');
+      wheel.style.transition = '';
+      wheel.style.transform = '';
+    }, 2000);
+  }, 5200);
+}
+
+document.addEventListener('input', (e) => {
+  if (e.target.id === 'wheel-bet-amount') updateWheelPreview();
+});
