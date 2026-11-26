@@ -1436,6 +1436,48 @@ img { max-width: 100%; display: block; }
   text-shadow: 0 0 12px rgba(255,215,0,0.8);
 }
 
+.slots-links {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 0.5rem 1rem;
+}
+.slots-links span {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--fg-muted);
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.slots-ganha {
+  text-align: center;
+  font-size: 1.125rem;
+  font-weight: 800;
+  color: var(--green);
+  margin-top: 0.5rem;
+}
+
+.slots-girar-btn {
+  display: block;
+  width: calc(100% - 2rem);
+  margin: 0.75rem auto 1rem;
+  padding: 1rem;
+  border: none;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #B8860B, #DAA520, #B8860B);
+  color: #fff;
+  font-size: 1.25rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+  cursor: pointer;
+  text-transform: uppercase;
+  box-shadow: 0 4px 12px rgba(184,134,11,0.4);
+}
+.slots-girar-btn:active {
+  transform: scale(0.97);
+}
+
 .slots-bichos-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);

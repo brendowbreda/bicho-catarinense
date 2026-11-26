@@ -76,7 +76,7 @@ function openView(view) {
     renderApostas("aguardando");
   }
   if (view === "resultados") renderResultsLotteries();
-  if (view === "roletinha") { initReels(); startLiveCounter(); startWinnerTicker(); renderSlotsBichos(); }
+  if (view === "roletinha") { initReels(); startWinnerTicker(); renderSlotsTabela(); updateSlotsGanha(); }
   if (view === "roleta-wheel") { initWheelGame(); startLiveCounter(); startWinnerTickerWheel(); }
   if (view === "notificacoes") renderNotifications();
   if (view === "configuracoes") loadConfigSummary();
@@ -517,29 +517,27 @@ function showRoletinhaResult(betType, result) {
   }, 300);
 }
 
-function selectRoletinhaBet(type) {
+function selectSlotsBet(type) {
   roletinhaBetType = type;
   document.querySelectorAll('.bet-btn-par,.bet-btn-impar,.bet-btn-dourado').forEach(el => el.classList.remove('selected'));
   if (type === 'par') document.getElementById('btn-par').classList.add('selected');
   else if (type === 'impar') document.getElementById('btn-impar').classList.add('selected');
   else if (type === 'bc') document.getElementById('btn-bc').classList.add('selected');
-
-  const amount = parseFloat(document.getElementById('roletinha-amount').value) || 1;
-  if (amount > 0) {
-    spinReels(type);
-  }
+  updateSlotsGanha();
 }
 
-function showComoJogar() {
-  document.getElementById('como-jogar-modal').classList.add('show');
+function girarSlots() {
+  if (!roletinhaBetType) { toast('Escolha PAR, ÍMPAR ou DOURADO', 'error'); return; }
+  spinReels(roletinhaBetType);
 }
 
-function showTabelaRoletinha() {
-  toast('Tabela em breve!', 'info');
-}
-
-function toggleRoletinhaSound() {
-  toast('Som ativado!', 'info');
+function updateSlotsGanha() {
+  const el = document.getElementById('slots-ganha');
+  if (!el) return;
+  const amount = parseFloat(document.getElementById('roletinha-amount')?.value) || 1;
+  const mult = roletinhaBetType === 'bc' ? 50 : 2;
+  const prize = (amount * mult).toFixed(2).replace('.', ',');
+  el.textContent = `Ganha R$ ${prize}`;
 }
 
 function adjustRoletinha(delta) {
@@ -547,23 +545,46 @@ function adjustRoletinha(delta) {
   let val = parseFloat(el.value) || 1;
   val = Math.max(0.10, Math.min(1000, val + delta));
   el.value = val.toFixed(2);
+  updateSlotsGanha();
 }
 
-function renderSlotsBichos() {
-  const grid = document.getElementById('slots-bichos-grid');
+function renderSlotsTabela() {
+  const grid = document.getElementById('slots-tabela-grid');
   if (!grid) return;
   const animals = APP_CONFIG.animals;
-  grid.innerHTML = animals.map(a => {
+  const goldenCard = `<div class="slots-bicho-item" style="border-color:#DAA520;background:linear-gradient(135deg,#ffd700,#ffaa00)">
+    <span style="font-size:2.5rem">⭐</span>
+    <div class="slots-bicho-name" style="color:#fff;font-weight:900">DOURADO</div>
+    <div class="slots-bicho-nums" style="color:rgba(255,255,255,0.8)">50x</div>
+    <div class="slots-bicho-tag" style="background:#B8860B">DOURADO</div>
+  </div>`;
+  let html = goldenCard;
+  for (let i = 0; i < 14; i++) {
+    const a = animals[i];
     const isEven = a.id % 2 === 0;
     const color = isEven ? 'var(--green)' : 'var(--red)';
     const label = isEven ? 'PAR' : 'ÍMPAR';
-    return `<div class="slots-bicho-item" style="border-color:${color}">
+    html += `<div class="slots-bicho-item" style="border-color:${color}">
       <img src="${a.img}" alt="${a.name}">
       <div class="slots-bicho-name">${a.name}</div>
       <div class="slots-bicho-nums">${a.numbers}</div>
       <div class="slots-bicho-tag" style="background:${color}">${label}</div>
     </div>`;
-  }).join('');
+  }
+  html += goldenCard;
+  for (let i = 14; i < 25; i++) {
+    const a = animals[i];
+    const isEven = a.id % 2 === 0;
+    const color = isEven ? 'var(--green)' : 'var(--red)';
+    const label = isEven ? 'PAR' : 'ÍMPAR';
+    html += `<div class="slots-bicho-item" style="border-color:${color}">
+      <img src="${a.img}" alt="${a.name}">
+      <div class="slots-bicho-name">${a.name}</div>
+      <div class="slots-bicho-nums">${a.numbers}</div>
+      <div class="slots-bicho-tag" style="background:${color}">${label}</div>
+    </div>`;
+  }
+  grid.innerHTML = html;
 }
 
 // ============ BICHO BET ============
