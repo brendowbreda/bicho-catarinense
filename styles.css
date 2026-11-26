@@ -1447,7 +1447,7 @@ img { max-width: 100%; display: block; }
   font-weight: 600;
   color: var(--fg-muted);
   cursor: pointer;
-  text-decoration: underline;
+  text-decoration: none;
 }
 
 .slots-ganha {
@@ -1608,8 +1608,13 @@ img { max-width: 100%; display: block; }
   margin-top: 0.75rem;
 }
 
-.bet-btn-par.selected, .bet-btn-impar.selected {
-  box-shadow: 0 0 0 3px var(--gold);
+.bet-btn-par.selected {
+  background: var(--green-dark);
+  transform: scale(1.03);
+}
+
+.bet-btn-impar.selected {
+  background: var(--red-dark);
   transform: scale(1.03);
 }
 
@@ -1621,17 +1626,18 @@ img { max-width: 100%; display: block; }
 .bet-btn-dourado {
   min-height: 52px;
   border-radius: 14px;
-  background: linear-gradient(135deg, #ffd700, #ffaa00);
+  background: linear-gradient(135deg, #ffe680, #ffd54f);
   color: #fff;
   font-size: 1.125rem;
   font-weight: 900;
   border: none;
   cursor: pointer;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+  text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  transition: background 0.2s, transform 0.15s;
 }
 
 .bet-btn-dourado.selected {
-  box-shadow: 0 0 0 3px #B8860B;
+  background: linear-gradient(135deg, #B8860B, #8B6914);
   transform: scale(1.03);
 }
 
@@ -1666,23 +1672,25 @@ img { max-width: 100%; display: block; }
 .bet-btn-par {
   min-height: 52px;
   border-radius: 14px;
-  background: var(--green);
+  background: #a5d6a7;
   color: #fff;
   font-size: 1.125rem;
   font-weight: 900;
   border: none;
   cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
 }
 
 .bet-btn-impar {
   min-height: 52px;
   border-radius: 14px;
-  background: var(--red);
+  background: #ef9a9a;
   color: #fff;
   font-size: 1.125rem;
   font-weight: 900;
   border: none;
   cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
 }
 
 .bet-multiplier {
