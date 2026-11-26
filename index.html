@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=100">
+  <link rel="stylesheet" href="styles.css?v=101">
 </head>
 <body>
 
@@ -434,10 +434,10 @@
           <div class="bet-amount-section">
             <div class="bet-amount-label">Valor da aposta</div>
             <div class="bet-amount-row">
-              <button class="minus-btn" onclick="adjustRoletinha(-0.50)">− R$0,50</button>
+              <button class="minus-btn" onclick="adjustRoletinha(-0.50)"><span style="font-size:1.1rem">−</span><span>R$0,50</span></button>
               <span class="currency-label">R$</span>
               <input type="number" id="roletinha-amount" value="1.00" min="0.10" max="1000" step="0.50" inputmode="decimal">
-              <button class="plus-btn" onclick="adjustRoletinha(0.50)">+ R$0,50</button>
+              <button class="plus-btn" onclick="adjustRoletinha(0.50)"><span style="font-size:1.1rem">+</span><span>R$0,50</span></button>
             </div>
           </div>
           <div class="slots-bichos-grid" id="slots-bichos-grid"></div>
