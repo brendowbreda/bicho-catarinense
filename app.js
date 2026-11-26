@@ -386,48 +386,66 @@ function updateWinnerTicker() {
   el.innerHTML = `${name} ${initial}. ganhou <strong style="color:var(--green)">R$ ${formatted}</strong> no ${bet}`;
 }
 
+const ITEM_H = 80;
+const GOLDEN = { name: 'Dourado', img: null, special: 'dourado' };
+
+function buildReelStrip() {
+  const a = APP_CONFIG.animals;
+  const strip = [];
+  for (let i = 0; i < 14; i++) strip.push(a[i]);
+  strip.push(GOLDEN);
+  for (let i = 14; i < 25; i++) strip.push(a[i]);
+  strip.push(GOLDEN);
+  return strip;
+}
+
+function renderReelItem(sym) {
+  if (sym.special === 'dourado') {
+    return `<div class="reel-item golden-item"><span class="golden-star">⭐</span></div>`;
+  }
+  return `<div class="reel-item"><img src="${sym.img}" alt="${sym.name}"></div>`;
+}
+
 function initReels() {
-  const animals = APP_CONFIG.animals;
+  const strip = buildReelStrip();
   for (let r = 0; r < 3; r++) {
     const reel = document.querySelector(`#reel-${r} .reel-inner`);
     if (!reel) continue;
+    const start = Math.floor(Math.random() * strip.length);
     let html = '';
-    const startIdx = Math.floor(Math.random() * animals.length);
-    for (let i = 0; i < 3; i++) {
-      const a = animals[(startIdx + i) % animals.length];
-      html += `<div class="reel-item"><img src="${a.img}" alt="${a.name}"></div>`;
+    for (let i = -1; i <= 1; i++) {
+      html += renderReelItem(strip[(start + i + strip.length) % strip.length]);
     }
     reel.innerHTML = html;
-    reel.style.transform = `translateY(-110px)`;
+    reel.style.transform = 'translateY(0)';
   }
 }
 
 function spinReels(betType) {
   if (roletinhaSpinning) return;
   roletinhaSpinning = true;
-  const animals = APP_CONFIG.animals;
-  const totalSymbols = 28;
+  const strip = buildReelStrip();
   const result = determineResult(betType);
 
   for (let r = 0; r < 3; r++) {
     const reel = document.querySelector(`#reel-${r} .reel-inner`);
     if (!reel) continue;
+    const spins = 20 + r * 6;
     let html = '';
-    const spins = 15 + r * 5;
     for (let i = 0; i < spins; i++) {
-      const a = animals[Math.floor(Math.random() * animals.length)];
-      html += `<div class="reel-item"><img src="${a.img}" alt="${a.name}"></div>`;
+      html += renderReelItem(strip[Math.floor(Math.random() * strip.length)]);
     }
-    html += `<div class="reel-item"><img src="${result[r].img}" alt="${result[r].name}"></div>`;
-    for (let i = 0; i < 2; i++) {
-      const a = animals[Math.floor(Math.random() * animals.length)];
-      html += `<div class="reel-item"><img src="${a.img}" alt="${a.name}"></div>`;
-    }
+    const above = strip[Math.floor(Math.random() * strip.length)];
+    html += renderReelItem(above);
+    html += renderReelItem(result[r]);
+    const below = strip[Math.floor(Math.random() * strip.length)];
+    html += renderReelItem(below);
+
     reel.innerHTML = html;
     reel.style.transition = 'none';
     reel.style.transform = 'translateY(0)';
 
-    const finalPos = -(spins * 110);
+    const finalPos = -(spins * ITEM_H);
     const delay = r * 400;
     setTimeout(() => {
       reel.style.transition = `transform ${1.5 + r * 0.5}s cubic-bezier(0.15, 0.6, 0.15, 1)`;
@@ -444,31 +462,35 @@ function spinReels(betType) {
 
 function determineResult(betType) {
   const animals = APP_CONFIG.animals;
+  const parAnimals = animals.filter(a => a.id % 2 === 0);
+  const imparAnimals = animals.filter(a => a.id % 2 !== 0);
   const rand = Math.random();
-  let resultAnimals = [];
 
   if (betType === 'bc' && rand < 0.02) {
-    const a = animals[Math.floor(Math.random() * animals.length)];
-    return [{name:'BC',img:a.img,special:'bc'},{name:'BC',img:a.img,special:'bc'},{name:'BC',img:a.img,special:'bc'}];
-  }
-  if (betType === 'zebra' && rand < 0.05) {
-    const a = animals[Math.floor(Math.random() * animals.length)];
-    return [{name:'Zebra',img:a.img,special:'zebra'},{name:'Zebra',img:a.img,special:'zebra'},{name:'Zebra',img:a.img,special:'zebra'}];
+    return [GOLDEN, GOLDEN, GOLDEN];
   }
 
+  if (betType === 'par' && rand < 0.40) {
+    return [
+      parAnimals[Math.floor(Math.random() * parAnimals.length)],
+      parAnimals[Math.floor(Math.random() * parAnimals.length)],
+      parAnimals[Math.floor(Math.random() * parAnimals.length)]
+    ];
+  }
+  if (betType === 'impar' && rand < 0.40) {
+    return [
+      imparAnimals[Math.floor(Math.random() * imparAnimals.length)],
+      imparAnimals[Math.floor(Math.random() * imparAnimals.length)],
+      imparAnimals[Math.floor(Math.random() * imparAnimals.length)]
+    ];
+  }
+
+  const mix = [];
   for (let i = 0; i < 3; i++) {
-    resultAnimals.push(animals[Math.floor(Math.random() * animals.length)]);
+    if (Math.random() < 0.07) mix.push(GOLDEN);
+    else mix.push(animals[Math.floor(Math.random() * animals.length)]);
   }
-
-  if (betType === 'par' && rand < 0.45) {
-    const id = (Math.floor(Math.random() * 12) + 1) * 2;
-    resultAnimals = resultAnimals.map(() => animals.find(a => a.id === id) || animals[0]);
-  } else if (betType === 'impar' && rand < 0.45) {
-    const id = Math.floor(Math.random() * 13) * 2 + 1;
-    resultAnimals = resultAnimals.map(() => animals[Math.min(id, animals.length - 1)]);
-  }
-
-  return resultAnimals;
+  return mix;
 }
 
 function showRoletinhaResult(betType, result) {
@@ -476,26 +498,21 @@ function showRoletinhaResult(betType, result) {
   let won = false;
   let mult = 0;
 
-  if (result[0].special === 'bc') { won = true; mult = 50; }
-  else if (result[0].special === 'zebra') { won = true; mult = 20; }
-  else if (betType === 'par' || betType === 'impar') {
-    const allSame = result[0].id === result[1].id && result[1].id === result[2].id;
-    if (allSame) {
-      const isEven = result[0].id % 2 === 0;
-      if ((betType === 'par' && isEven) || (betType === 'impar' && !isEven)) {
-        won = true;
-        mult = 2;
-      }
-    }
-  }
+  const allGolden = result.every(r => r.special === 'dourado');
+  const allPar = !allGolden && result.every(r => r.special !== 'dourado' && r.id % 2 === 0);
+  const allImpar = !allGolden && result.every(r => r.special !== 'dourado' && r.id % 2 !== 0);
+
+  if (betType === 'bc' && allGolden) { won = true; mult = 50; }
+  else if (betType === 'par' && allPar) { won = true; mult = 2; }
+  else if (betType === 'impar' && allImpar) { won = true; mult = 2; }
 
   const prize = won ? amount * mult : 0;
 
   setTimeout(() => {
     if (won) {
-      showToast(`Você ganhou R$ ${prize.toFixed(2).replace('.', ',')}! (${mult}x)`, 'success');
+      toast(`Você ganhou R$ ${prize.toFixed(2).replace('.', ',')}! (${mult}x)`, 'success');
     } else {
-      showToast('Não foi dessa vez, tente novamente!', 'error');
+      toast('Não foi dessa vez, tente novamente!', 'error');
     }
   }, 300);
 }
@@ -518,11 +535,11 @@ function showComoJogar() {
 }
 
 function showTabelaRoletinha() {
-  showToast('Tabela em breve!', 'info');
+  toast('Tabela em breve!', 'info');
 }
 
 function toggleRoletinhaSound() {
-  showToast('Som ativado!', 'info');
+  toast('Som ativado!', 'info');
 }
 
 function adjustRoletinha(delta) {
