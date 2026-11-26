@@ -26,14 +26,21 @@
       <h3>Como jogar</h3>
       <button class="modal-close" onclick="document.getElementById('como-jogar-modal').classList.remove('show')">&times;</button>
     </div>
-    <p style="color:var(--fg-muted);font-size:0.875rem;margin-bottom:1rem;">Escolha a aposta, defina o valor e gire a roleta.</p>
+    <p style="color:var(--fg-muted);font-size:0.875rem;margin-bottom:1rem;font-weight:400;">Escolha a aposta, defina o valor e gire a roleta.</p>
     <div class="como-jogar-item">
       <div class="cj-badge" style="background:var(--green)">2x</div>
-      <div><strong style="color:var(--green)">PAR / ÍMPAR</strong><br><span style="font-size:0.8125rem;color:var(--fg-muted)">Acerte os 3 bichos de números pares ou ímpares.<br>Aposte R$10,00 &rarr; ganhou? Recebeu R$20,00.</span></div>
+      <div>
+        <span style="font-weight:800;color:var(--green)">PAR</span> <span style="font-weight:800;color:var(--fg-muted)">/</span> <span style="font-weight:800;color:var(--red)">ÍMPAR</span>
+        <br><span style="font-size:0.8125rem;color:var(--fg-muted)">Acerte 3 bichos de números<br><span style="color:var(--green)">pares</span> ou <span style="color:var(--red)">ímpares</span>.</span>
+        <br><span style="font-size:0.8125rem;color:var(--fg-muted)">Aposte R$10,00 &rarr; ganhou?<br>Recebeu R$20,00.</span>
+      </div>
     </div>
     <div class="como-jogar-item">
       <div class="cj-badge" style="background:linear-gradient(135deg,#ffd700,#ffaa00)">50x</div>
-      <div><strong style="color:#B8860B">DOURADO</strong><br><span style="font-size:0.8125rem;color:var(--fg-muted)">Acerte os 3 campos dourados na linha central.<br>Aposte R$10,00 e leve R$500,00!</span></div>
+      <div>
+        <span style="font-weight:800;color:#B8860B">DOURADO</span>
+        <br><span style="font-size:0.8125rem;color:var(--fg-muted)">Acerte 3 campos dourados.<br>Aposte R$10,00 &rarr; ganhou?<br>Recebeu R$500,00.</span>
+      </div>
     </div>
     <button class="btn-bora-jogar" onclick="document.getElementById('como-jogar-modal').classList.remove('show')">Fechar</button>
   </div>
