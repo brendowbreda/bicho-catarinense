@@ -386,7 +386,7 @@ function updateWinnerTicker() {
   el.innerHTML = `${name} ${initial}. ganhou <strong style="color:var(--green)">R$ ${formatted}</strong> no ${bet}`;
 }
 
-const ITEM_H = 80;
+const ITEM_H = 120;
 const GOLDEN = { name: 'Dourado', img: null, special: 'dourado' };
 
 function buildReelStrip() {
@@ -417,7 +417,7 @@ function initReels() {
       html += renderReelItem(strip[(start + i + strip.length) % strip.length]);
     }
     reel.innerHTML = html;
-    reel.style.transform = 'translateY(0)';
+    reel.style.transform = `translateY(-${ITEM_H - 40}px)`;
   }
 }
 
@@ -445,7 +445,7 @@ function spinReels(betType) {
     reel.style.transition = 'none';
     reel.style.transform = 'translateY(0)';
 
-    const finalPos = -(spins * ITEM_H);
+    const finalPos = -(spins * ITEM_H) - (ITEM_H - 40);
     const delay = r * 400;
     setTimeout(() => {
       reel.style.transition = `transform ${1.5 + r * 0.5}s cubic-bezier(0.15, 0.6, 0.15, 1)`;

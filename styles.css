@@ -1361,10 +1361,10 @@ img { max-width: 100%; display: block; }
 }
 
 .carousel-reel {
-  width: 100px;
-  height: 240px;
-  border-radius: 12px;
-  background: #fff;
+  width: 105px;
+  height: 200px;
+  border-radius: 10px;
+  background: linear-gradient(180deg, #e8e8e8 0%, #fff 25%, #fff 75%, #e8e8e8 100%);
   border: 3px solid var(--red-dark);
   overflow: hidden;
   position: relative;
@@ -1375,27 +1375,29 @@ img { max-width: 100%; display: block; }
   content: '';
   position: absolute;
   left: 0; right: 0;
-  height: 30px;
   z-index: 2;
   pointer-events: none;
 }
 .carousel-reel::before {
   top: 0;
-  background: linear-gradient(to bottom, rgba(255,255,255,0.85), transparent);
+  height: 40px;
+  background: linear-gradient(to bottom, rgba(200,200,200,0.7), transparent);
 }
 .carousel-reel::after {
   bottom: 0;
-  background: linear-gradient(to top, rgba(255,255,255,0.85), transparent);
+  height: 40px;
+  background: linear-gradient(to top, rgba(200,200,200,0.7), transparent);
 }
 .reel-win-line {
   position: absolute;
   left: 0; right: 0;
-  top: 80px;
-  height: 80px;
+  top: 40px;
+  height: 120px;
   border-top: 2px solid var(--gold);
   border-bottom: 2px solid var(--gold);
   z-index: 1;
   pointer-events: none;
+  background: rgba(255,255,255,0.15);
 }
 
 .reel-inner {
@@ -1408,17 +1410,18 @@ img { max-width: 100%; display: block; }
 }
 
 .reel-item {
-  width: 100px;
-  height: 80px;
+  width: 105px;
+  height: 120px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
 }
 
 .reel-item img {
-  width: 68px;
-  height: 68px;
+  width: 95px;
+  height: 95px;
   object-fit: contain;
 }
 
@@ -1429,8 +1432,8 @@ img { max-width: 100%; display: block; }
   filter: brightness(1.1) drop-shadow(0 0 6px rgba(255,215,0,0.8));
 }
 .golden-star {
-  font-size: 2.5rem;
-  text-shadow: 0 0 10px rgba(255,215,0,0.8);
+  font-size: 3.5rem;
+  text-shadow: 0 0 12px rgba(255,215,0,0.8);
 }
 
 .slots-bichos-grid {
