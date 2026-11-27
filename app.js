@@ -388,7 +388,7 @@ function updateWinnerTicker() {
 
 function getItemH() {
   const reel = document.querySelector('.carousel-reel');
-  return reel ? reel.offsetHeight / 3 : 80;
+  return reel ? reel.offsetHeight / 2 : 80;
 }
 const GOLDEN = { name: 'Dourado', img: 'img/golden-7.webp', special: 'dourado' };
 
@@ -422,7 +422,7 @@ function initReels() {
       html += renderReelItem(strip[(start + i + strip.length) % strip.length]);
     }
     reel.innerHTML = html;
-    reel.style.transform = `translateY(0px)`;
+    reel.style.transform = `translateY(-${ih / 2}px)`;
   }
 }
 
@@ -451,7 +451,7 @@ function spinReels(betType) {
     reel.style.transform = 'translateY(0)';
 
     const ih = getItemH();
-    const finalPos = -(spins * ih);
+    const finalPos = -(spins * ih) - (ih / 2);
     const delay = r * 400;
     setTimeout(() => {
       reel.style.transition = `transform ${1.5 + r * 0.5}s cubic-bezier(0.15, 0.6, 0.15, 1)`;

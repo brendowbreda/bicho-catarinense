@@ -1358,20 +1358,19 @@ img { max-width: 100%; display: block; }
 }
 .slot-reels-area {
   position: absolute;
-  top: 23%;
-  left: 13%;
-  right: 13%;
-  bottom: 23%;
+  top: 20%;
+  left: 12%;
+  right: 12%;
+  bottom: 20%;
   z-index: 2;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 8px;
   overflow: hidden;
 }
 .slot-bet-bar {
   position: absolute;
-  bottom: 4.5%;
+  bottom: 4%;
   left: 14%;
   right: 14%;
   height: 10%;
@@ -1408,24 +1407,24 @@ img { max-width: 100%; display: block; }
 }
 .carousel-reel::before {
   top: 0;
-  height: 33.33%;
-  background: linear-gradient(to bottom, rgba(180,180,180,0.5), transparent);
+  height: 25%;
+  background: linear-gradient(to bottom, rgba(200,200,200,0.6), transparent);
 }
 .carousel-reel::after {
   bottom: 0;
-  height: 33.33%;
-  background: linear-gradient(to top, rgba(180,180,180,0.5), transparent);
+  height: 25%;
+  background: linear-gradient(to top, rgba(200,200,200,0.6), transparent);
 }
 .reel-win-line {
   position: absolute;
   left: 0; right: 0;
-  top: 33.33%;
-  height: 33.34%;
+  top: 25%;
+  height: 50%;
   border-top: 2px solid var(--gold);
   border-bottom: 2px solid var(--gold);
   z-index: 1;
   pointer-events: none;
-  background: rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.1);
 }
 
 .reel-inner {
