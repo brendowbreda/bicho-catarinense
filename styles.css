@@ -1348,7 +1348,18 @@ img { max-width: 100%; display: block; }
 .slot-machine-wrap {
   position: relative;
   margin: 0.5rem auto;
-  max-width: 340px;
+  max-width: 420px;
+}
+.slot-machine-wrap::before {
+  content: '';
+  position: absolute;
+  top: 34%;
+  left: 9%;
+  right: 9%;
+  bottom: 23%;
+  background: #1a0800;
+  border-radius: 6px;
+  z-index: 0;
 }
 .slot-frame-img {
   width: 100%;
@@ -1359,10 +1370,10 @@ img { max-width: 100%; display: block; }
 }
 .slot-reels-area {
   position: absolute;
-  top: 40%;
-  left: 13%;
-  right: 13%;
-  bottom: 27%;
+  top: 41%;
+  left: 12%;
+  right: 12%;
+  bottom: 28%;
   z-index: 1;
   display: flex;
   align-items: center;
