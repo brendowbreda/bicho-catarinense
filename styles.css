@@ -1358,19 +1358,20 @@ img { max-width: 100%; display: block; }
 }
 .slot-reels-area {
   position: absolute;
-  top: 20%;
-  left: 12%;
-  right: 12%;
-  bottom: 20%;
+  top: 35%;
+  left: 8%;
+  right: 8%;
+  bottom: 22%;
   z-index: 2;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  border-radius: 0 0 8px 8px;
 }
 .slot-bet-bar {
   position: absolute;
-  bottom: 4%;
+  bottom: 7%;
   left: 14%;
   right: 14%;
   height: 10%;
