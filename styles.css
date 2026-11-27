@@ -1345,30 +1345,53 @@ img { max-width: 100%; display: block; }
   color: var(--fg-muted);
 }
 
-.roletinha-carousel {
-  padding: 1rem;
+.slot-machine-wrap {
+  position: relative;
+  margin: 0.5rem auto;
+  max-width: 340px;
+}
+.slot-frame-img {
+  width: 100%;
+  display: block;
+}
+.slot-reels-area {
+  position: absolute;
+  top: 22%;
+  left: 12%;
+  right: 12%;
+  bottom: 22%;
   display: flex;
+  align-items: center;
   justify-content: center;
+}
+.slot-bet-bar {
+  position: absolute;
+  bottom: 5.5%;
+  left: 15%;
+  right: 15%;
+  height: 10%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 1.25rem;
+  font-weight: 900;
+  letter-spacing: 1px;
 }
 
 .carousel-frame {
-  background: var(--gold);
-  border-radius: 16px;
-  padding: 0.5rem;
   display: flex;
-  gap: 0.25rem;
-  max-width: 100%;
+  gap: 3px;
+  width: 100%;
+  height: 100%;
 }
 
 .carousel-reel {
-  width: 105px;
-  height: 200px;
-  border-radius: 10px;
+  flex: 1;
+  border-radius: 6px;
   background: linear-gradient(180deg, #e8e8e8 0%, #fff 25%, #fff 75%, #e8e8e8 100%);
-  border: 3px solid var(--red-dark);
   overflow: hidden;
   position: relative;
-  flex-shrink: 0;
 }
 .carousel-reel::before,
 .carousel-reel::after {
@@ -1380,19 +1403,19 @@ img { max-width: 100%; display: block; }
 }
 .carousel-reel::before {
   top: 0;
-  height: 40px;
-  background: linear-gradient(to bottom, rgba(200,200,200,0.7), transparent);
+  height: 33.33%;
+  background: linear-gradient(to bottom, rgba(180,180,180,0.5), transparent);
 }
 .carousel-reel::after {
   bottom: 0;
-  height: 40px;
-  background: linear-gradient(to top, rgba(200,200,200,0.7), transparent);
+  height: 33.33%;
+  background: linear-gradient(to top, rgba(180,180,180,0.5), transparent);
 }
 .reel-win-line {
   position: absolute;
   left: 0; right: 0;
-  top: 40px;
-  height: 120px;
+  top: 33.33%;
+  height: 33.34%;
   border-top: 2px solid var(--gold);
   border-bottom: 2px solid var(--gold);
   z-index: 1;
@@ -1410,8 +1433,8 @@ img { max-width: 100%; display: block; }
 }
 
 .reel-item {
-  width: 105px;
-  height: 120px;
+  width: 100%;
+  height: var(--reel-item-h, 80px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1420,8 +1443,8 @@ img { max-width: 100%; display: block; }
 }
 
 .reel-item img {
-  width: 95px;
-  height: 95px;
+  width: 85%;
+  height: 85%;
   object-fit: contain;
 }
 
@@ -1430,10 +1453,6 @@ img { max-width: 100%; display: block; }
 }
 .reel-item.golden-item img {
   filter: brightness(1.1) drop-shadow(0 0 6px rgba(255,215,0,0.8));
-}
-.golden-star {
-  font-size: 3.5rem;
-  text-shadow: 0 0 12px rgba(255,215,0,0.8);
 }
 
 .slots-links {

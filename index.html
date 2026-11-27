@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=108">
+  <link rel="stylesheet" href="styles.css?v=109">
 </head>
 <body>
 
@@ -430,12 +430,16 @@
           <div class="roletinha-info-bar" style="justify-content:center">
             <div class="winner-ticker" id="winner-ticker" style="text-align:center">Cristina N. ganhou <strong style="color:var(--green)">R$ 40,00</strong> no Par</div>
           </div>
-          <div class="roletinha-carousel">
-            <div class="carousel-frame" id="carousel-frame">
-              <div class="carousel-reel" id="reel-0"><div class="reel-win-line"></div><div class="reel-inner"></div></div>
-              <div class="carousel-reel" id="reel-1"><div class="reel-win-line"></div><div class="reel-inner"></div></div>
-              <div class="carousel-reel" id="reel-2"><div class="reel-win-line"></div><div class="reel-inner"></div></div>
+          <div class="slot-machine-wrap">
+            <img src="img/slot-frame.webp" class="slot-frame-img" alt="">
+            <div class="slot-reels-area">
+              <div class="carousel-frame" id="carousel-frame">
+                <div class="carousel-reel" id="reel-0"><div class="reel-win-line"></div><div class="reel-inner"></div></div>
+                <div class="carousel-reel" id="reel-1"><div class="reel-win-line"></div><div class="reel-inner"></div></div>
+                <div class="carousel-reel" id="reel-2"><div class="reel-win-line"></div><div class="reel-inner"></div></div>
+              </div>
             </div>
+            <div class="slot-bet-bar" id="slot-bet-bar">R$ 1,00</div>
           </div>
           <div class="slots-links">
             <span onclick="document.getElementById('como-jogar-modal').classList.add('show')">Como jogar?</span>
@@ -1065,6 +1069,6 @@
 </div><!-- /app-viewport -->
 
 <script src="config.js?v=6"></script>
-<script src="app.js?v=56"></script>
+<script src="app.js?v=57"></script>
 </body>
 </html>

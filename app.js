@@ -386,8 +386,11 @@ function updateWinnerTicker() {
   el.innerHTML = `${name} ${initial}. ganhou <strong style="color:var(--green)">R$ ${formatted}</strong> no ${bet}`;
 }
 
-const ITEM_H = 120;
-const GOLDEN = { name: 'Dourado', img: null, special: 'dourado' };
+function getItemH() {
+  const reel = document.querySelector('.carousel-reel');
+  return reel ? reel.offsetHeight / 3 : 80;
+}
+const GOLDEN = { name: 'Dourado', img: 'img/golden-7.webp', special: 'dourado' };
 
 function buildReelStrip() {
   const a = APP_CONFIG.animals;
@@ -401,13 +404,15 @@ function buildReelStrip() {
 
 function renderReelItem(sym) {
   if (sym.special === 'dourado') {
-    return `<div class="reel-item golden-item"><span class="golden-star">⭐</span></div>`;
+    return `<div class="reel-item golden-item"><img src="${sym.img}" alt="7"></div>`;
   }
   return `<div class="reel-item"><img src="${sym.img}" alt="${sym.name}"></div>`;
 }
 
 function initReels() {
   const strip = buildReelStrip();
+  const ih = getItemH();
+  document.documentElement.style.setProperty('--reel-item-h', ih + 'px');
   for (let r = 0; r < 3; r++) {
     const reel = document.querySelector(`#reel-${r} .reel-inner`);
     if (!reel) continue;
@@ -417,7 +422,7 @@ function initReels() {
       html += renderReelItem(strip[(start + i + strip.length) % strip.length]);
     }
     reel.innerHTML = html;
-    reel.style.transform = `translateY(-${ITEM_H - 40}px)`;
+    reel.style.transform = `translateY(0px)`;
   }
 }
 
@@ -445,7 +450,8 @@ function spinReels(betType) {
     reel.style.transition = 'none';
     reel.style.transform = 'translateY(0)';
 
-    const finalPos = -(spins * ITEM_H) - (ITEM_H - 40);
+    const ih = getItemH();
+    const finalPos = -(spins * ih);
     const delay = r * 400;
     setTimeout(() => {
       reel.style.transition = `transform ${1.5 + r * 0.5}s cubic-bezier(0.15, 0.6, 0.15, 1)`;
@@ -538,6 +544,8 @@ function updateSlotsGanha() {
   const mult = roletinhaBetType === 'bc' ? 50 : 2;
   const prize = (amount * mult).toFixed(2).replace('.', ',');
   el.textContent = `Ganha R$ ${prize}`;
+  const bar = document.getElementById('slot-bet-bar');
+  if (bar) bar.textContent = `R$ ${amount.toFixed(2).replace('.', ',')}`;
 }
 
 function adjustRoletinha(delta) {
@@ -553,7 +561,7 @@ function renderSlotsTabela() {
   if (!grid) return;
   const animals = APP_CONFIG.animals;
   const goldenCard = `<div class="slots-bicho-item" style="border-color:#DAA520;background:linear-gradient(135deg,#ffd700,#ffaa00)">
-    <span style="font-size:2.5rem">⭐</span>
+    <img src="img/golden-7.webp" alt="7" style="width:48px;height:48px;object-fit:contain">
     <div class="slots-bicho-name" style="color:#fff;font-weight:900">DOURADO</div>
     <div class="slots-bicho-nums" style="color:rgba(255,255,255,0.8)">50x</div>
     <div class="slots-bicho-tag" style="background:#B8860B">DOURADO</div>
