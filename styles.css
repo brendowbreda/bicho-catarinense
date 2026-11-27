@@ -1353,23 +1353,29 @@ img { max-width: 100%; display: block; }
 .slot-frame-img {
   width: 100%;
   display: block;
+  position: relative;
+  z-index: 1;
 }
 .slot-reels-area {
   position: absolute;
-  top: 22%;
-  left: 12%;
-  right: 12%;
-  bottom: 22%;
+  top: 23%;
+  left: 13%;
+  right: 13%;
+  bottom: 23%;
+  z-index: 2;
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 8px;
+  overflow: hidden;
 }
 .slot-bet-bar {
   position: absolute;
-  bottom: 5.5%;
-  left: 15%;
-  right: 15%;
+  bottom: 4.5%;
+  left: 14%;
+  right: 14%;
   height: 10%;
+  z-index: 3;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1381,15 +1387,14 @@ img { max-width: 100%; display: block; }
 
 .carousel-frame {
   display: flex;
-  gap: 3px;
+  gap: 2px;
   width: 100%;
   height: 100%;
 }
 
 .carousel-reel {
   flex: 1;
-  border-radius: 6px;
-  background: linear-gradient(180deg, #e8e8e8 0%, #fff 25%, #fff 75%, #e8e8e8 100%);
+  background: #fff;
   overflow: hidden;
   position: relative;
 }
