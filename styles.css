@@ -1609,12 +1609,14 @@ img { max-width: 100%; display: block; }
 }
 
 .bet-btn-par.selected {
-  background: var(--green-dark);
+  background: var(--green);
+  box-shadow: 0 0 0 3px #43A047;
   transform: scale(1.03);
 }
 
 .bet-btn-impar.selected {
-  background: var(--red-dark);
+  background: var(--red);
+  box-shadow: 0 0 0 3px #E53535;
   transform: scale(1.03);
 }
 
@@ -1637,7 +1639,8 @@ img { max-width: 100%; display: block; }
 }
 
 .bet-btn-dourado.selected {
-  background: linear-gradient(135deg, #B8860B, #8B6914);
+  background: linear-gradient(135deg, #DAA520, #B8860B);
+  box-shadow: 0 0 0 3px #DAA520;
   transform: scale(1.03);
 }
 
