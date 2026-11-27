@@ -1547,6 +1547,15 @@ img { max-width: 100%; display: block; }
   text-transform: uppercase;
 }
 
+.slots-golden-card {
+  justify-content: center;
+}
+.golden-7-centered {
+  width: 64px !important;
+  height: 64px !important;
+  object-fit: contain;
+}
+
 .modal-overlay {
   position: fixed;
   top: 0;

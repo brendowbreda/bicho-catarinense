@@ -560,11 +560,8 @@ function renderSlotsTabela() {
   const grid = document.getElementById('slots-tabela-grid');
   if (!grid) return;
   const animals = APP_CONFIG.animals;
-  const goldenCard = `<div class="slots-bicho-item" style="border-color:#DAA520;background:linear-gradient(135deg,#ffd700,#ffaa00)">
-    <img src="img/golden-7.webp" alt="7" style="width:48px;height:48px;object-fit:contain">
-    <div class="slots-bicho-name" style="color:#fff;font-weight:900">DOURADO</div>
-    <div class="slots-bicho-nums" style="color:rgba(255,255,255,0.8)">50x</div>
-    <div class="slots-bicho-tag" style="background:#B8860B">DOURADO</div>
+  const goldenCard = `<div class="slots-bicho-item slots-golden-card" style="border-color:#DAA520;background:linear-gradient(135deg,#ffd700,#ffaa00)">
+    <img src="img/golden-7.webp" alt="7" class="golden-7-centered">
   </div>`;
   let html = goldenCard;
   for (let i = 0; i < 14; i++) {
