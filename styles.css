@@ -1354,20 +1354,20 @@ img { max-width: 100%; display: block; }
   width: 100%;
   display: block;
   position: relative;
-  z-index: 1;
+  z-index: 2;
+  pointer-events: none;
 }
 .slot-reels-area {
   position: absolute;
-  top: 35%;
-  left: 8%;
-  right: 8%;
-  bottom: 22%;
-  z-index: 2;
+  top: 34%;
+  left: 5%;
+  right: 5%;
+  bottom: 23%;
+  z-index: 1;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  border-radius: 0 0 8px 8px;
 }
 .slot-bet-bar {
   position: absolute;
