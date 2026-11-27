@@ -1379,10 +1379,14 @@ img { max-width: 100%; display: block; }
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 1.5rem;
+}
+.slot-bet-bar span {
   color: #fff;
-  font-size: 1.25rem;
-  font-weight: 900;
-  letter-spacing: 1px;
+  font-size: 0.875rem;
+  font-weight: 700;
+  cursor: pointer;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.5);
 }
 
 .carousel-frame {

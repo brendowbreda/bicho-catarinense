@@ -544,8 +544,6 @@ function updateSlotsGanha() {
   const mult = roletinhaBetType === 'bc' ? 50 : 2;
   const prize = (amount * mult).toFixed(2).replace('.', ',');
   el.textContent = `Ganha R$ ${prize}`;
-  const bar = document.getElementById('slot-bet-bar');
-  if (bar) bar.textContent = `R$ ${amount.toFixed(2).replace('.', ',')}`;
 }
 
 function adjustRoletinha(delta) {
